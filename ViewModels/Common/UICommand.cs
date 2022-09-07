@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SkillBase.ViewModels
+namespace SkillBase.ViewModels.Common
 {
     internal class UICommand : ICommand
     {
