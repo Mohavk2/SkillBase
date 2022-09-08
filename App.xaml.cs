@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using SkillBase.Data;
 using SkillBase.Extensions;
 using SkillBase.ViewModels;
+using SkillBase.ViewModels.Factories;
 using SkillBase.Views;
 using System;
 using System.Collections.Generic;
@@ -40,9 +41,11 @@ namespace SkillBase
                 {
                     string connectionString = Configuration.GetConnectionString("Sqlite");
 
-                    services.AddDbContext<MainDbContext>(options => options.UseSqlite(connectionString));
+                    services.AddDbContext<MainDbContext>(options => options.UseSqlite(connectionString), ServiceLifetime.Transient);
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<MainWindow>();
+                    services.AddSingleton<SkillTreeViewModel>();
+                    services.AddTransient<SkillViewModelFactory>();
                 })
                 .Build();
         }
@@ -55,27 +58,16 @@ namespace SkillBase
 
             var mainWindow = AppHost.Services.GetRequiredService<MainWindow>();
             var mainVM = AppHost.Services.GetRequiredService<MainViewModel>();
-            mainVM.SkillTreeUC = new LoadingUC();
             mainWindow.DataContext = mainVM;
             mainWindow.Show();
 
-            InitAppDataAsync(mainVM);
+            mainVM.InitAppData();
         }
 
         protected override async void OnExit(ExitEventArgs e)
         {
             await AppHost!.StopAsync();
             base.OnExit(e);
-        }
-
-        
-        async void InitAppDataAsync(MainViewModel mainVM)
-        {
-            var db = AppHost.Services.GetRequiredService<MainDbContext>();
-            var skills = await db.GetTreesAsync();
-            SkillTreeUC skillTreeUC = new SkillTreeUC();
-            skillTreeUC.DataContext = new SkillTreeViewModel(skills);
-            mainVM.SkillTreeUC = skillTreeUC;
         }
     }
 }

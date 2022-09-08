@@ -4,13 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillBase.Views"
-             xmlns:vm="clr-namespace:SkillBase.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <HierarchicalDataTemplate ItemsSource="{Binding SkillVMs}" DataType="{x:Type vm:SkillViewModel}">
-        <StackPanel>
-            <Label Content="{Binding Name}"/>
-            <Label Content="{Binding Description}"/>
-        </StackPanel>
-    </HierarchicalDataTemplate>
+    <Grid Height="80">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Grid.RowSpan="2" Height="35" Width="35" Source="{Binding ImagePath}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, Mode=TwoWay}"/>
+        <Button Grid.Column="2" Command="{Binding DeleteSkill}" 
+                Width="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=ActualHeight}"
+                HorizontalAlignment="Right" VerticalAlignment="Top" 
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                Padding="0" FontSize="12">X</Button>
+        <Button Grid.Row="2" Grid.Column="2" Command="{Binding CreateSkill}" 
+                Width="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=ActualHeight}"
+                HorizontalAlignment="Right" VerticalAlignment="top" 
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                Padding="0" FontSize="12">+</Button>
+    </Grid>
 </UserControl>

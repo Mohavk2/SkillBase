@@ -8,13 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TreeView x:Name="MainTreeView" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch" ItemsSource="{Binding SkillVMs}">
+        <TreeView x:Name="MainTreeView" Focusable="False" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch" ItemsSource="{Binding SkillVMs}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SkillVMs}" DataType="{x:Type vm:SkillViewModel}">
-                    <StackPanel>
-                        <Label Content="{Binding Name}"/>
-                        <Label Content="{Binding Description}"/>
-                    </StackPanel>
+                    <local:SkillUC DataContext="{Binding}"></local:SkillUC>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
