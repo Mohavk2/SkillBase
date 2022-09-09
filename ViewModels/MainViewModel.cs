@@ -50,15 +50,7 @@ namespace SkillBase.ViewModels
 
         public ICommand AddSkill => new UICommand((parameter) =>
         {
-            using (var dbContext = _serviceProvider?.GetRequiredService<MainDbContext>())
-            {
-                if (dbContext == null) return; //TODO: error handling
-                var skill = new Skill() { Name = "New Skill" };
-                dbContext.Skills.Add(skill);
-                dbContext.SaveChanges();
-                var skillFactory = _serviceProvider.GetRequiredService<SkillViewModelFactory>();
-                _skillTreeVM?.SkillVMs.Add(skillFactory.Create(skill));
-            }
+            _skillTreeVM?.CreateSkill();
         }, (parameter) => _isDataLoaded);
     }
 }
