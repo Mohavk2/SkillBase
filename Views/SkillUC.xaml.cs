@@ -24,5 +24,10 @@ namespace SkillBase.Views
         {
             InitializeComponent();
         }
+
+        private void CardHeader_Click(object sender, RoutedEventArgs e)
+        {
+            SkillCard.Visibility = SkillCard.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }

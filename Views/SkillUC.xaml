@@ -1,34 +1,55 @@
-﻿<UserControl x:Class="SkillBase.Views.SkillUC"
+﻿<UserControl
+             x:Class="SkillBase.Views.SkillUC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillBase.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Height="80">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Image Grid.RowSpan="2" Height="35" Width="35" Source="{Binding ImagePath}"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay}"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, Mode=TwoWay}"/>
-        <Button Grid.Column="2" Command="{Binding DeleteSkill}" 
-                Width="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=ActualHeight}"
-                HorizontalAlignment="Right" VerticalAlignment="Top" 
-                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                Padding="0" FontSize="12">X</Button>
-        <Button Grid.Row="2" Grid.Column="2" Command="{Binding CreateSkill}" 
-                Width="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=ActualHeight}"
-                HorizontalAlignment="Right" VerticalAlignment="top" 
-                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                Padding="0" FontSize="12">+</Button>
-    </Grid>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+        <StackPanel>
+            <materialDesign:Chip x:Name="CardHeader" Panel.ZIndex="1"
+                                 HorizontalAlignment="Stretch"
+                                 Background="#FFBACFD9"
+                                 IsDeletable="True"
+                                 Click="CardHeader_Click" ToolTip="Expand"
+                                 DeleteCommand="{Binding DeleteSkill}" DeleteToolTip="Delete">
+                <materialDesign:Chip.Content>
+                    <TextBox Text="{Binding Name, Mode=TwoWay}"/>
+                </materialDesign:Chip.Content>
+                <materialDesign:Chip.Icon>
+                    <Image Source="{Binding ImagePath}"/>
+                </materialDesign:Chip.Icon>
+            </materialDesign:Chip>
+            <materialDesign:Card x:Name="SkillCard" Visibility="Collapsed" Panel.ZIndex="0"
+                                 Height="100" Width="200" Margin="18 -5 18 0">
+                <StackPanel>
+                    <TextBox Text="{Binding Description, Mode=TwoWay}"/>
+                    <Button Command="{Binding CreateSkill}" 
+                            Padding="0" Width="20" Height="20"
+                            HorizontalAlignment="Right" VerticalAlignment="bottom">
+                        <materialDesign:PackIcon Kind="Add"/>
+                    </Button>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+        <Expander ExpandDirection="Down" BorderBrush="Gray" BorderThickness="1"
+                  Visibility="{Binding Path=HasChildren, Converter={StaticResource BoolToVis}}">
+            <Expander.Header>
+                <TextBlock Text="{Binding Name}"/>
+            </Expander.Header>
+            <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:SkillUC DataContext="{Binding}"></local:SkillUC>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
+    </StackPanel>
 </UserControl>
