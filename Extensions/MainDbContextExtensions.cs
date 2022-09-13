@@ -16,7 +16,7 @@ namespace SkillBase.Extensions
         }
         public static async Task<List<Skill>> GetTreesAsync(this MainDbContext context)
         {
-            var skills = await context.Skills.Include(x=>x.References).ToListAsync();
+            var skills = await context.Skills.Include(x=>x.Links).ToListAsync();
             return skills.Where(x => x.Parent == null).ToList();
         }
     }

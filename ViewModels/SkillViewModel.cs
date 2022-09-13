@@ -52,14 +52,14 @@ namespace SkillBase.ViewModels
                         }
                     }
                 }
-                if(skill.References != null)
+                if(skill.Links != null)
                 {
-                    foreach (var reference in skill.References)
+                    foreach (var link in skill.Links)
                     {
-                        var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
-                        ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
-                        referenceVM.OnDelete += DeleteReference;
-                        References.Add(referenceVM);
+                        var linkVMFactory = _serviceProvider.GetRequiredService<LinkViewModelFactory>();
+                        LinkViewModel linkVM = linkVMFactory.Create(link);
+                        linkVM.OnDelete += DeleteLink;
+                        Links.Add(linkVM);
                     }
                 }
             }
@@ -79,9 +79,9 @@ namespace SkillBase.ViewModels
             }
         }
 
-        void DeleteReference(ReferenceUrlViewModel referenceVM)
+        void DeleteLink(LinkViewModel linkVM)
         {
-            References.Remove(referenceVM);
+            Links.Remove(linkVM);
         }
 
         void Delete(SkillViewModel skillVM)
@@ -91,19 +91,19 @@ namespace SkillBase.ViewModels
             RaisePropertyChanged(nameof(HasChildren));
         }
 
-        public ICommand CreateReference
+        public ICommand CreateLink
         {
             get => new UICommand((paremeter) =>
             {
-                ReferenceUrl reference = new() { SkillId = Id };
+                Link link = new() { SkillId = Id };
                 var db = _serviceProvider.GetRequiredService<MainDbContext>();
-                db.Add<ReferenceUrl>(reference);
+                db.Add<Link>(link);
                 db.SaveChanges();
 
-                var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
-                ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
-                referenceVM.OnDelete += DeleteReference;
-                References.Add(referenceVM);
+                var linkVMFactory = _serviceProvider.GetRequiredService<LinkViewModelFactory>();
+                LinkViewModel linkVM = linkVMFactory.Create(link);
+                linkVM.OnDelete += DeleteLink;
+                Links.Add(linkVM);
             });
         }
 
@@ -180,7 +180,7 @@ namespace SkillBase.ViewModels
             }
         }
 
-        public ObservableCollection<ReferenceUrlViewModel> References { get; set; } = new();
+        public ObservableCollection<LinkViewModel> Links { get; set; } = new();
 
         bool _isCompleted = false;
         public bool IsCompleted
@@ -205,7 +205,6 @@ namespace SkillBase.ViewModels
                 db.SaveChanges();
             }
         }
-
 
         public bool HasChildren
         {

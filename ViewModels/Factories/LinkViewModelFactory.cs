@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace SkillBase.ViewModels.Factories
 {
-    internal class ReferenceViewModelFactory
+    internal class LinkViewModelFactory
     {
         IServiceProvider _serviceProvider;
-        public ReferenceViewModelFactory(IServiceProvider serviceProvider)
+        public LinkViewModelFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
-        public ReferenceUrlViewModel Create(ReferenceUrl reference)
+        public LinkViewModel Create(Link link)
         {
-            return new ReferenceUrlViewModel(reference, _serviceProvider);
+            return new LinkViewModel(link, _serviceProvider);
         }
     }
 }

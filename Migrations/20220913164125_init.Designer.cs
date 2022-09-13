@@ -11,7 +11,7 @@ using SkillBase.Data;
 namespace SkillBase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220911121332_init")]
+    [Migration("20220913164125_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace SkillBase.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
 
-            modelBuilder.Entity("SkillBase.Models.ReferenceUrl", b =>
+            modelBuilder.Entity("SkillBase.Models.Link", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace SkillBase.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("ReferenceUrl");
+                    b.ToTable("Link");
                 });
 
             modelBuilder.Entity("SkillBase.Models.Skill", b =>
@@ -74,10 +74,10 @@ namespace SkillBase.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("SkillBase.Models.ReferenceUrl", b =>
+            modelBuilder.Entity("SkillBase.Models.Link", b =>
                 {
                     b.HasOne("SkillBase.Models.Skill", null)
-                        .WithMany("References")
+                        .WithMany("Links")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -96,7 +96,7 @@ namespace SkillBase.Migrations
                 {
                     b.Navigation("Children");
 
-                    b.Navigation("References");
+                    b.Navigation("Links");
                 });
 #pragma warning restore 612, 618
         }

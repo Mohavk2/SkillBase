@@ -32,7 +32,7 @@ namespace SkillBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReferenceUrl",
+                name: "Link",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -43,9 +43,9 @@ namespace SkillBase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReferenceUrl", x => x.Id);
+                    table.PrimaryKey("PK_Link", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReferenceUrl_Skills_SkillId",
+                        name: "FK_Link_Skills_SkillId",
                         column: x => x.SkillId,
                         principalTable: "Skills",
                         principalColumn: "Id",
@@ -53,8 +53,8 @@ namespace SkillBase.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReferenceUrl_SkillId",
-                table: "ReferenceUrl",
+                name: "IX_Link_SkillId",
+                table: "Link",
                 column: "SkillId");
 
             migrationBuilder.CreateIndex(
@@ -66,7 +66,7 @@ namespace SkillBase.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ReferenceUrl");
+                name: "Link");
 
             migrationBuilder.DropTable(
                 name: "Skills");

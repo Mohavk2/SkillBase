@@ -12,20 +12,19 @@ using System.Windows.Input;
 
 namespace SkillBase.ViewModels
 {
-    delegate void UpdateReferenceHandler(ReferenceUrlViewModel reference);
-    delegate void DeleteReferenceHandler(ReferenceUrlViewModel reference);
+    delegate void DeleteReferenceHandler(LinkViewModel link);
 
-    internal class ReferenceUrlViewModel : BaseViewModel
+    internal class LinkViewModel : BaseViewModel
     {
         public event DeleteReferenceHandler? OnDelete;
 
         IServiceProvider _serviceProvider;
 
-        public ReferenceUrlViewModel(IServiceProvider serviceProvider)
+        public LinkViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
-        public ReferenceUrlViewModel(ReferenceUrl link, IServiceProvider serviceProvider) : this(serviceProvider)
+        public LinkViewModel(Link link, IServiceProvider serviceProvider) : this(serviceProvider)
         {
             if (link != null)
             {
@@ -40,7 +39,7 @@ namespace SkillBase.ViewModels
             get => new UICommand((parameter) =>
             {
                 using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-                var link = dbContext.Find<ReferenceUrl>(Id);
+                var link = dbContext.Find<Link>(Id);
                 if(link != null)
                 {
                     dbContext.Remove(link);
@@ -76,14 +75,14 @@ namespace SkillBase.ViewModels
             }
         }
 
-        void Update(Action<ReferenceUrl> setter)
+        void Update(Action<Link> setter)
         {
             using var db = _serviceProvider.GetRequiredService<MainDbContext>();
-            var entity = db.Find<ReferenceUrl>(Id);
+            var entity = db.Find<Link>(Id);
             if(entity != null)
             {
                 setter(entity);
-                db.Update<ReferenceUrl>(entity);
+                db.Update<Link>(entity);
                 db.SaveChanges();
             }
         }

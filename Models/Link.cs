@@ -2,7 +2,7 @@
 
 namespace SkillBase.Models
 {
-    internal class ReferenceUrl
+    internal class Link
     {
         public int Id { get; set; }
         public string? Name { get; set; } = "Google";

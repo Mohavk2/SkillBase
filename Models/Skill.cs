@@ -11,7 +11,7 @@ namespace SkillBase.Models
         public string? Description { get; set; } = "Description...";
         public string? Notes { get; set; } = "Write your notes here...";
         public string? ImagePath { get; set; } = null;
-        public virtual List<ReferenceUrl> References { get; set; } = new();
+        public virtual List<Link> Links { get; set; } = new();
         public bool IsCompleted { get; set; } = false;
         public int? ParentId { get; set; }
         public Skill? Parent { get; set; }

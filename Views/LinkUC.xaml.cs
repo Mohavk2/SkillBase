@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace SkillBase.Views
 {
     /// <summary>
-    /// Interaction logic for ReferenceUrlUC.xaml
+    /// Interaction logic for LinkUC.xaml
     /// </summary>
-    public partial class ReferenceUrlUC : UserControl
+    public partial class LinkUC : UserControl
     {
-        public ReferenceUrlUC()
+        public LinkUC()
         {
             InitializeComponent();
         }

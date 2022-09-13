@@ -69,13 +69,13 @@
                                  materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" 
                                  LostFocus="SkillDescription_LostFocus" GotFocus="SkillDescription_GotFocus"/>
                         <!--Description-->
-                        <!--References-->
+                        <!--Links-->
                         <StackPanel Width="210" Margin="13 2 5 0" Orientation="Horizontal">
                             <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
-                                References
+                                Links
                             </TextBlock>
                             <Button x:Name="AddLink" Width="25" Height="25"
-                                    Command="{Binding CreateReference}"
+                                    Command="{Binding CreateLink}"
                                     Style="{StaticResource MaterialDesignIconButton}"
                                     Click="AddLink_Click" ToolTip="Add link" >
                                 <materialDesign:PackIcon Kind="Plus" />
@@ -87,14 +87,14 @@
                             </ToggleButton>
                         </StackPanel>
                         <ItemsControl x:Name="SkillLinks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
-                                      ItemsSource="{Binding References}" Visibility="Collapsed">
+                                      ItemsSource="{Binding Links}" Visibility="Collapsed">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <local:ReferenceUrlUC DataContext="{Binding}"></local:ReferenceUrlUC>
+                                    <local:LinkUC DataContext="{Binding}"></local:LinkUC>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <!--References-->
+                        <!--Links-->
                         <!--Notes-->
                         <Separator/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0">

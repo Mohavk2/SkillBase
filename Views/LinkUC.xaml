@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SkillBase.Views.ReferenceUrlUC"
+﻿<UserControl x:Class="SkillBase.Views.LinkUC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <TextBox Text="{Binding Name}"/>
         <TextBox x:Name="Link" Grid.Row="2" Text="{Binding Url}"/>
-        <Button x:Name="EditReferenceName" Grid.Row="0" Grid.Column="1"
+        <Button x:Name="EditLinkName" Grid.Row="0" Grid.Column="1"
                                                         Padding="0" Width="25" Height="25" 
                                                         Style="{StaticResource MaterialDesignIconButton}"
                                                         ToolTip="Add skill">
@@ -37,7 +37,7 @@
                                                         ToolTip="Follow the link in the browser" Click="FollowLink_Click">
             <materialDesign:PackIcon Kind="ArrowTopRight"/>
         </Button>
-        <Button x:Name="DeleteReference" Grid.Row="1" Grid.Column="2" Command="{Binding Delete}"
+        <Button x:Name="DeleteLink" Grid.Row="1" Grid.Column="2" Command="{Binding Delete}"
                                                         Padding="0" Width="20" Height="20"
                                                         Style="{StaticResource MaterialDesignIconButton}"
                                                         ToolTip="Add skill">
