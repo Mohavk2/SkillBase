@@ -3,17 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SkillBase.Data;
-using SkillBase.Extensions;
 using SkillBase.ViewModels;
 using SkillBase.ViewModels.Factories;
 using SkillBase.Views;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SkillBase
