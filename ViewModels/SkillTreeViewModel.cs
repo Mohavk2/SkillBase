@@ -16,7 +16,7 @@ namespace SkillBase.ViewModels
 {
     internal class SkillTreeViewModel : BaseViewModel
     {
-        IServiceProvider? _serviceProvider;
+        IServiceProvider _serviceProvider;
 
         public SkillTreeViewModel(IServiceProvider serviceProvider)
         {
@@ -30,9 +30,12 @@ namespace SkillBase.ViewModels
             foreach (Skill skill in skills)
             {
                 var skillFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
-                var skillVM = skillFactory.Create(skill);
-                skillVM.OnDelete += Delete;
-                SkillVMs.Add(skillVM);
+                var skillVM = skillFactory?.Create(skill);
+                if(skillVM != null)
+                {
+                    skillVM.OnDelete += Delete;
+                    SkillVMs.Add(skillVM);
+                }
             }
         }
         public ObservableCollection<SkillViewModel> SkillVMs { get; set; } = new();

@@ -17,36 +17,51 @@ namespace SkillBase.ViewModels
 {
     delegate void DeleteSkillHandler(SkillViewModel skillVM);
 
-    internal class SkillViewModel : BaseViewModel, IDisposable
+    internal class SkillViewModel : BaseViewModel
     {
         public event DeleteSkillHandler? OnDelete;
 
         IServiceProvider _serviceProvider;
 
-        Skill _skill;
-
-        public SkillViewModel(Skill skill, IServiceProvider serviceProvider)
+        public SkillViewModel(IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
+        }
 
-            _skill = skill;
-            var chilldren = skill.Children ?? new();
-            foreach (var child in chilldren)
+        public SkillViewModel(Skill skill, IServiceProvider serviceProvider) : this(serviceProvider)
+        {
+            if (skill != null)
             {
-                var skillFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
-                if(skillFactory != null)
+                Id = skill.Id;
+                Name = skill.Name;
+                Description = skill.Description ?? "Description...";
+                Notes = skill.Notes ?? "Write your notes here...";
+                ImagePath = skill.ImagePath = "";
+                IsCompleted = skill.IsCompleted;
+
+                if (skill.Children != null)
                 {
-                    var skillVM = skillFactory.Create(child);
-                    skillVM.OnDelete += Delete;
-                    SkillVMs.Add(skillVM);
+                    foreach (var child in skill.Children)
+                    {
+                        var skillVMFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
+                        if (skillVMFactory != null)
+                        {
+                            var skillVM = skillVMFactory.Create(child);
+                            skillVM.OnDelete += Delete;
+                            SkillVMs.Add(skillVM);
+                        }
+                    }
                 }
-            }
-            foreach (var reference in _skill.References)
-            {
-                var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
-                ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
-                referenceVM.OnDelete += DeleteReference;
-                References.Add(referenceVM);
+                if(skill.References != null)
+                {
+                    foreach (var reference in skill.References)
+                    {
+                        var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
+                        ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
+                        referenceVM.OnDelete += DeleteReference;
+                        References.Add(referenceVM);
+                    }
+                }
             }
         }
         public void Dispose()
@@ -56,15 +71,17 @@ namespace SkillBase.ViewModels
                 vm.Dispose();
             }
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-            dbContext.Skills.Remove(_skill);
-            dbContext.SaveChanges();
+            var skill = dbContext.Skills.Find(Id);
+            if(skill != null)
+            {
+                dbContext.Skills.Remove(skill);
+                dbContext.SaveChanges();
+            }
         }
 
         void DeleteReference(ReferenceUrlViewModel referenceVM)
         {
             References.Remove(referenceVM);
-            using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-            _skill = dbContext.Skills.Find(_skill.Id);
         }
 
         void Delete(SkillViewModel skillVM)
@@ -74,20 +91,14 @@ namespace SkillBase.ViewModels
             RaisePropertyChanged(nameof(HasChildren));
         }
 
-        void UpdateModel()
-        {
-            using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-            dbContext.Skills.Update(_skill);
-            dbContext.SaveChanges();
-        }
-
         public ICommand CreateReference
         {
             get => new UICommand((paremeter) =>
             {
-                ReferenceUrl reference = new();
-                _skill.References.Add(reference);
-                UpdateModel();
+                ReferenceUrl reference = new() { SkillId = Id };
+                var db = _serviceProvider.GetRequiredService<MainDbContext>();
+                db.Add<ReferenceUrl>(reference);
+                db.SaveChanges();
 
                 var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
                 ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
@@ -101,7 +112,7 @@ namespace SkillBase.ViewModels
             get => new UICommand((parameter) =>
             {
                 Skill skill = new();
-                skill.ParentId = _skill.Id;
+                skill.ParentId = Id;
 
                 using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
                 dbContext.Skills.Add(skill);
@@ -122,60 +133,80 @@ namespace SkillBase.ViewModels
             });
         }
 
-        public int Id => _skill.Id;
+        public int Id { get; private set; }
+
+        string _name = "New skill";
         public string Name
         {
-            get => _skill.Name;
+            get => _name;
             set 
             {
-                _skill.Name = value;
-                UpdateModel();
+                _name = value;
+                Update(skill => skill.Name = _name);
                 RaisePropertyChanged(nameof(Name));
             }
         }
+        string _description = "Description...";
         public string Description
         {
-            get => _skill.Description ?? String.Empty;
+            get => _description;
             set
             {
-                _skill.Description = value;
-                UpdateModel();
+                _description = value;
+                Update(skill => skill.Description = _description);
                 RaisePropertyChanged(nameof(Description));
             }
         }
+        string _notes = "Write your notes here...";
         public string Notes
         {
-            get => _skill.Notes ?? "Write your notes here...";
+            get => _notes;
             set
             {
-                _skill.Notes = value;
-                UpdateModel();
+                _notes = value;
+                Update(skill => skill.Notes = _notes);
                 RaisePropertyChanged(nameof(Notes));
             }
         }
+        string _imagePath = "";
         public string ImagePath
         {
-            get => _skill?.ImagePath ?? Path.Combine(Directory.GetCurrentDirectory(), "resources/img/skill.png");
+            get => _imagePath;
             set
             {
-                _skill.ImagePath = value;
-                UpdateModel();
+                _imagePath = value;
+                Update(skill=> skill.ImagePath = _imagePath);
                 RaisePropertyChanged(nameof(ImagePath));
             }
         }
 
         public ObservableCollection<ReferenceUrlViewModel> References { get; set; } = new();
 
+        bool _isCompleted = false;
         public bool IsCompleted
         {
-            get => _skill.IsCompleted;
+            get => _isCompleted;
             set
             {
-                _skill.IsCompleted = value;
-                UpdateModel();
+                _isCompleted = value;
+                Update(skill => skill.IsCompleted = _isCompleted);
                 RaisePropertyChanged(nameof(IsCompleted));
             }
         }
+
+        public void Update (Action<Skill> setter)
+        {
+            using var db = _serviceProvider.GetRequiredService<MainDbContext>();
+            var entity = db.Find<Skill>(Id);
+            if (entity != null)
+            {
+                setter(entity);
+                db.Update<Skill>(entity);
+                db.SaveChanges();
+            }
+        }
+
+
         public bool HasChildren
         {
             get => SkillVMs.Count > 0;
