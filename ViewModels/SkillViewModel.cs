@@ -3,6 +3,7 @@ using SkillBase.Data;
 using SkillBase.Models;
 using SkillBase.ViewModels.Common;
 using SkillBase.ViewModels.Factories;
+using SkillBase.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +15,11 @@ using System.Windows.Input;
 
 namespace SkillBase.ViewModels
 {
-    delegate void DeleteHandler(SkillViewModel skillVM);
+    delegate void DeleteSkillHandler(SkillViewModel skillVM);
 
     internal class SkillViewModel : BaseViewModel, IDisposable
     {
-        public event DeleteHandler? OnDelete;
+        public event DeleteSkillHandler? OnDelete;
 
         IServiceProvider _serviceProvider;
 
@@ -29,15 +30,23 @@ namespace SkillBase.ViewModels
             _serviceProvider = serviceProvider;
 
             _skill = skill;
-            Description = skill.Description ?? String.Empty; ;
-            Notes = skill.Notes ?? String.Empty;
             var chilldren = skill.Children ?? new();
             foreach (var child in chilldren)
             {
                 var skillFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
-                var skillVM = skillFactory.Create(child);
-                skillVM.OnDelete += Delete;
-                SkillVMs.Add(skillVM);
+                if(skillFactory != null)
+                {
+                    var skillVM = skillFactory.Create(child);
+                    skillVM.OnDelete += Delete;
+                    SkillVMs.Add(skillVM);
+                }
+            }
+            foreach (var reference in _skill.References)
+            {
+                var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
+                ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
+                referenceVM.OnDelete += DeleteReference;
+                References.Add(referenceVM);
             }
         }
         public void Dispose()
@@ -51,12 +60,20 @@ namespace SkillBase.ViewModels
             dbContext.SaveChanges();
         }
 
+        void DeleteReference(ReferenceUrlViewModel referenceVM)
+        {
+            References.Remove(referenceVM);
+            using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
+            _skill = dbContext.Skills.Find(_skill.Id);
+        }
+
         void Delete(SkillViewModel skillVM)
         {
             skillVM.Dispose();
             SkillVMs.Remove(skillVM);
             RaisePropertyChanged(nameof(HasChildren));
         }
+
         void UpdateModel()
         {
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
@@ -64,13 +81,29 @@ namespace SkillBase.ViewModels
             dbContext.SaveChanges();
         }
 
+        public ICommand CreateReference
+        {
+            get => new UICommand((paremeter) =>
+            {
+                ReferenceUrl reference = new();
+                _skill.References.Add(reference);
+                UpdateModel();
+
+                var referenceVMFactory = _serviceProvider.GetRequiredService<ReferenceViewModelFactory>();
+                ReferenceUrlViewModel referenceVM = referenceVMFactory.Create(reference);
+                referenceVM.OnDelete += DeleteReference;
+                References.Add(referenceVM);
+            });
+        }
+
         public ICommand CreateSkill
         {
             get => new UICommand((parameter) =>
             {
-                using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
                 Skill skill = new();
                 skill.ParentId = _skill.Id;
+
+                using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
                 dbContext.Skills.Add(skill);
                 dbContext.SaveChanges();
 
@@ -112,7 +145,7 @@ namespace SkillBase.ViewModels
         }
         public string Notes
         {
-            get => _skill.Notes ?? String.Empty;
+            get => _skill.Notes ?? "Write your notes here...";
             set
             {
                 _skill.Notes = value;
@@ -130,16 +163,9 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(ImagePath));
             }
         }
-        public ObservableCollection<ReferenceUrl> _references = new();
-        public ObservableCollection<ReferenceUrl> References
-        {
-            get { return _references; }
-            set
-            {
-                _references = value;
-                RaisePropertyChanged(nameof(References));
-            }
-        }
+
+        public ObservableCollection<ReferenceUrlViewModel> References { get; set; } = new();
+
         public bool IsCompleted
         {
             get => _skill.IsCompleted;
@@ -154,15 +180,7 @@ namespace SkillBase.ViewModels
         {
             get => SkillVMs.Count > 0;
         }
-        public ObservableCollection<SkillViewModel> _skillVMs = new();
-        public ObservableCollection<SkillViewModel> SkillVMs
-        {
-            get => _skillVMs;
-            set
-            {
-                _skillVMs = value;
-                RaisePropertyChanged(nameof(SkillVMs));
-            }
-        }
+
+        public ObservableCollection<SkillViewModel> SkillVMs { get; set; } = new();
     }
 }

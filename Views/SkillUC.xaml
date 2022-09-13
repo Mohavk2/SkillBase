@@ -7,37 +7,133 @@
              xmlns:local="clr-namespace:SkillBase.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" Margin="5">
         <StackPanel VerticalAlignment="Center">
-            <materialDesign:Chip x:Name="CardHeader" Panel.ZIndex="1"
+            <!--HEADER-->
+            <materialDesign:Chip x:Name="CardHeader" Panel.ZIndex="4" Width="220"
                                  HorizontalAlignment="Stretch"
                                  Background="#FFBACFD9"
-                                 IsDeletable="True"
-                                 Click="CardHeader_Click" ToolTip="Expand"
-                                 DeleteCommand="{Binding DeleteSkill}" DeleteToolTip="Delete">
+                                 Click="CardHeader_Click" ToolTip="Expand">
                 <materialDesign:Chip.Content>
-                    <TextBox Text="{Binding Name, Mode=TwoWay}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="AddSkill" Command="{Binding CreateSkill}"
+                                Padding="0" Width="25" Height="25"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Add skill" Click="AddSkill_Click">
+                            <materialDesign:PackIcon Kind="PlusCircle"/>
+                        </Button>
+                        <ToggleButton x:Name="ShowSubskills" ToolTip="Show subskills" Width="25" Height="25" Margin="0 0 -5 0"
+                                      IsEnabled="{Binding HasChildren}"
+                                      Style="{StaticResource MaterialDesignActionToggleButton}"
+                                      Content="{materialDesign:PackIcon Kind=ArrowRightDropCircleOutline}"
+                                      materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowLeftDropCircleOutline}" Click="ShowSubskills_Click" />
+                    </StackPanel>
                 </materialDesign:Chip.Content>
                 <materialDesign:Chip.Icon>
-                    <Image Source="{Binding ImagePath}"/>
+                    <materialDesign:PackIcon Kind="AcademicCap" />
                 </materialDesign:Chip.Icon>
             </materialDesign:Chip>
-            <materialDesign:Card x:Name="SkillCard" Visibility="Collapsed" Panel.ZIndex="0"
-                                 Height="100" Width="200" Margin="18 -5 18 0">
-                <StackPanel>
-                    <TextBox Text="{Binding Description, Mode=TwoWay}"/>
-                    <Button Command="{Binding CreateSkill}" 
-                            Padding="0" Width="20" Height="20"
-                            HorizontalAlignment="Right" VerticalAlignment="bottom">
-                        <materialDesign:PackIcon Kind="Add"/>
-                    </Button>
+            <!--HEADER-->
+            <!--Name-->
+            <Border Width="210" Margin="0 -15 0 0" Padding="10 10 5 3" 
+                    Background="White" BorderBrush="Gray" BorderThickness="1"
+                    Panel.ZIndex="3">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="SkillName" Width="170" BorderThickness="0" TextWrapping="Wrap"
+                             materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
+                             IsReadOnlyCaretVisible="False" IsReadOnly="True"
+                             FontSize="14" FontWeight="DemiBold"
+                             Text="{Binding Name, Mode=TwoWay}" LostFocus="SkillName_LostFocus" KeyDown="SkillName_KeyDown">
+                    </TextBox>
+                    <ToggleButton x:Name="EditNameToggle" Width="20" Height="20" HorizontalAlignment="Right"
+                            Style="{StaticResource MaterialDesignFlatToggleButton}"
+                            Click="EditNameToggle_Click"
+                            ToolTip="Edit title">
+                        <materialDesign:PackIcon Kind="CircleEditOutline" />
+                    </ToggleButton>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
+            <!--Name-->
+            <Border CornerRadius="8" Width="210" Margin="0 -15 0 0" Padding="0" 
+                    Background="White" BorderBrush="Gray" BorderThickness="1">
+                <StackPanel  x:Name="SkillCard" Visibility="Collapsed">
+                    <!--BODY-->
+                    <StackPanel Margin="0 15 0 0">
+                        <!--Description-->
+                        <TextBox x:Name="SkillDescription" Text="{Binding Description, Mode=TwoWay}" Padding="10 0 10 0"
+                                 TextWrapping="Wrap"
+                                 materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" 
+                                 LostFocus="SkillDescription_LostFocus" GotFocus="SkillDescription_GotFocus"/>
+                        <!--Description-->
+                        <!--References-->
+                        <StackPanel Width="210" Margin="13 2 5 0" Orientation="Horizontal">
+                            <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
+                                References
+                            </TextBlock>
+                            <Button x:Name="AddLink" Width="25" Height="25"
+                                    Command="{Binding CreateReference}"
+                                    Style="{StaticResource MaterialDesignIconButton}"
+                                    Click="AddLink_Click" ToolTip="Add link" >
+                                <materialDesign:PackIcon Kind="Plus" />
+                            </Button>
+                            <ToggleButton x:Name="LinksToggle" Width="25" Height="25" HorizontalAlignment="Right"
+                                          Style="{StaticResource MaterialDesignFlatToggleButton}"
+                                          ToolTip="Show/hide links" Checked="LinksToggle_Checked" Unchecked="LinksToggle_Unchecked">
+                                <materialDesign:PackIcon Width="20" Height="20" Kind="FormatListText" />
+                            </ToggleButton>
+                        </StackPanel>
+                        <ItemsControl x:Name="SkillLinks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
+                                      ItemsSource="{Binding References}" Visibility="Collapsed">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:ReferenceUrlUC DataContext="{Binding}"></local:ReferenceUrlUC>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!--References-->
+                        <!--Notes-->
+                        <Separator/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0">
+                            <TextBlock Width="164" Margin="10 5 0 0" FontWeight="DemiBold">
+                                Notes
+                            </TextBlock>
+                            <ToggleButton x:Name="ShowNotes" Width="25" Height="25" Margin="0 0 10 0"
+                                    Style="{StaticResource MaterialDesignFlatToggleButton}"
+                                    ToolTip="Show notes">
+                                <materialDesign:PackIcon Kind="TextBoxEditOutline" />
+                            </ToggleButton>
+                        </StackPanel>
+                        <TextBox x:Name="Notes" MinHeight="60" Padding="12 0 12 0"
+                                 TextWrapping="Wrap"
+                                 Visibility="{Binding ElementName=ShowNotes, Path=IsChecked, Converter={StaticResource BoolToVis}}" 
+                                 GotFocus="Notes_GotFocus" LostFocus="Notes_LostFocus"
+                                 Text="{Binding Notes}"/>
+                        <!--Notes-->
+                    </StackPanel>
+                    <!--BODY-->
+                    <!--FOOTER-->
+                    <materialDesign:ColorZone x:Name="CardFooter" Panel.ZIndex="4"
+                                         Margin="-2 3 -2 -5" CornerRadius="2"
+                                         HorizontalAlignment="Stretch"
+                                         Background="#FFBACFD9">
+                        <StackPanel HorizontalAlignment="Right" Margin="0 0 2 0">
+                            <Button x:Name="DeleteSkill" Command="{Binding DeleteSkill}"
+                                Padding="0" Width="25" Height="25"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Delete skill">
+                                <materialDesign:PackIcon Kind="DeleteCircle"/>
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:ColorZone>
+                    <!--FOOTER-->
+                </StackPanel>
+            </Border>
         </StackPanel>
+        <!--CHILDREN-->
         <Viewbox x:Name="SkillBox" Visibility="Collapsed">
             <ItemsControl x:Name="SkillsControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
                 <ItemsControl.ItemTemplate>
@@ -47,5 +143,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Viewbox>
+        <!--CHILDREN-->
     </StackPanel>
 </UserControl>

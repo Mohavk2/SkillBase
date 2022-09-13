@@ -11,8 +11,8 @@ using SkillBase.Data;
 namespace SkillBase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220907144850_Initial")]
-    partial class Initial
+    [Migration("20220911121332_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace SkillBase.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SkillId")
+                    b.Property<int>("SkillId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Url")
@@ -78,15 +78,16 @@ namespace SkillBase.Migrations
                 {
                     b.HasOne("SkillBase.Models.Skill", null)
                         .WithMany("References")
-                        .HasForeignKey("SkillId");
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SkillBase.Models.Skill", b =>
                 {
                     b.HasOne("SkillBase.Models.Skill", "Parent")
                         .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });

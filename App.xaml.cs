@@ -46,6 +46,7 @@ namespace SkillBase
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<SkillTreeViewModel>();
                     services.AddTransient<SkillViewModelFactory>();
+                    services.AddTransient<ReferenceViewModelFactory>();
                 })
                 .Build();
         }

@@ -26,7 +26,7 @@ namespace SkillBase.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SkillId")
+                    b.Property<int>("SkillId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Url")
@@ -76,15 +76,16 @@ namespace SkillBase.Migrations
                 {
                     b.HasOne("SkillBase.Models.Skill", null)
                         .WithMany("References")
-                        .HasForeignKey("SkillId");
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SkillBase.Models.Skill", b =>
                 {
                     b.HasOne("SkillBase.Models.Skill", "Parent")
                         .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });

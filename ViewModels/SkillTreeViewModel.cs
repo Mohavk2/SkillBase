@@ -16,15 +16,15 @@ namespace SkillBase.ViewModels
 {
     internal class SkillTreeViewModel : BaseViewModel
     {
-        IServiceProvider _serviceProvider;
+        IServiceProvider? _serviceProvider;
 
-        public SkillTreeViewModel(IServiceProvider? serviceProvider)
+        public SkillTreeViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
         public async Task InitSkillTree()
         {
-            using var dbContext = _serviceProvider?.GetRequiredService<MainDbContext>();
+            using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
             if (dbContext == null) return; //TODO: error handling
             var skills = await dbContext.GetTreesAsync();
             foreach (Skill skill in skills)
