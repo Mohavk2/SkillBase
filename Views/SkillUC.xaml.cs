@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using MaterialDesignThemes.Wpf;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace SkillBase.Views
 {
@@ -26,11 +29,6 @@ namespace SkillBase.Views
         {
             SkillBox.Visibility = SkillBox.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
             e.Handled = true;
-        }
-
-        private void CardHeader_Click(object sender, RoutedEventArgs e)
-        {
-            SkillCard.Visibility = SkillCard.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -121,6 +119,12 @@ namespace SkillBase.Views
             {
                 Notes.Text = "Write your notes here...";
             }
+        }
+
+        private void CardFooter_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SkillCard.Visibility = SkillCard.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            CollapsIcon.Kind = CollapsIcon.Kind == PackIconKind.ArrowCollapseDown ? PackIconKind.ArrowCollapseUp : PackIconKind.ArrowCollapseDown;
         }
     }
 }
