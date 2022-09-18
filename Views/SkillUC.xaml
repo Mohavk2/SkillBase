@@ -6,8 +6,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillBase.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
+             mc:Ignorable="d"  
+             d:DesignHeight="450" d:DesignWidth="800" 
+             PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp" 
+             AllowDrop="True" Drop="UserControl_Drop">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
@@ -19,6 +21,11 @@
                                  Background="#FFBACFD9" ToolTip="Expand">
                 <materialDesign:Chip.Content>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <materialDesign:Chip Width="100" Height="25" Margin="0 0 6 0"
+                                             HorizontalContentAlignment="Center"
+                                             PreviewMouseMove="Button_PreviewMouseMove">
+                            <materialDesign:PackIcon Kind="HandBackRight"  HorizontalAlignment="Center"/>
+                        </materialDesign:Chip>
                         <Button x:Name="AddSkill" Command="{Binding CreateSkill}"
                                 Padding="0" Width="25" Height="25"
                                 Style="{StaticResource MaterialDesignIconButton}"
@@ -40,7 +47,7 @@
             <!--Name-->
             <Border Width="210" Margin="0 -15 0 0" Padding="10 10 5 3" 
                     Background="White" BorderBrush="Gray" BorderThickness="1"
-                    Panel.ZIndex="3">
+>
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="SkillName" Width="170" BorderThickness="0" TextWrapping="Wrap"
                              materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
@@ -57,11 +64,10 @@
                 </StackPanel>
             </Border>
             <!--Name-->
-            <Border CornerRadius="8" Width="210" Margin="0 -15 0 0" Padding="0" 
-                    Background="White" BorderBrush="Gray" BorderThickness="1">
+            <Border Width="210" Background="White" BorderBrush="Gray" BorderThickness="1">
                 <StackPanel>
                     <!--BODY-->
-                    <StackPanel   x:Name="SkillCard" Visibility="Collapsed" Margin="0 15 0 0">
+                    <StackPanel x:Name="SkillCard" Visibility="Collapsed">
                         <!--Description-->
                         <TextBox x:Name="SkillDescription" Text="{Binding Description, Mode=TwoWay}" Padding="10 0 10 0"
                                  TextWrapping="Wrap"
@@ -116,16 +122,17 @@
                     <!--BODY-->
                     <!--FOOTER-->
                     <materialDesign:ColorZone x:Name="CardFooter"
-                                         Margin="-1 14 -1 -5" CornerRadius="2"
+                                         Margin="-1 0 -1 -5" CornerRadius="2"
                                          HorizontalAlignment="Stretch"
-                                         Background="#FFBACFD9" MouseLeftButtonUp="CardFooter_MouseLeftButtonUp">
+                                         Background="#FFBACFD9" Cursor="Hand"
+                                         MouseLeftButtonUp="CardFooter_MouseLeftButtonUp">
                         <Grid Margin="0 0 2 0">
                             <materialDesign:PackIcon x:Name="CollapsIcon" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="ArrowCollapseDown"/>
                             <Button x:Name="DeleteSkill" Command="{Binding DeleteSkill}"
                                     HorizontalAlignment="Right"
-                                Padding="0" Width="25" Height="25"
-                                Style="{StaticResource MaterialDesignIconButton}"
-                                ToolTip="Delete skill">
+                                    Padding="0" Width="25" Height="25"
+                                    Style="{StaticResource MaterialDesignIconButton}"
+                                    ToolTip="Delete skill">
                                 <materialDesign:PackIcon Kind="DeleteCircle"/>
                             </Button>
                         </Grid>
@@ -139,7 +146,7 @@
             <ItemsControl x:Name="SkillsControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:SkillUC DataContext="{Binding}"></local:SkillUC>
+                        <local:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}"></local:SkillUC>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

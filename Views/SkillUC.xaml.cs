@@ -1,5 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
+using SkillBase.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +16,15 @@ namespace SkillBase.Views
     /// </summary>
     public partial class SkillUC : UserControl
     {
+        public static readonly DependencyProperty SkillDropCommandProperty = DependencyProperty
+            .Register("SkillDropCommand", typeof(ICommand), typeof(SkillUC), new PropertyMetadata(null));
+
+        public ICommand SkillDropCommand
+        {
+            get { return (ICommand)GetValue(SkillDropCommandProperty); }
+            set { SetValue(SkillDropCommandProperty, value); }
+        }
+
         public SkillUC()
         {
             InitializeComponent();
@@ -125,6 +137,26 @@ namespace SkillBase.Views
         {
             SkillCard.Visibility = SkillCard.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
             CollapsIcon.Kind = CollapsIcon.Kind == PackIconKind.ArrowCollapseDown ? PackIconKind.ArrowCollapseUp : PackIconKind.ArrowCollapseDown;
+        }
+
+        private void Button_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(this, new DataObject(DataFormats.Serializable, this), DragDropEffects.Move);
+            }
+        }
+
+        private void UserControl_Drop(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            var uc = e.Data.GetData(DataFormats.Serializable) as SkillUC;
+            var vm = uc?.DataContext as SkillViewModel;
+
+            if (vm != null)
+            {
+                SkillDropCommand?.Execute(vm);
+            }
         }
     }
 }

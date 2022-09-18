@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualBasic;
 using SkillBase.Data;
 using SkillBase.Models;
 using SkillBase.ViewModels.Common;
@@ -23,16 +24,18 @@ namespace SkillBase.ViewModels
 
         IServiceProvider _serviceProvider;
 
-        public SkillViewModel(IServiceProvider serviceProvider) 
+        public SkillViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public SkillViewModel(Skill skill, IServiceProvider serviceProvider) : this(serviceProvider)
+        public SkillViewModel(Skill skill, SkillViewModel? parentVM, IServiceProvider serviceProvider) : this(serviceProvider)
         {
             if (skill != null)
             {
                 Id = skill.Id;
+                ParentId = skill.ParentId;
+                ParentVM = parentVM;
                 Name = skill.Name;
                 Description = skill.Description ?? "Description...";
                 Notes = skill.Notes ?? "Write your notes here...";
@@ -46,13 +49,13 @@ namespace SkillBase.ViewModels
                         var skillVMFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
                         if (skillVMFactory != null)
                         {
-                            var skillVM = skillVMFactory.Create(child);
+                            var skillVM = skillVMFactory.Create(child, this);
                             skillVM.OnDelete += Delete;
                             SkillVMs.Add(skillVM);
                         }
                     }
                 }
-                if(skill.Links != null)
+                if (skill.Links != null)
                 {
                     foreach (var link in skill.Links)
                     {
@@ -64,6 +67,7 @@ namespace SkillBase.ViewModels
                 }
             }
         }
+
         public void Dispose()
         {
             foreach (var vm in SkillVMs)
@@ -72,7 +76,7 @@ namespace SkillBase.ViewModels
             }
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
             var skill = dbContext.Skills.Find(Id);
-            if(skill != null)
+            if (skill != null)
             {
                 dbContext.Skills.Remove(skill);
                 dbContext.SaveChanges();
@@ -89,6 +93,36 @@ namespace SkillBase.ViewModels
             skillVM.Dispose();
             SkillVMs.Remove(skillVM);
             RaisePropertyChanged(nameof(HasChildren));
+        }
+
+        public ICommand MoveHere
+        {
+            get => new UICommand((vm) =>
+            {
+                if (vm is SkillViewModel child)
+                {
+                    if (child.Id != Id && IsParent(child.Id, this) == false)
+                    {
+                        if (child.ParentVM != null)
+                        {
+                            child.ParentVM.RemoveChild(child);
+                        }
+                        else
+                        {
+                            var tree = _serviceProvider.GetRequiredService<SkillTreeViewModel>();
+                            tree.RemoveChild(child);
+                        }
+                        AddChild(child);
+                    }
+                }
+
+            });
+        }
+
+        private bool IsParent(int id, SkillViewModel target)
+        {
+            if (target.ParentVM == null) return false;
+            return (target.ParentVM.Id == id || IsParent(id, target.ParentVM));
         }
 
         public ICommand CreateLink
@@ -119,7 +153,7 @@ namespace SkillBase.ViewModels
                 dbContext.SaveChanges();
 
                 var skillVMFactory = _serviceProvider.GetRequiredService<SkillViewModelFactory>();
-                var skillVM = skillVMFactory.Create(skill);
+                var skillVM = skillVMFactory.Create(skill, this);
                 skillVM.OnDelete += Delete;
                 SkillVMs.Add(skillVM);
                 RaisePropertyChanged(nameof(HasChildren));
@@ -135,11 +169,23 @@ namespace SkillBase.ViewModels
 
         public int Id { get; private set; }
 
+        int? _parentId;
+        public int? ParentId
+        {
+            get => _parentId;
+            set
+            {
+                _parentId = value;
+                Update(skill => skill.ParentId = _parentId);
+                RaisePropertyChanged(nameof(ParentId));
+            }
+        }
+
         string _name = "New skill";
         public string Name
         {
             get => _name;
-            set 
+            set
             {
                 _name = value;
                 Update(skill => skill.Name = _name);
@@ -175,7 +221,7 @@ namespace SkillBase.ViewModels
             set
             {
                 _imagePath = value;
-                Update(skill=> skill.ImagePath = _imagePath);
+                Update(skill => skill.ImagePath = _imagePath);
                 RaisePropertyChanged(nameof(ImagePath));
             }
         }
@@ -194,7 +240,37 @@ namespace SkillBase.ViewModels
             }
         }
 
-        public void Update (Action<Skill> setter)
+        public void SetParent(SkillViewModel? parentVM)
+        {
+            if (parentVM == null)
+            {
+                ParentId = null;
+                ParentVM = null;
+            }
+            else
+            {
+                ParentId = parentVM.Id;
+                ParentVM = parentVM;
+            }
+        }
+
+        public void AddChild(SkillViewModel childVM)
+        {
+            childVM.SetParent(this);
+            if (SkillVMs.Any(vm => vm.Id == childVM.Id) == false)
+            {
+                SkillVMs.Add(childVM);
+            }
+            RaisePropertyChanged(nameof(HasChildren));
+        }
+
+        public void RemoveChild(SkillViewModel childVM)
+        {
+            SkillVMs.Remove(childVM);
+            RaisePropertyChanged(nameof(HasChildren));
+        }
+
+        void Update(Action<Skill> setter)
         {
             using var db = _serviceProvider.GetRequiredService<MainDbContext>();
             var entity = db.Find<Skill>(Id);
@@ -210,6 +286,8 @@ namespace SkillBase.ViewModels
         {
             get => SkillVMs.Count > 0;
         }
+
+        public SkillViewModel? ParentVM { get; set; }
 
         public ObservableCollection<SkillViewModel> SkillVMs { get; set; } = new();
     }
