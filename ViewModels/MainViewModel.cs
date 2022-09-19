@@ -24,15 +24,14 @@ namespace SkillBase.ViewModels
             _serviceProvider = serviceProvider;
         }
 
-        bool _isDataLoaded = false;
         public async void InitAppData()
         {
             _skillTreeVM = _serviceProvider?.GetRequiredService<SkillTreeViewModel>();
+            if (_skillTreeVM == null) return;
+
             await _skillTreeVM.InitSkillTree();
             SkillTreeUC = new SkillTreeUC();
             SkillTreeUC.DataContext = _skillTreeVM;
-
-            _isDataLoaded = true;
         }
 
         UserControl _skillTreeUC = new LoadingUC();
@@ -47,10 +46,5 @@ namespace SkillBase.ViewModels
         }
 
         SkillTreeViewModel? _skillTreeVM;
-
-        public ICommand AddSkill => new UICommand((parameter) =>
-        {
-            _skillTreeVM?.CreateSkill();
-        }, (parameter) => _isDataLoaded);
     }
 }

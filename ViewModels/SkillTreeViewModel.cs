@@ -57,7 +57,13 @@ namespace SkillBase.ViewModels
 
         public ObservableCollection<SkillViewModel> SkillVMs { get; set; } = new();
 
-        public void CreateSkill()
+        void Delete(SkillViewModel skillVM)
+        {
+            SkillVMs.Remove(skillVM);
+            skillVM.Dispose();
+        }
+
+        public ICommand CreateSkill => new UICommand((parameter) =>
         {
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
             Skill skill = new();
@@ -68,13 +74,7 @@ namespace SkillBase.ViewModels
             var skillVM = skillVMFactory.Create(skill, null);
             skillVM.OnDelete += Delete;
             SkillVMs.Add(skillVM);
-        }
-
-        void Delete(SkillViewModel skillVM)
-        {
-            SkillVMs.Remove(skillVM);
-            skillVM.Dispose();
-        }
+        });
 
         internal void RemoveChild(SkillViewModel childVM)
         {
