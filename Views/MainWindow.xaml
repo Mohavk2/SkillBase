@@ -17,7 +17,11 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <DockPanel>
-            <ContentControl  x:Name="SkillControl" Content="{Binding SkillTreeUC}"></ContentControl>
+            <TabControl Padding="0 10 0 0">
+                <TabItem Header="Skills">
+                    <ContentControl  x:Name="SkillControl" Content="{Binding SkillTreeUC}"></ContentControl>
+                </TabItem>
+            </TabControl>
         </DockPanel>
     </Grid>
 </Window>
