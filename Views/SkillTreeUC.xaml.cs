@@ -38,12 +38,14 @@ namespace SkillBase.Views
                 var shiftX = currentPoint.X - _placementPoint.X;
                 var shiftY = currentPoint.Y - _placementPoint.Y;
 
-                double step = 0.7;
+                double step = 1.5;
 
-                if (shiftX < 0) Scroll.ScrollToHorizontalOffset(Scroll.HorizontalOffset + (step + Math.Abs(shiftX) * 0.01));
-                if (shiftX > 0) Scroll.ScrollToHorizontalOffset(Scroll.HorizontalOffset - (step + Math.Abs(shiftX) * 0.01));
-                if (shiftY < 0) Scroll.ScrollToVerticalOffset(Scroll.VerticalOffset + (step + Math.Abs(shiftY) * 0.01));
-                if (shiftY > 0) Scroll.ScrollToVerticalOffset(Scroll.VerticalOffset - (step + Math.Abs(shiftY) * 0.01));
+                if (currentPoint.X < _placementPoint.X) Scroll.ScrollToHorizontalOffset(Scroll.HorizontalOffset + step);
+                if (currentPoint.X > _placementPoint.X) Scroll.ScrollToHorizontalOffset(Scroll.HorizontalOffset - step);
+                if (currentPoint.Y < _placementPoint.Y) Scroll.ScrollToVerticalOffset(Scroll.VerticalOffset + step);
+                if (currentPoint.Y > _placementPoint.Y) Scroll.ScrollToVerticalOffset(Scroll.VerticalOffset - step);
+
+                _placementPoint = GetMousePos();
             }
             else this.Cursor = Cursors.Arrow;
         }
