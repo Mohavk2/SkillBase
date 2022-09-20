@@ -17,14 +17,14 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <DockPanel>
-            <TabControl Padding="0 10 0 0" TabStripPlacement="Left">
+            <TabControl Padding="0 0 0 0" TabStripPlacement="Left">
                 <TabItem Header="Schedule">
-
+                    
                 </TabItem>
                 <TabItem Header="Skills">
                     <ContentControl  x:Name="SkillControl" Content="{Binding SkillTreeUC}"></ContentControl>
                 </TabItem>
-                <TabItem Header="Analize">
+                <TabItem Header="Statistics">
 
                 </TabItem>
             </TabControl>
