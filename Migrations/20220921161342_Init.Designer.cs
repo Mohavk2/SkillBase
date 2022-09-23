@@ -11,13 +11,42 @@ using SkillBase.Data;
 namespace SkillBase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220913164125_init")]
-    partial class init
+    [Migration("20220921161342_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
+
+            modelBuilder.Entity("SkillBase.Models.DayTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("DayTask");
+                });
 
             modelBuilder.Entity("SkillBase.Models.Link", b =>
                 {
@@ -48,10 +77,11 @@ namespace SkillBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Color")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCompleted")
@@ -72,6 +102,15 @@ namespace SkillBase.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("SkillBase.Models.DayTask", b =>
+                {
+                    b.HasOne("SkillBase.Models.Skill", null)
+                        .WithMany("DayTasks")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SkillBase.Models.Link", b =>
@@ -95,6 +134,8 @@ namespace SkillBase.Migrations
             modelBuilder.Entity("SkillBase.Models.Skill", b =>
                 {
                     b.Navigation("Children");
+
+                    b.Navigation("DayTasks");
 
                     b.Navigation("Links");
                 });

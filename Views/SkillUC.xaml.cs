@@ -106,7 +106,6 @@ namespace SkillBase.Views
             LinksToggle.IsChecked = true;
         }
 
-
         private void LinksToggle_Checked(object sender, RoutedEventArgs e)
         {
             SkillLinks.Visibility = Visibility.Visible;
@@ -115,6 +114,21 @@ namespace SkillBase.Views
         private void LinksToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             SkillLinks.Visibility = Visibility.Collapsed;
+        }
+
+        private void AddDayTask_Click(object sender, RoutedEventArgs e)
+        {
+            DayTasksToggle.IsChecked = true;
+        }
+
+        private void DayTasksToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            DayTasks.Visibility = Visibility.Visible;
+        }
+
+        private void DayTasksToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            DayTasks.Visibility = Visibility.Collapsed;
         }
 
         private void Notes_GotFocus(object sender, RoutedEventArgs e)

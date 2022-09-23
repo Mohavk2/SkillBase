@@ -39,7 +39,6 @@ namespace SkillBase.ViewModels
                 Name = skill.Name;
                 Description = skill.Description ?? "Description...";
                 Notes = skill.Notes ?? "Write your notes here...";
-                ImagePath = skill.ImagePath = "";
                 IsCompleted = skill.IsCompleted;
 
                 if (skill.Children != null)
@@ -65,6 +64,16 @@ namespace SkillBase.ViewModels
                         Links.Add(linkVM);
                     }
                 }
+                if (skill.DayTasks != null)
+                {
+                    foreach (var task in skill.DayTasks)
+                    {
+                        var taskVMFactory = _serviceProvider.GetRequiredService<DayTaskViewModelFactory>();
+                        DayTaskViewModel taskVM = taskVMFactory.Create(task);
+                        taskVM.OnDelete += DeleteTask;
+                        Tasks.Add(taskVM);
+                    }
+                }
             }
         }
 
@@ -81,11 +90,6 @@ namespace SkillBase.ViewModels
                 dbContext.Skills.Remove(skill);
                 dbContext.SaveChanges();
             }
-        }
-
-        void DeleteLink(LinkViewModel linkVM)
-        {
-            Links.Remove(linkVM);
         }
 
         void Delete(SkillViewModel skillVM)
@@ -138,6 +142,22 @@ namespace SkillBase.ViewModels
                 LinkViewModel linkVM = linkVMFactory.Create(link);
                 linkVM.OnDelete += DeleteLink;
                 Links.Add(linkVM);
+            });
+        }
+
+        public ICommand CreateDayTask
+        {
+            get => new UICommand((paremeter) =>
+            {
+                DayTask task = new() { SkillId = Id };
+                var db = _serviceProvider.GetRequiredService<MainDbContext>();
+                db.Add<DayTask>(task);
+                db.SaveChanges();
+
+                var taskVMFactory = _serviceProvider.GetRequiredService<DayTaskViewModelFactory>();
+                DayTaskViewModel taskVM = taskVMFactory.Create(task);
+                taskVM.OnDelete += DeleteTask;
+                Tasks.Add(taskVM);
             });
         }
 
@@ -214,19 +234,18 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(Notes));
             }
         }
-        string _imagePath = "";
-        public string ImagePath
-        {
-            get => _imagePath;
-            set
-            {
-                _imagePath = value;
-                Update(skill => skill.ImagePath = _imagePath);
-                RaisePropertyChanged(nameof(ImagePath));
-            }
-        }
 
         public ObservableCollection<LinkViewModel> Links { get; set; } = new();
+        void DeleteLink(LinkViewModel linkVM)
+        {
+            Links.Remove(linkVM);
+        }
+
+        public ObservableCollection<DayTaskViewModel> Tasks { get; set; } = new();
+        private void DeleteTask(DayTaskViewModel taskVM)
+        {
+            Tasks.Remove(taskVM);
+        }
 
         bool _isCompleted = false;
         public bool IsCompleted

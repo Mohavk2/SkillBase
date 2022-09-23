@@ -101,6 +101,33 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <!--Links-->
+                        <!--Tasks-->
+                        <Separator/>
+                        <StackPanel Width="210" Margin="13 2 5 0" Orientation="Horizontal">
+                            <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
+                                Tasks
+                            </TextBlock>
+                            <Button x:Name="AddDayTask" Width="25" Height="25"
+                                    Command="{Binding CreateDayTask}"
+                                    Style="{StaticResource MaterialDesignIconButton}"
+                                     ToolTip="Add link" Click="AddDayTask_Click" >
+                                <materialDesign:PackIcon Kind="Plus" />
+                            </Button>
+                            <ToggleButton x:Name="DayTasksToggle" Width="25" Height="25" HorizontalAlignment="Right"
+                                          Style="{StaticResource MaterialDesignFlatToggleButton}"
+                                          ToolTip="Show/hide Tasks" Checked="DayTasksToggle_Checked" Unchecked="DayTasksToggle_Unchecked">
+                                <materialDesign:PackIcon Width="20" Height="20" Kind="FormatListText" />
+                            </ToggleButton>
+                        </StackPanel>
+                        <ItemsControl x:Name="DayTasks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
+                                      ItemsSource="{Binding Tasks}" Visibility="Collapsed">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:DayTaskUC DataContext="{Binding}"></local:DayTaskUC>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!--Tasks-->
                         <!--Notes-->
                         <Separator/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0">

@@ -40,6 +40,7 @@ namespace SkillBase
                     services.AddSingleton<SkillTreeViewModel>();
                     services.AddTransient<SkillViewModelFactory>();
                     services.AddTransient<LinkViewModelFactory>();
+                    services.AddTransient<DayTaskViewModelFactory>();
                 })
                 .Build();
         }
