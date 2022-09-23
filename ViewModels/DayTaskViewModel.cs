@@ -51,6 +51,22 @@ namespace SkillBase.ViewModels
             }
         }
 
+
+        public ICommand Delete
+        {
+            get => new UICommand((parameter) =>
+            {
+                using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
+                var task = dbContext.Find<DayTask>(Id);
+                if (task != null)
+                {
+                    dbContext.Remove(task);
+                    dbContext.SaveChanges();
+                    OnDelete?.Invoke(this);
+                }
+            });
+        }
+
         public ObservableCollection<LinkViewModel> Links { get; set; } = new();
         public ICommand CreateLink
         {

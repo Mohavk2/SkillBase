@@ -15,7 +15,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Height="20" Width="20" Padding="0"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Foreground="red"
+                    Foreground="red" Command="{Binding Delete}"
                     Style="{StaticResource MaterialDesignIconButton}"
                     ToolTip="Delete task">
                     <materialDesign:PackIcon Padding="0" Height="15" Width="15" Kind="Close"/>
@@ -30,7 +30,7 @@
                   Style="{StaticResource MaterialDesignAccentCheckBox}" />
             </Grid>
             <!--Links-->
-            <Expander materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+            <Expander x:Name="LinksExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
                 <Expander.Header>
                     <Grid>

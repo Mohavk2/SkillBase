@@ -27,7 +27,7 @@ namespace SkillBase.Views
 
         private void AddLink_Click(object sender, RoutedEventArgs e)
         {
-            LinksToggle.IsChecked = true;
+            LinksExpander.IsExpanded = true;
         }
 
         private void LinksToggle_Checked(object sender, RoutedEventArgs e)
