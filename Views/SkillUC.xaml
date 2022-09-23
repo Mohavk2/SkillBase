@@ -47,8 +47,7 @@
             <!--HEADER-->
             <!--Name-->
             <Border Width="210" Margin="0 -15 0 0" Padding="10 10 5 3" 
-                    Background="White" BorderBrush="Gray" BorderThickness="1"
->
+                    Background="White" BorderBrush="Gray" BorderThickness="1">
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="SkillName" Width="170" BorderThickness="0" TextWrapping="Wrap"
                              materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
@@ -75,34 +74,7 @@
                                  materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" 
                                  LostFocus="SkillDescription_LostFocus" GotFocus="SkillDescription_GotFocus"/>
                         <!--Description-->
-                        <!--Links-->
-                        <StackPanel Width="210" Margin="13 2 5 0" Orientation="Horizontal">
-                            <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
-                                Links
-                            </TextBlock>
-                            <Button x:Name="AddLink" Width="25" Height="25"
-                                    Command="{Binding CreateLink}"
-                                    Style="{StaticResource MaterialDesignIconButton}"
-                                    Click="AddLink_Click" ToolTip="Add link" >
-                                <materialDesign:PackIcon Kind="Plus" />
-                            </Button>
-                            <ToggleButton x:Name="LinksToggle" Width="25" Height="25" HorizontalAlignment="Right"
-                                          Style="{StaticResource MaterialDesignFlatToggleButton}"
-                                          ToolTip="Show/hide links" Checked="LinksToggle_Checked" Unchecked="LinksToggle_Unchecked">
-                                <materialDesign:PackIcon Width="20" Height="20" Kind="FormatListText" />
-                            </ToggleButton>
-                        </StackPanel>
-                        <ItemsControl x:Name="SkillLinks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
-                                      ItemsSource="{Binding Links}" Visibility="Collapsed">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <local:LinkUC DataContext="{Binding}"></local:LinkUC>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <!--Links-->
                         <!--Tasks-->
-                        <Separator/>
                         <StackPanel Width="210" Margin="13 2 5 0" Orientation="Horizontal">
                             <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
                                 Tasks
@@ -119,7 +91,7 @@
                                 <materialDesign:PackIcon Width="20" Height="20" Kind="FormatListText" />
                             </ToggleButton>
                         </StackPanel>
-                        <ItemsControl x:Name="DayTasks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
+                        <ItemsControl x:Name="DayTasks" HorizontalAlignment="Stretch" Padding="5 0 5 0"
                                       ItemsSource="{Binding Tasks}" Visibility="Collapsed">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

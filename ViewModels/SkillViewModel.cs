@@ -54,16 +54,6 @@ namespace SkillBase.ViewModels
                         }
                     }
                 }
-                if (skill.Links != null)
-                {
-                    foreach (var link in skill.Links)
-                    {
-                        var linkVMFactory = _serviceProvider.GetRequiredService<LinkViewModelFactory>();
-                        LinkViewModel linkVM = linkVMFactory.Create(link);
-                        linkVM.OnDelete += DeleteLink;
-                        Links.Add(linkVM);
-                    }
-                }
                 if (skill.DayTasks != null)
                 {
                     foreach (var task in skill.DayTasks)
@@ -127,22 +117,6 @@ namespace SkillBase.ViewModels
         {
             if (target.ParentVM == null) return false;
             return (target.ParentVM.Id == id || IsParent(id, target.ParentVM));
-        }
-
-        public ICommand CreateLink
-        {
-            get => new UICommand((paremeter) =>
-            {
-                Link link = new() { SkillId = Id };
-                var db = _serviceProvider.GetRequiredService<MainDbContext>();
-                db.Add<Link>(link);
-                db.SaveChanges();
-
-                var linkVMFactory = _serviceProvider.GetRequiredService<LinkViewModelFactory>();
-                LinkViewModel linkVM = linkVMFactory.Create(link);
-                linkVM.OnDelete += DeleteLink;
-                Links.Add(linkVM);
-            });
         }
 
         public ICommand CreateDayTask
@@ -233,12 +207,6 @@ namespace SkillBase.ViewModels
                 Update(skill => skill.Notes = _notes);
                 RaisePropertyChanged(nameof(Notes));
             }
-        }
-
-        public ObservableCollection<LinkViewModel> Links { get; set; } = new();
-        void DeleteLink(LinkViewModel linkVM)
-        {
-            Links.Remove(linkVM);
         }
 
         public ObservableCollection<DayTaskViewModel> Tasks { get; set; } = new();

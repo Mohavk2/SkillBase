@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="0 5">
+    <Grid Margin="0 0 0 7">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -15,33 +15,24 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
-            <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox Text="{Binding Name}"/>
-        <TextBox x:Name="Link" Grid.Row="2" Text="{Binding Url}"/>
-        <Button x:Name="EditLinkName" Grid.Row="0" Grid.Column="1"
-                                                        Padding="0" Width="25" Height="25" 
-                                                        Style="{StaticResource MaterialDesignIconButton}"
-                                                        ToolTip="Add skill">
-            <materialDesign:PackIcon Kind="Pencil" Width="20" Height="20"/>
-        </Button>
-        <Button x:Name="EditUrl" Grid.Row="1" Grid.Column="1"
-                                                        Padding="0" Width="25" Height="25"
-                                                        Style="{StaticResource MaterialDesignIconButton}"
-                                                        ToolTip="Add skill">
-            <materialDesign:PackIcon Kind="Pencil" Width="20" Height="20"/>
-        </Button>
-        <Button x:Name="FollowLink" Grid.Row="0" Grid.Column="2"
-                                                        Padding="0" Width="30" Height="30"
-                                                        Style="{StaticResource MaterialDesignIconButton}"
-                                                        ToolTip="Follow the link in the browser" Click="FollowLink_Click">
+        <TextBox Text="{Binding Name}" BorderThickness="0" TextWrapping="Wrap" Padding="0"
+                 VerticalAlignment="Center"
+                 materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"/>
+        <TextBox x:Name="Link" Grid.Row="1" Text="{Binding Url}"
+                 VerticalAlignment="Center"                  Padding="0" Height="20"
+                 materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"/>
+        <Button x:Name="FollowLink" Grid.Row="0" Grid.Column="1"
+                Padding="0" Width="30" Height="30"
+                Style="{StaticResource MaterialDesignIconButton}"
+                ToolTip="Follow the link in the browser" Click="FollowLink_Click">
             <materialDesign:PackIcon Kind="ArrowTopRight"/>
         </Button>
-        <Button x:Name="DeleteLink" Grid.Row="1" Grid.Column="2" Command="{Binding Delete}"
-                                                        Padding="0" Width="20" Height="20"
-                                                        Style="{StaticResource MaterialDesignIconButton}"
-                                                        ToolTip="Add skill">
-            <materialDesign:PackIcon Kind="Close" Width="20" Height="20"/>
+        <Button x:Name="DeleteLink" Grid.Row="1" Grid.Column="1" Command="{Binding Delete}"
+                Padding="0" Width="20" Height="20" VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesignIconButton}"
+                ToolTip="Add skill">
+            <materialDesign:PackIcon Kind="Close" Width="15" Height="15"/>
         </Button>
     </Grid>
 </UserControl>

@@ -12,7 +12,6 @@ namespace SkillBase.Models
         public string? Notes { get; set; } = "Write your notes here...";
         public string Color { get; set; } = "#8ca5b1";
         public virtual List<DayTask> DayTasks { get; set; } = new();
-        public virtual List<Link> Links { get; set; } = new();
         public bool IsCompleted { get; set; } = false;
         public int? ParentId { get; set; }
         public Skill? Parent { get; set; }

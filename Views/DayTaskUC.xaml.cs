@@ -24,5 +24,21 @@ namespace SkillBase.Views
         {
             InitializeComponent();
         }
+
+        private void AddLink_Click(object sender, RoutedEventArgs e)
+        {
+            LinksToggle.IsChecked = true;
+        }
+
+        private void LinksToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            SkillLinks.Visibility = Visibility.Visible;
+        }
+
+        private void LinksToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SkillLinks.Visibility = Visibility.Collapsed;
+        }
+
     }
 }
