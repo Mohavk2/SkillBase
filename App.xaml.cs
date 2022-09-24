@@ -41,6 +41,7 @@ namespace SkillBase
                     services.AddTransient<SkillViewModelFactory>();
                     services.AddTransient<LinkViewModelFactory>();
                     services.AddTransient<DayTaskViewModelFactory>();
+                    services.AddTransient<DayViewModel>();
                 })
                 .Build();
         }

@@ -19,7 +19,7 @@
         <DockPanel>
             <TabControl Padding="0 0 0 0" TabStripPlacement="Left">
                 <TabItem Header="Schedule">
-                    
+                    <views:ScheduleUC></views:ScheduleUC>
                 </TabItem>
                 <TabItem Header="Skills">
                     <ContentControl  x:Name="SkillControl" Content="{Binding SkillTreeUC}"></ContentControl>
