@@ -11,7 +11,7 @@ using SkillBase.Data;
 namespace SkillBase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220925185328_Init")]
+    [Migration("20220925194728_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,9 @@ namespace SkillBase.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCompleted")

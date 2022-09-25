@@ -16,6 +16,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Button Grid.Column="0" Height="20" Width="20" Padding="0"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -33,12 +34,29 @@
                       materialDesign:CheckBoxAssist.CheckBoxSize="25"
                   Style="{StaticResource MaterialDesignAccentCheckBox}" />
                 <DatePicker Grid.ColumnSpan="3" Grid.Row="1" Width="90" Height="25"
-                            SelectedDate="{Binding StartDate}"
-                            Padding="3 0" Margin="3 0"
+                            SelectedDate="{Binding StartDateTime, Mode=TwoWay}"
+                            Padding="3 0" Margin="5 3"
                             HorizontalAlignment="Left"
-                            materialDesign:HintAssist.Hint="Start"
-                            materialDesign:HintAssist.HelperText="Start date"
+                            materialDesign:HintAssist.Hint="Start date"
                             Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                <DatePicker Grid.ColumnSpan="3" Grid.Row="1" Width="90" Height="25"
+                            SelectedDate="{Binding EndDateTime, Mode=TwoWay}"
+                            Padding="3 0" Margin="5 3"
+                            HorizontalAlignment="Right"
+                            materialDesign:HintAssist.Hint="End date"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                <materialDesign:TimePicker Grid.ColumnSpan="3" Grid.Row="2" Width="90" Height="25"
+                                           Padding="3 0" Margin="5 3"
+                                           SelectedTime="{Binding StartDateTime, Mode=TwoWay}" Is24Hours="True"
+                                           HorizontalAlignment="Left"
+                                           materialDesign:HintAssist.Hint="Start time"
+                                           Style="{StaticResource MaterialDesignOutlinedTimePicker}" />
+                <materialDesign:TimePicker Grid.ColumnSpan="3" Grid.Row="2" Width="90" Height="25"
+                                           Padding="3 0" Margin="5 3"
+                                           SelectedTime="{Binding EndDateTime, Mode=TwoWay}" Is24Hours="True"
+                                           HorizontalAlignment="Right"
+                                           materialDesign:HintAssist.Hint="End time"
+                                           Style="{StaticResource MaterialDesignOutlinedTimePicker}" />
             </Grid>
             <!--Links-->
             <Expander x:Name="LinksExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"

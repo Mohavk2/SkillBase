@@ -29,12 +29,13 @@ namespace SkillBase.ViewModels
         }
         public SkillTaskViewModel(SkillTask task, IServiceProvider serviceProvider) : this(serviceProvider)
         {
-            if(task != null)
+            if (task != null)
             {
                 Id = task.Id;
                 Name = task.Name;
                 Description = task.Description;
-                StartDate = task.StartDate;
+                StartDateTime = task.StartDate ?? DateTime.Now;
+                EndDateTime = task.EndDate ?? DateTime.Now;
                 IsCompleted = task.IsCompleted;
                 SkillId = task.SkillId;
 
@@ -91,7 +92,7 @@ namespace SkillBase.ViewModels
         public int Id { get; private set; } = 0;
 
         string _name = "New Task";
-        public string Name 
+        public string Name
         {
             get => _name;
             set
@@ -102,7 +103,7 @@ namespace SkillBase.ViewModels
             }
         }
         string? _description = "Description...";
-        public string? Description 
+        public string? Description
         {
             get => _description;
             set
@@ -112,17 +113,39 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(Description));
             }
         }
-        DateTime? _startDate;
-        public DateTime? StartDate 
+        DateTime _startDateTime;
+        public DateTime StartDateTime
         {
-            get => _startDate;
+            get => _startDateTime;
             set
             {
-                _startDate = value;
-                Update(task => task.StartDate = _startDate);
-                RaisePropertyChanged(nameof(StartDate));
+                if(value > EndDateTime)
+                {
+                    var dt = value;
+                    EndDateTime = dt.AddHours(1);
+                }
+                _startDateTime = value;
+                Update(task => task.StartDate = _startDateTime);
+                RaisePropertyChanged(nameof(StartDateTime));
             }
         }
+        DateTime _endDateTime;
+        public DateTime EndDateTime
+        {
+            get => _endDateTime;
+            set
+            {
+                var dt = StartDateTime;
+                if (value < dt.AddHours(1))
+                {
+                    value = dt.AddHours(1);
+                }
+                _endDateTime = value;
+                Update(task => task.EndDate = _endDateTime);
+                RaisePropertyChanged(nameof(EndDateTime));
+            }
+        }
+
         bool _isCompleted = false;
         public bool IsCompleted
         {
