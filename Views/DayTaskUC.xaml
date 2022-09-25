@@ -13,6 +13,10 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <Button Grid.Column="0" Height="20" Width="20" Padding="0"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Foreground="red" Command="{Binding Delete}"
@@ -28,6 +32,13 @@
                       HorizontalAlignment="Right" VerticalAlignment="Center"
                       materialDesign:CheckBoxAssist.CheckBoxSize="25"
                   Style="{StaticResource MaterialDesignAccentCheckBox}" />
+                <DatePicker Grid.ColumnSpan="3" Grid.Row="1" Width="90" Height="25"
+                            SelectedDate="{Binding StartDate}"
+                            Padding="3 0" Margin="3 0"
+                            HorizontalAlignment="Left"
+                            materialDesign:HintAssist.Hint="Start"
+                            materialDesign:HintAssist.HelperText="Start date"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
             </Grid>
             <!--Links-->
             <Expander x:Name="LinksExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
