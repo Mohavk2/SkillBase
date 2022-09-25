@@ -95,7 +95,7 @@
                                       ItemsSource="{Binding Tasks}" Visibility="Collapsed">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <local:DayTaskUC DataContext="{Binding}"></local:DayTaskUC>
+                                    <local:SkillTaskUC DataContext="{Binding}"></local:SkillTaskUC>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

@@ -52,8 +52,8 @@ namespace SkillBase.ViewModels
         public string Month => _currentDayTime.ToString("MMMM");
         public int Year => _currentDayTime.Year;
 
-        List<DayTaskViewModel> _tasksVMs = new();
-        public List<DayTaskViewModel> TasksVMs
+        List<SkillTaskViewModel> _tasksVMs = new();
+        public List<SkillTaskViewModel> TasksVMs
         {
             get => _tasksVMs;
             set

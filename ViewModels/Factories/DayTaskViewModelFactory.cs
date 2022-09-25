@@ -16,9 +16,9 @@ namespace SkillBase.ViewModels.Factories
             _serviceProvider = serviceProvider;
         }
 
-        public DayTaskViewModel Create(DayTask task)
+        public SkillTaskViewModel Create(SkillTask task)
         {
-            return new DayTaskViewModel(task, _serviceProvider);
+            return new SkillTaskViewModel(task, _serviceProvider);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SkillBase.Models
 {
-    internal class DayTask
+    internal class SkillTask
     {
         public int Id { get; set; }
         [Required]

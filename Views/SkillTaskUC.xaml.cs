@@ -18,9 +18,9 @@ namespace SkillBase.Views
     /// <summary>
     /// Interaction logic for DayTaskUC.xaml
     /// </summary>
-    public partial class DayTaskUC : UserControl
+    public partial class SkillTaskUC : UserControl
     {
-        public DayTaskUC()
+        public SkillTaskUC()
         {
             InitializeComponent();
         }

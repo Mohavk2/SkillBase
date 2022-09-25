@@ -59,7 +59,7 @@ namespace SkillBase.ViewModels
                     foreach (var task in skill.DayTasks)
                     {
                         var taskVMFactory = _serviceProvider.GetRequiredService<DayTaskViewModelFactory>();
-                        DayTaskViewModel taskVM = taskVMFactory.Create(task);
+                        SkillTaskViewModel taskVM = taskVMFactory.Create(task);
                         taskVM.OnDelete += DeleteTask;
                         Tasks.Add(taskVM);
                     }
@@ -123,13 +123,13 @@ namespace SkillBase.ViewModels
         {
             get => new UICommand((paremeter) =>
             {
-                DayTask task = new() { SkillId = Id };
+                SkillTask task = new() { SkillId = Id };
                 var db = _serviceProvider.GetRequiredService<MainDbContext>();
-                db.Add<DayTask>(task);
+                db.Add<SkillTask>(task);
                 db.SaveChanges();
 
                 var taskVMFactory = _serviceProvider.GetRequiredService<DayTaskViewModelFactory>();
-                DayTaskViewModel taskVM = taskVMFactory.Create(task);
+                SkillTaskViewModel taskVM = taskVMFactory.Create(task);
                 taskVM.OnDelete += DeleteTask;
                 Tasks.Add(taskVM);
             });
@@ -209,8 +209,8 @@ namespace SkillBase.ViewModels
             }
         }
 
-        public ObservableCollection<DayTaskViewModel> Tasks { get; set; } = new();
-        private void DeleteTask(DayTaskViewModel taskVM)
+        public ObservableCollection<SkillTaskViewModel> Tasks { get; set; } = new();
+        private void DeleteTask(SkillTaskViewModel taskVM)
         {
             Tasks.Remove(taskVM);
         }

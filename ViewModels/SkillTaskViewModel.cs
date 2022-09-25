@@ -15,19 +15,19 @@ using System.Windows.Shapes;
 
 namespace SkillBase.ViewModels
 {
-    delegate void DeleteDayTaskHandler(DayTaskViewModel task);
+    delegate void DeleteSkillTaskHandler(SkillTaskViewModel task);
 
-    internal class DayTaskViewModel : BaseViewModel
+    internal class SkillTaskViewModel : BaseViewModel
     {
-        public event DeleteDayTaskHandler? OnDelete;
+        public event DeleteSkillTaskHandler? OnDelete;
 
         IServiceProvider _serviceProvider;
 
-        public DayTaskViewModel(IServiceProvider serviceProvider)
+        public SkillTaskViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
-        public DayTaskViewModel(DayTask task, IServiceProvider serviceProvider) : this(serviceProvider)
+        public SkillTaskViewModel(SkillTask task, IServiceProvider serviceProvider) : this(serviceProvider)
         {
             if(task != null)
             {
@@ -57,7 +57,7 @@ namespace SkillBase.ViewModels
             get => new UICommand((parameter) =>
             {
                 using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-                var task = dbContext.Find<DayTask>(Id);
+                var task = dbContext.Find<SkillTask>(Id);
                 if (task != null)
                 {
                     dbContext.Remove(task);
@@ -72,7 +72,7 @@ namespace SkillBase.ViewModels
         {
             get => new UICommand((paremeter) =>
             {
-                Link link = new() { DayTaskId = Id };
+                Link link = new() { SkillTaskId = Id };
                 var db = _serviceProvider.GetRequiredService<MainDbContext>();
                 db.Add<Link>(link);
                 db.SaveChanges();
@@ -137,14 +137,14 @@ namespace SkillBase.ViewModels
 
         public int SkillId { get; private set; }
 
-        void Update(Action<DayTask> setter)
+        void Update(Action<SkillTask> setter)
         {
             using var db = _serviceProvider.GetRequiredService<MainDbContext>();
-            var entity = db.Find<DayTask>(Id);
+            var entity = db.Find<SkillTask>(Id);
             if (entity != null)
             {
                 setter(entity);
-                db.Update<DayTask>(entity);
+                db.Update<SkillTask>(entity);
                 db.SaveChanges();
             }
         }

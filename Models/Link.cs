@@ -9,6 +9,6 @@ namespace SkillBase.Models
         [Required]
         public string? Url { get; set; } = "https://google.com";
         [Required]
-        public int DayTaskId { get; set; }
+        public int SkillTaskId { get; set; }
     }
 }
