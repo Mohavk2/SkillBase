@@ -18,7 +18,6 @@ namespace SkillBase
     {
         IHost AppHost { get; set; }
         IConfiguration? Configuration { get; set; }
-        IServiceCollection? Services { get; set; }
 
         public App()
         {
@@ -37,10 +36,12 @@ namespace SkillBase
                     services.AddDbContext<MainDbContext>(options => options.UseSqlite(connectionString), ServiceLifetime.Transient);
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<MainWindow>();
-                    services.AddSingleton<SkillTreeViewModel>();
+                    services.AddSingleton<SkillsViewModel>();
+
                     services.AddTransient<SkillViewModelFactory>();
                     services.AddTransient<LinkViewModelFactory>();
                     services.AddTransient<DayTaskViewModelFactory>();
+
                     services.AddTransient<DayViewModel>();
                 })
                 .Build();
@@ -56,8 +57,6 @@ namespace SkillBase
             var mainVM = AppHost.Services.GetRequiredService<MainViewModel>();
             mainWindow.DataContext = mainVM;
             mainWindow.Show();
-
-            mainVM.InitAppData();
         }
 
         protected override async void OnExit(ExitEventArgs e)

@@ -4,6 +4,7 @@ using SkillBase.Extensions;
 using SkillBase.Models;
 using SkillBase.ViewModels.Common;
 using SkillBase.ViewModels.Factories;
+using SkillBase.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,24 +12,28 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SkillBase.ViewModels
 {
-    internal class SkillTreeViewModel : BaseViewModel
+    internal class SkillsViewModel : BaseViewModel
     {
         IServiceProvider _serviceProvider;
 
-        public SkillTreeViewModel(IServiceProvider serviceProvider)
+        public SkillsViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
-        public async Task InitSkillTree()
+        public async Task InitSkills()
         {
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
             if (dbContext == null) return; //TODO: error handling
             var skills = await dbContext.GetTreesAsync();
-            SkillVMs.Clear();
+
+            SetLoadingView(true);
+
+            ObservableCollection<SkillViewModel> _skillVMs = new();
             foreach (Skill skill in skills)
             {
                 var skillFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
@@ -37,9 +42,12 @@ namespace SkillBase.ViewModels
                 {
                     //TODO: unsubscribe
                     skillVM.OnDelete += Delete;
-                    SkillVMs.Add(skillVM);
+                    _skillVMs.Add(skillVM);
                 }
             }
+            SkillVMs = _skillVMs;
+
+            SetLoadingView(false);
         }
 
         bool ContainsChildRecursive(Skill skill, int childId)
@@ -55,7 +63,66 @@ namespace SkillBase.ViewModels
             return false;
         }
 
-        public ObservableCollection<SkillViewModel> SkillVMs { get; set; } = new();
+        void SetLoadingView(bool state)
+        {
+            IsLoaded = !state;
+            if (state)
+            {
+                LoadingVisibility = Visibility.Visible;
+                SkillsVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                LoadingVisibility = Visibility.Collapsed;
+                SkillsVisibility = Visibility.Visible;
+            }
+        }
+
+        bool _isLoaded = false;
+        public bool IsLoaded
+        {
+            get => _isLoaded;
+            set
+            {
+                _isLoaded = value;
+                RaisePropertyChanged(nameof(IsLoaded));
+            }
+        }
+
+        Visibility _loadingVisibility = Visibility.Visible;
+        public Visibility LoadingVisibility
+        {
+            get => _loadingVisibility;
+            set
+            {
+                _loadingVisibility = value;
+                RaisePropertyChanged(nameof(LoadingVisibility));
+            }
+        }
+
+        Visibility _skillsVisibility = Visibility.Collapsed;
+        public Visibility SkillsVisibility
+        {
+            get => _skillsVisibility;
+            set
+            {
+                _skillsVisibility = value;
+                RaisePropertyChanged(nameof(SkillsVisibility));
+            }
+        }
+
+        public LoadingUC Loading { get; set; } = new();
+
+        ObservableCollection<SkillViewModel> _skillVMs = new();
+        public ObservableCollection<SkillViewModel> SkillVMs
+        {
+            get => _skillVMs;
+            set
+            {
+                _skillVMs = value;
+                RaisePropertyChanged(nameof(SkillVMs));
+            }
+        }
 
         void Delete(SkillViewModel skillVM)
         {

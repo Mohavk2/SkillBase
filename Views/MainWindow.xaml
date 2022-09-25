@@ -17,16 +17,10 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <DockPanel>
-            <TabControl Padding="0 0 0 0" TabStripPlacement="Left">
-                <TabItem Header="Schedule">
-                    <views:ScheduleUC></views:ScheduleUC>
-                </TabItem>
-                <TabItem Header="Skills">
-                    <ContentControl  x:Name="SkillControl" Content="{Binding SkillTreeUC}"></ContentControl>
-                </TabItem>
-                <TabItem Header="Statistics">
-
-                </TabItem>
+            <TabControl Padding="0 0 0 0" TabStripPlacement="Left" SelectionChanged="TabControl_SelectionChanged">
+                <TabItem Header="Schedule" Content="{Binding ScheduleUC}"/>
+                <TabItem Header="Skills" Content="{Binding SkillsUC}"/>
+                <TabItem Header="Statistics"/>
             </TabControl>
         </DockPanel>
     </Grid>

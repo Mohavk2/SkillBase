@@ -8,10 +8,10 @@ namespace SkillBase.Views
     /// <summary>
     /// Interaction logic for SkillListUC.xaml
     /// </summary>
-    public partial class SkillTreeUC : UserControl
+    public partial class SkillsUC : UserControl
     {
         public static readonly DependencyProperty SkillDropCommandProperty = DependencyProperty
-        .Register("SkillDropCommand", typeof(ICommand), typeof(SkillTreeUC), new PropertyMetadata(null));
+        .Register("SkillDropCommand", typeof(ICommand), typeof(SkillsUC), new PropertyMetadata(null));
 
         public ICommand SkillDropCommand
         {
@@ -19,7 +19,7 @@ namespace SkillBase.Views
             set { SetValue(SkillDropCommandProperty, value); }
         }
 
-        public SkillTreeUC()
+        public SkillsUC()
         {
             InitializeComponent();
         }

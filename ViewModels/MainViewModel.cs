@@ -13,38 +13,21 @@ using SkillBase.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Input;
 using SkillBase.ViewModels.Factories;
+using System.Windows.Threading;
 
 namespace SkillBase.ViewModels
 {
     internal class MainViewModel : BaseViewModel
     {
-        readonly IServiceProvider? _serviceProvider;
-        public MainViewModel(IServiceProvider? serviceProvider)
+        readonly IServiceProvider _serviceProvider;
+        public MainViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            SkillsUC.DataContext = _serviceProvider.GetRequiredService<SkillsViewModel>();
         }
 
-        public async void InitAppData()
-        {
-            _skillTreeVM = _serviceProvider?.GetRequiredService<SkillTreeViewModel>();
-            if (_skillTreeVM == null) return;
-
-            await _skillTreeVM.InitSkillTree();
-            SkillTreeUC = new SkillTreeUC();
-            SkillTreeUC.DataContext = _skillTreeVM;
-        }
-
-        UserControl _skillTreeUC = new LoadingUC();
-        public UserControl SkillTreeUC
-        {
-            get => _skillTreeUC;
-            set
-            {
-                _skillTreeUC = value;
-                RaisePropertyChanged(nameof(SkillTreeUC));
-            }
-        }
-
-        SkillTreeViewModel? _skillTreeVM;
+        public UserControl ScheduleUC { get; set; } = new ScheduleUC();
+        public UserControl SkillsUC { get; set; } = new SkillsUC();
     }
 }

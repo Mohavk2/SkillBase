@@ -103,7 +103,7 @@ namespace SkillBase.ViewModels
                         }
                         else
                         {
-                            var tree = _serviceProvider.GetRequiredService<SkillTreeViewModel>();
+                            var tree = _serviceProvider.GetRequiredService<SkillsViewModel>();
                             tree.RemoveChild(child);
                         }
                         AddChild(child);
