@@ -28,7 +28,7 @@ namespace SkillBase.ViewModels
         {
             using var db = _serviceProvider.GetRequiredService<MainDbContext>();
 
-            var tasks = await db.GetDayTasksAsync(DateTime.Now);
+            var tasks = await db.GetDayTasksAsync(CurrentDayTime);
 
             var taskFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
             var taskVMs = new ObservableCollection<SkillTaskViewModel>();
@@ -45,6 +45,7 @@ namespace SkillBase.ViewModels
             get => new UICommand((parameter) =>
             {
                 CurrentDayTime = CurrentDayTime.AddDays(1);
+                Task.Run(()=>Init());
             });
         }
 
@@ -53,6 +54,7 @@ namespace SkillBase.ViewModels
             get => new UICommand((parameter) =>
             {
                 CurrentDayTime = CurrentDayTime.AddDays(-1);
+                Task.Run(() => Init());
             });
         }
 
