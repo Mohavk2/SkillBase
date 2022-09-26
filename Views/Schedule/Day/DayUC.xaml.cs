@@ -14,16 +14,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Schedule.Day
 {
     /// <summary>
-    /// Interaction logic for ScheduleUC.xaml
+    /// Interaction logic for DayUC.xaml
     /// </summary>
-    public partial class ScheduleUC : UserControl
+    public partial class DayUC : UserControl
     {
-        public ScheduleUC()
+        public DayUC()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is DayUC duc)
+            {
+                if (duc.DataContext is DayViewModel dvm)
+                {
+                    Task.Run(() => dvm.Init());
+                }
+            }
         }
     }
 }

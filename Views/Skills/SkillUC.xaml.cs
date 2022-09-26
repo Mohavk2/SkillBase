@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Skills
 {
     /// <summary>
     /// Interaction logic for SkillUC.xaml

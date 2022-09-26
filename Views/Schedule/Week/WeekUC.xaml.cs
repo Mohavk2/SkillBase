@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Schedule.Week
 {
     /// <summary>
-    /// Interaction logic for YearUC.xaml
+    /// Interaction logic for WeekUC.xaml
     /// </summary>
-    public partial class YearUC : UserControl
+    public partial class WeekUC : UserControl
     {
-        public YearUC()
+        public WeekUC()
         {
             InitializeComponent();
         }

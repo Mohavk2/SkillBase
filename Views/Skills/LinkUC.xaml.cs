@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Skills
 {
     /// <summary>
     /// Interaction logic for LinkUC.xaml

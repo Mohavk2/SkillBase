@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Input;
 using SkillBase.ViewModels.Factories;
 using System.Windows.Threading;
+using SkillBase.Views.Schedule;
+using SkillBase.Views.Skills;
 
 namespace SkillBase.ViewModels
 {

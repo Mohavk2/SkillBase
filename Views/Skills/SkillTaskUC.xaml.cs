@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Skills
 {
     /// <summary>
     /// Interaction logic for DayTaskUC.xaml

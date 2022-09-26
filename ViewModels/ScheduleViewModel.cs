@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SkillBase.ViewModels.Common;
-using SkillBase.Views;
+using SkillBase.Views.Schedule.Day;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkillBase.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Schedule
 {
     /// <summary>
-    /// Interaction logic for WeekUC.xaml
+    /// Interaction logic for ScheduleUC.xaml
     /// </summary>
-    public partial class WeekUC : UserControl
+    public partial class ScheduleUC : UserControl
     {
-        public WeekUC()
+        public ScheduleUC()
         {
             InitializeComponent();
         }

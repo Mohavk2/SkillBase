@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Schedule.Year
 {
     /// <summary>
-    /// Interaction logic for LinksTabUC.xaml
+    /// Interaction logic for YearUC.xaml
     /// </summary>
-    public partial class LinksTabUC : UserControl
+    public partial class YearUC : UserControl
     {
-        public LinksTabUC()
+        public YearUC()
         {
             InitializeComponent();
         }

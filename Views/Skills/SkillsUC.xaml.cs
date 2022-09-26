@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SkillBase.Views
+namespace SkillBase.Views.Skills
 {
     /// <summary>
     /// Interaction logic for SkillListUC.xaml
