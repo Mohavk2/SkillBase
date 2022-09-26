@@ -6,10 +6,7 @@
              xmlns:local="clr-namespace:SkillBase.Views"
              xmlns:vm="clr-namespace:SkillBase.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d">
-    <UserControl.DataContext>
-        <vm:DayViewModel></vm:DayViewModel>
-    </UserControl.DataContext>
+             mc:Ignorable="d" IsVisibleChanged="UserControl_IsVisibleChanged">
     <Grid> 
         <Grid.RowDefinitions>
             <RowDefinition Height="80"></RowDefinition>
@@ -51,7 +48,7 @@
         </Grid>
         <ItemsControl x:Name="DayTasks" Grid.Row="1"
                           Padding="5 0 5 0" HorizontalAlignment="Stretch"
-                          ItemsSource="{Binding Tasks}">
+                          ItemsSource="{Binding TasksVMs}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <local:SkillTaskUC DataContext="{Binding}"></local:SkillTaskUC>

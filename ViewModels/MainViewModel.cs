@@ -25,9 +25,10 @@ namespace SkillBase.ViewModels
             _serviceProvider = serviceProvider;
 
             SkillsUC.DataContext = _serviceProvider.GetRequiredService<SkillsViewModel>();
+            ScheduleUC.DataContext = _serviceProvider.GetRequiredService<ScheduleViewModel>();
         }
 
-        public UserControl ScheduleUC { get; set; } = new ScheduleUC();
-        public UserControl SkillsUC { get; set; } = new SkillsUC();
+        public ScheduleUC ScheduleUC { get; set; } = new();
+        public SkillsUC SkillsUC { get; set; } = new();
     }
 }

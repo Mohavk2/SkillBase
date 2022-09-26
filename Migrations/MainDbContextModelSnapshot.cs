@@ -102,7 +102,7 @@ namespace SkillBase.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("SkillTask");
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("SkillBase.Models.Link", b =>

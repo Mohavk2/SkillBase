@@ -16,16 +16,5 @@ namespace SkillBase.Views
         {
             InitializeComponent();
         }
-        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            if((sender as TabControl)?.SelectedContent is SkillsUC stuc)
-            { 
-                if(stuc.DataContext is SkillsViewModel stvm)
-                {
-                    //stvm.SetStateToLoading();
-                    Task.Run(()=> stvm.InitSkills());
-                }
-            }
-        }
     }
 }

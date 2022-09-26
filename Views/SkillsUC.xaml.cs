@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkillBase.ViewModels;
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +24,17 @@ namespace SkillBase.Views
         public SkillsUC()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is SkillsUC suc)
+            {
+                if (suc.DataContext is SkillsViewModel svm)
+                {
+                    Task.Run(() => svm.Init());
+                }
+            }
         }
 
         Point _placementPoint;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkillBase.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace SkillBase.Views
         public DayUC()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(sender is DayUC duc){
+                if(duc.DataContext is DayViewModel dvm)
+                {
+                    Task.Run(() => dvm.Init());
+                }
+            }
         }
     }
 }

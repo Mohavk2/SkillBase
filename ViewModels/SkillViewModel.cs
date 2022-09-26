@@ -58,7 +58,7 @@ namespace SkillBase.ViewModels
                 {
                     foreach (var task in skill.DayTasks)
                     {
-                        var taskVMFactory = _serviceProvider.GetRequiredService<DayTaskViewModelFactory>();
+                        var taskVMFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
                         SkillTaskViewModel taskVM = taskVMFactory.Create(task);
                         taskVM.OnDelete += DeleteTask;
                         Tasks.Add(taskVM);
@@ -128,7 +128,7 @@ namespace SkillBase.ViewModels
                 db.Add<SkillTask>(task);
                 db.SaveChanges();
 
-                var taskVMFactory = _serviceProvider.GetRequiredService<DayTaskViewModelFactory>();
+                var taskVMFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
                 SkillTaskViewModel taskVM = taskVMFactory.Create(task);
                 taskVM.OnDelete += DeleteTask;
                 Tasks.Add(taskVM);

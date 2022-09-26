@@ -17,7 +17,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <DockPanel>
-            <TabControl Padding="0 0 0 0" TabStripPlacement="Left" SelectionChanged="TabControl_SelectionChanged">
+            <TabControl Padding="0 0 0 0" TabStripPlacement="Left">
                 <TabItem Header="Schedule" Content="{Binding ScheduleUC}"/>
                 <TabItem Header="Skills" Content="{Binding SkillsUC}"/>
                 <TabItem Header="Statistics"/>

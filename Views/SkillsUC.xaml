@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SkillBase.Views"
              xmlns:vm="clr-namespace:SkillBase.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" IsVisibleChanged="UserControl_IsVisibleChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>

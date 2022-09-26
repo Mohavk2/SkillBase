@@ -33,7 +33,7 @@ namespace SkillBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SkillTask",
+                name: "Tasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -47,9 +47,9 @@ namespace SkillBase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SkillTask", x => x.Id);
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SkillTask_Skills_SkillId",
+                        name: "FK_Tasks_Skills_SkillId",
                         column: x => x.SkillId,
                         principalTable: "Skills",
                         principalColumn: "Id",
@@ -70,9 +70,9 @@ namespace SkillBase.Migrations
                 {
                     table.PrimaryKey("PK_Link", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Link_SkillTask_SkillTaskId",
+                        name: "FK_Link_Tasks_SkillTaskId",
                         column: x => x.SkillTaskId,
-                        principalTable: "SkillTask",
+                        principalTable: "Tasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -88,8 +88,8 @@ namespace SkillBase.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SkillTask_SkillId",
-                table: "SkillTask",
+                name: "IX_Tasks_SkillId",
+                table: "Tasks",
                 column: "SkillId");
         }
 
@@ -99,7 +99,7 @@ namespace SkillBase.Migrations
                 name: "Link");
 
             migrationBuilder.DropTable(
-                name: "SkillTask");
+                name: "Tasks");
 
             migrationBuilder.DropTable(
                 name: "Skills");

@@ -8,18 +8,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TabControl>
-            <TabItem Header="Day">
-                <local:DayUC></local:DayUC>
-            </TabItem>
-            <TabItem Header="Week">
-                
-            </TabItem>
-            <TabItem Header="Month">
-                
-            </TabItem>
-            <TabItem Header="Year">
-                
-            </TabItem>
+            <TabItem Header="Day" Content="{Binding DayUC}" />
+            <TabItem Header="Week"/>
+            <TabItem Header="Month"/>
+            <TabItem Header="Year"/>
         </TabControl>
     </Grid>
 </UserControl>

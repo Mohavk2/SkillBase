@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SkillBase.ViewModels.Factories
 {
-    internal class DayTaskViewModelFactory
+    internal class SkillTaskViewModelFactory
     {
         IServiceProvider _serviceProvider;
-        public DayTaskViewModelFactory(IServiceProvider serviceProvider)
+        public SkillTaskViewModelFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

@@ -25,7 +25,7 @@ namespace SkillBase.ViewModels
         {
             _serviceProvider = serviceProvider;
         }
-        public async Task InitSkills()
+        public async Task Init()
         {
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
             if (dbContext == null) return; //TODO: error handling

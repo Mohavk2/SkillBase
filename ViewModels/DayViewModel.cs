@@ -1,6 +1,13 @@
-﻿using SkillBase.ViewModels.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SkillBase.Data;
+using SkillBase.Extensions;
+using SkillBase.Models;
+using SkillBase.ViewModels.Common;
+using SkillBase.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -11,10 +18,26 @@ namespace SkillBase.ViewModels
 {
     internal class DayViewModel : BaseViewModel
     {
-
-        public DayViewModel()
+        IServiceProvider _serviceProvider;
+        public DayViewModel(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
+        }
 
+        public async Task Init()
+        {
+            using var db = _serviceProvider.GetRequiredService<MainDbContext>();
+
+            var tasks = await db.GetDayTasksAsync(DateTime.Now);
+
+            var taskFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
+            var taskVMs = new ObservableCollection<SkillTaskViewModel>();
+            foreach(var task in tasks)
+            {
+                var tvm = taskFactory.Create(task);
+                taskVMs.Add(tvm);
+            }
+            TasksVMs = taskVMs;
         }
 
         public ICommand Forward
@@ -46,14 +69,13 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(Year));
             }
         }
-
         public int Day => _currentDayTime.Day;
         public DayOfWeek DayOfWeek => _currentDayTime.DayOfWeek;
         public string Month => _currentDayTime.ToString("MMMM");
         public int Year => _currentDayTime.Year;
 
-        List<SkillTaskViewModel> _tasksVMs = new();
-        public List<SkillTaskViewModel> TasksVMs
+        ObservableCollection<SkillTaskViewModel> _tasksVMs = new();
+        public ObservableCollection<SkillTaskViewModel> TasksVMs
         {
             get => _tasksVMs;
             set

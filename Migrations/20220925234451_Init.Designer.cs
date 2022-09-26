@@ -11,7 +11,7 @@ using SkillBase.Data;
 namespace SkillBase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220925194728_Init")]
+    [Migration("20220925234451_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,7 @@ namespace SkillBase.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("SkillTask");
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("SkillBase.Models.Link", b =>
