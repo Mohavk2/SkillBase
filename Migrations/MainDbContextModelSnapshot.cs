@@ -125,11 +125,13 @@ namespace SkillBase.Migrations
 
             modelBuilder.Entity("SkillBase.Models.SkillTask", b =>
                 {
-                    b.HasOne("SkillBase.Models.Skill", null)
+                    b.HasOne("SkillBase.Models.Skill", "Skill")
                         .WithMany("DayTasks")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Skill");
                 });
 
             modelBuilder.Entity("SkillBase.Models.Skill", b =>

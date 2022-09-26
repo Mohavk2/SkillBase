@@ -32,7 +32,9 @@ namespace SkillBase.ViewModels
             if (task != null)
             {
                 Id = task.Id;
+                
                 Name = task.Name;
+                SkillName = task.Skill?.Name ?? "";
                 Description = task.Description;
                 StartDateTime = task.StartDate ?? DateTime.Now;
                 EndDateTime = task.EndDate ?? DateTime.Now;
@@ -51,7 +53,6 @@ namespace SkillBase.ViewModels
                 }
             }
         }
-
 
         public ICommand Delete
         {
@@ -157,6 +158,8 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(IsCompleted));
             }
         }
+
+        public string SkillName { get; private set; } = "";
 
         public int SkillId { get; private set; }
 

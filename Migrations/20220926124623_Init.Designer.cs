@@ -11,7 +11,7 @@ using SkillBase.Data;
 namespace SkillBase.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220925234451_Init")]
+    [Migration("20220926124623_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,11 +127,13 @@ namespace SkillBase.Migrations
 
             modelBuilder.Entity("SkillBase.Models.SkillTask", b =>
                 {
-                    b.HasOne("SkillBase.Models.Skill", null)
+                    b.HasOne("SkillBase.Models.Skill", "Skill")
                         .WithMany("DayTasks")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Skill");
                 });
 
             modelBuilder.Entity("SkillBase.Models.Skill", b =>

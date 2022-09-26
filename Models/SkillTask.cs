@@ -19,5 +19,6 @@ namespace SkillBase.Models
         public bool IsCompleted { get; set; } = false;
         [Required]
         public int SkillId { get; set; }
+        public Skill? Skill { get; set; }
     }
 }
