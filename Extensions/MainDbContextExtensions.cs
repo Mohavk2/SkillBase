@@ -22,8 +22,11 @@ namespace SkillBase.Extensions
         }
         public static async Task<List<SkillTask>> GetDayTasksAsync(this MainDbContext context, DateTime dateTime)
         {
+            var currentDayStart = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+            var nextDateTime = dateTime.AddDays(1);
+            var nextDayStart = new DateTime(nextDateTime.Year, nextDateTime.Month, nextDateTime.Day , 0, 0, 0);
             var tasks = await context.Tasks.Where(x =>
-            x.StartDate <= dateTime && x.EndDate >= dateTime).ToListAsync();
+            (x.StartDate < nextDayStart && x.EndDate >= currentDayStart)).ToListAsync();
             return tasks;
         }
     }
