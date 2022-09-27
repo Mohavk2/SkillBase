@@ -29,5 +29,18 @@ namespace SkillBase.Extensions
             (x.StartDate < nextDayStart && x.EndDate >= currentDayStart)).Include(x => x.Skill).ToListAsync();
             return tasks;
         }
+        public static List<SkillTask> GetDayTasks(this MainDbContext context, DateTime dateTime)
+        {
+            var currentDayStart = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+            var nextDateTime = dateTime.AddDays(1);
+            var nextDayStart = new DateTime(nextDateTime.Year, nextDateTime.Month, nextDateTime.Day, 0, 0, 0);
+            var tasks = context.Tasks.Where(x =>
+            (x.StartDate < nextDayStart && x.EndDate >= currentDayStart)).Include(x => x.Skill).ToList();
+            return tasks;
+        }
+        public static List<SkillTask> GetTaskCollisions(this MainDbContext context, DateTime start, DateTime end)
+        {
+            return context.Tasks.Where(x => !(x.StartDate >= end || x.EndDate <= start)).ToList();
+        }
     }
 }

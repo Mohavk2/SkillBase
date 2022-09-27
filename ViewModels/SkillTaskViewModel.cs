@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Extensions.DependencyInjection;
 using SkillBase.Data;
+using SkillBase.Extensions;
 using SkillBase.Models;
 using SkillBase.ViewModels.Common;
 using SkillBase.ViewModels.Factories;
@@ -32,13 +34,13 @@ namespace SkillBase.ViewModels
             if (task != null)
             {
                 Id = task.Id;
-                
-                Name = task.Name;
+
+                _name = task.Name;
                 SkillName = task.Skill?.Name ?? "";
-                Description = task.Description;
-                StartDateTime = task.StartDate ?? DateTime.Now;
-                EndDateTime = task.EndDate ?? DateTime.Now;
-                IsCompleted = task.IsCompleted;
+                _description = task.Description;
+                _startDateTime = task.StartDate;
+                _endDateTime = task.EndDate;
+                _isCompleted = task.IsCompleted;
                 SkillId = task.SkillId;
 
                 if (task.Links != null)
@@ -114,37 +116,115 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(Description));
             }
         }
-        DateTime _startDateTime;
-        public DateTime StartDateTime
+        public string? _dateError;
+        public string? DateError
+        {
+            get => _dateError;
+            set
+            {
+                _dateError = value;
+                RaisePropertyChanged(nameof(DateError));
+            }
+        }
+        DateTime? _startDateTime;
+        public DateTime? StartDateTime
         {
             get => _startDateTime;
             set
             {
-                if(value > EndDateTime)
+                if (value is DateTime v && value != StartDateTime)
                 {
-                    var dt = value;
-                    EndDateTime = dt.AddHours(1);
+                    if (EndDateTime is DateTime edt)
+                    {
+                        if (v > edt || v.Date < edt.Date)
+                        {
+                            CorrectEndDateTime(v);
+                        }
+                        if (CheckIfTimeFree(v, v))
+                        {
+                            _startDateTime = v;
+                            Update(task => task.StartDate = _startDateTime);
+                            RaisePropertyChanged(nameof(StartDateTime));
+                            DateError = null;
+                        }
+                    }
+                    else if(CheckIfTimeFree(v, EndDateTime ?? v))
+                    {
+                        _startDateTime = v;
+                        Update(task => task.StartDate = _startDateTime);
+                        RaisePropertyChanged(nameof(StartDateTime));
+                        DateError = null;
+                    }
                 }
-                _startDateTime = value;
-                Update(task => task.StartDate = _startDateTime);
-                RaisePropertyChanged(nameof(StartDateTime));
             }
         }
-        DateTime _endDateTime;
-        public DateTime EndDateTime
+        void CorrectEndDateTime(DateTime value)
+        {
+            if (CheckIfTimeFree(value, value))
+            {
+                _endDateTime = value;
+                Update(task => task.EndDate = _endDateTime);
+                RaisePropertyChanged(nameof(EndDateTime));
+                DateError = null;
+            }
+        }
+        DateTime? _endDateTime;
+        public DateTime? EndDateTime
         {
             get => _endDateTime;
             set
             {
-                var dt = StartDateTime;
-                if (value < dt.AddHours(1))
+                if (value is DateTime v && value != EndDateTime)
                 {
-                    value = dt.AddHours(1);
+                    if (StartDateTime is DateTime sdt)
+                    {
+                        if (v < sdt)
+                        {
+                            v = sdt;
+                        }
+                        else if (v.Date > sdt.Date)
+                        {
+                            v = new DateTime(sdt.Year, sdt.Month, sdt.Day, 23, 59, 59);
+                        }
+                    }
+                    if (CheckIfTimeFree(StartDateTime ?? v, v))
+                    {
+                        _endDateTime = v;
+                        Update(task => task.EndDate = _endDateTime);
+                        RaisePropertyChanged(nameof(EndDateTime));
+                        DateError = null;
+                    }
                 }
-                _endDateTime = value;
-                Update(task => task.EndDate = _endDateTime);
-                RaisePropertyChanged(nameof(EndDateTime));
             }
+        }
+        bool CheckIfTimeFree(DateTime start, DateTime end)
+        {
+            using var db = _serviceProvider.GetRequiredService<MainDbContext>();
+            var dayTasks = db.GetDayTasks(start);
+            var tasksExceptCurrent = dayTasks.Where(x => x.Id != Id).ToList();
+            var collisions = tasksExceptCurrent.Where(x => !(x.StartDate >= end || x.EndDate <= start)).ToList();
+            if (collisions.Count == 0) return true;
+            PrintBusyHours(tasksExceptCurrent);
+            return false;
+        }
+        void PrintBusyHours(IEnumerable<SkillTask> tasks)
+        {
+            if(tasks.Count() == 0) return;
+            var day = tasks.First().StartDate?.ToString("dd MMM yyyy");
+            string error = "Busy hours "+ day + "\r";
+            foreach (var task in tasks)
+            {
+                error += "\u231A";
+                if (task.StartDate is DateTime sdt)
+                {
+                    error += sdt.ToString("HH:mm") + " - ";
+                }
+                if (task.EndDate is DateTime edt)
+                {
+                    error += edt.ToString("HH:mm") + "\r";
+                }
+            }
+            DateError = error;
         }
 
         bool _isCompleted = false;
