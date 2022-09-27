@@ -103,7 +103,7 @@ namespace SkillBase.Views.Skills
 
         private void AddDayTask_Click(object sender, RoutedEventArgs e)
         {
-            DayTasksToggle.IsChecked = true;
+            TasksExpander.IsExpanded = true;
         }
 
         private void DayTasksToggle_Checked(object sender, RoutedEventArgs e)

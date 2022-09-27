@@ -226,7 +226,17 @@ namespace SkillBase.ViewModels
             }
             DateError = error;
         }
-
+        public int Minutes
+        {
+            get
+            {
+                if (EndDateTime is DateTime end && StartDateTime is DateTime start)
+                {
+                    return (int)(end - start).TotalMinutes;
+                }
+                return 0;
+            }
+        }
         bool _isCompleted = false;
         public bool IsCompleted
         {

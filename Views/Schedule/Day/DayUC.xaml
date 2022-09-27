@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dayViews="clr-namespace:SkillBase.Views.Schedule.Day"
+             xmlns:converters="clr-namespace:SkillBase.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" IsVisibleChanged="UserControl_IsVisibleChanged">
-    <Grid> 
+    <UserControl.Resources>
+        <converters:DateTimeToMinutesConverter x:Key="DateTimeToMinutesConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"></RowDefinition>
             <RowDefinition ></RowDefinition>
@@ -43,24 +47,37 @@
                     Style="{StaticResource MaterialDesignIconButton}">
                 <materialDesign:PackIcon Kind="ArrowRight" />
             </Button>
-
         </Grid>
-        <Grid  Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="1">
-                <ItemsControl x:Name="DayTasks" Height="720"
-                          Padding="5 0 5 0" HorizontalAlignment="Stretch"
+        <ScrollViewer Grid.Row="1">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="87"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <dayViews:Scale></dayViews:Scale>
+
+                <ItemsControl  Grid.Column="1" x:Name="DayTasks" Height="1442"
+                          Padding="5 0 5 0" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Center"
                           ItemsSource="{Binding TasksVMs}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Top" Value="{Binding Path=StartDateTime,Converter={StaticResource DateTimeToMinutesConverter}}" />
+                            <Setter Property="Height" Value="{Binding Minutes}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <dayViews:TaskUC DataContext="{Binding}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </ScrollViewer>
-        </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

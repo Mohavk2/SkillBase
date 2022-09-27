@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SkillBase.Views.Schedule.Day"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Height="30">
+    <Grid Background="GreenYellow">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>

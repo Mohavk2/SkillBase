@@ -75,30 +75,31 @@
                                  LostFocus="SkillDescription_LostFocus" GotFocus="SkillDescription_GotFocus"/>
                         <!--Description-->
                         <!--Tasks-->
-                        <StackPanel Width="210" Margin="13 2 5 0" Orientation="Horizontal">
-                            <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
+                        <Expander x:Name="TasksExpander" IsExpanded="True"
+                                  materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                                  materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
+                            <Expander.Header>
+                                <Grid>
+                                    <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
                                 Tasks
-                            </TextBlock>
-                            <Button x:Name="AddDayTask" Width="25" Height="25"
-                                    Command="{Binding CreateDayTask}"
-                                    Style="{StaticResource MaterialDesignIconButton}"
-                                     ToolTip="Add link" Click="AddDayTask_Click" >
-                                <materialDesign:PackIcon Kind="Plus" />
-                            </Button>
-                            <ToggleButton x:Name="DayTasksToggle" Width="25" Height="25" HorizontalAlignment="Right"
-                                          Style="{StaticResource MaterialDesignFlatToggleButton}"
-                                          ToolTip="Show/hide Tasks" Checked="DayTasksToggle_Checked" Unchecked="DayTasksToggle_Unchecked">
-                                <materialDesign:PackIcon Width="20" Height="20" Kind="FormatListText" />
-                            </ToggleButton>
-                        </StackPanel>
-                        <ItemsControl x:Name="DayTasks" HorizontalAlignment="Stretch" Padding="5 0 5 0"
-                                      ItemsSource="{Binding Tasks}" Visibility="Collapsed">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <skillsViews:SkillTaskUC DataContext="{Binding}"></skillsViews:SkillTaskUC>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                    </TextBlock>
+                                    <Button x:Name="AddDayTask" Width="25" Height="25" Margin="0 0 -10 0" HorizontalAlignment="Right"
+                                            Command="{Binding CreateDayTask}"
+                                            Style="{StaticResource MaterialDesignIconButton}"
+                                            ToolTip="Add link" Click="AddDayTask_Click" >
+                                        <materialDesign:PackIcon Kind="Plus" Width="22" Height="22"/>
+                                    </Button>
+                                </Grid>
+                            </Expander.Header>
+                            <ItemsControl x:Name="DayTasks" HorizontalAlignment="Stretch" Padding="5 0 5 0"
+                                      ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <skillsViews:SkillTaskUC DataContext="{Binding}"></skillsViews:SkillTaskUC>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Expander>
                         <!--Tasks-->
                         <!--Notes-->
                         <Separator/>
