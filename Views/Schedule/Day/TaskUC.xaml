@@ -11,7 +11,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding StartDateTime}"></TextBlock>
-        <TextBlock Grid.Row="1" Text="{Binding EndDateTime}"></TextBlock>
+        <TextBlock Text="{Binding StartTime}"></TextBlock>
+        <TextBlock Grid.Row="1" Text="{Binding EndTime}"></TextBlock>
     </Grid>
 </UserControl>

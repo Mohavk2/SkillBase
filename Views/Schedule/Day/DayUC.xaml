@@ -67,7 +67,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.Top" Value="{Binding Path=StartDateTime,Converter={StaticResource DateTimeToMinutesConverter}}" />
+                            <Setter Property="Canvas.Top" Value="{Binding Path=StartTime,Converter={StaticResource DateTimeToMinutesConverter}}" />
                             <Setter Property="Height" Value="{Binding Minutes}"/>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
