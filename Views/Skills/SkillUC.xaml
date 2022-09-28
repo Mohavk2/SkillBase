@@ -33,11 +33,11 @@
                                 ToolTip="Add skill" Click="AddSkill_Click">
                             <materialDesign:PackIcon Kind="PlusCircle"/>
                         </Button>
-                        <ToggleButton x:Name="ShowSubskills" ToolTip="Show subskills" Width="25" Height="25" Margin="0 0 -5 0"
-                                      IsEnabled="{Binding HasChildren}"
+                        <ToggleButton x:Name="ShowSubskillsToggle" ToolTip="Show subskills" Width="25" Height="25" Margin="0 0 -5 0"
+                                      IsEnabled="{Binding HasChildren}" IsChecked="True"
                                       Style="{StaticResource MaterialDesignActionToggleButton}"
                                       Content="{materialDesign:PackIcon Kind=ArrowRightDropCircleOutline}"
-                                      materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowLeftDropCircleOutline}" Click="ShowSubskills_Click" />
+                                      materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowLeftDropCircleOutline}"/>
                     </StackPanel>
                 </materialDesign:Chip.Content>
                 <materialDesign:Chip.Icon>
@@ -67,7 +67,7 @@
             <Border Width="210" Background="White" BorderBrush="Gray" BorderThickness="1">
                 <StackPanel>
                     <!--BODY-->
-                    <StackPanel x:Name="SkillCard" Visibility="Collapsed">
+                    <StackPanel x:Name="SkillCard" Visibility="Visible">
                         <!--Description-->
                         <TextBox x:Name="SkillDescription" Text="{Binding Description, Mode=TwoWay}" Padding="10 0 10 0"
                                  TextWrapping="Wrap"
@@ -128,7 +128,7 @@
                                          Background="#FFBACFD9" Cursor="Hand"
                                          MouseLeftButtonUp="CardFooter_MouseLeftButtonUp">
                         <Grid Margin="0 0 2 0">
-                            <materialDesign:PackIcon x:Name="CollapsIcon" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="ArrowCollapseDown"/>
+                            <materialDesign:PackIcon x:Name="CollapsIcon" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="ArrowCollapseUp"/>
                             <Button x:Name="DeleteSkill" Command="{Binding DeleteSkill}"
                                     HorizontalAlignment="Right"
                                     Padding="0" Width="25" Height="25"
@@ -143,7 +143,8 @@
             </Border>
         </StackPanel>
         <!--CHILDREN-->
-        <Viewbox x:Name="SkillBox" Visibility="Collapsed">
+        <Viewbox x:Name="SkillBox" 
+                 Visibility="{Binding ElementName=ShowSubskillsToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}">
             <ItemsControl x:Name="SkillsControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

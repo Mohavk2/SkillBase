@@ -118,6 +118,8 @@ namespace SkillBase.ViewModels
                 RaisePropertyChanged(nameof(Description));
             }
         }
+        public bool IsTimeSet => (Date == null || StartTime == null || EndTime == null);
+
         DateTime? _date;
         public DateTime? Date
         {
@@ -184,6 +186,7 @@ namespace SkillBase.ViewModels
                         task.StartDate = start;
                         task.EndDate = end;
                         db.SaveChanges();
+                        RaisePropertyChanged(nameof(IsTimeSet));
                     }
                 }
             }

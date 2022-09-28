@@ -32,14 +32,7 @@ namespace SkillBase.Views.Skills
 
         private void AddSkill_Click(object sender, RoutedEventArgs e)
         {
-            SkillBox.Visibility = Visibility.Visible;
-            ShowSubskills.IsChecked = true;
-            e.Handled = true;
-        }
-
-        private void ShowSubskills_Click(object sender, RoutedEventArgs e)
-        {
-            SkillBox.Visibility = SkillBox.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            ShowSubskillsToggle.IsChecked = true;
             e.Handled = true;
         }
 
@@ -104,16 +97,6 @@ namespace SkillBase.Views.Skills
         private void AddDayTask_Click(object sender, RoutedEventArgs e)
         {
             TasksExpander.IsExpanded = true;
-        }
-
-        private void DayTasksToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            DayTasks.Visibility = Visibility.Visible;
-        }
-
-        private void DayTasksToggle_Unchecked(object sender, RoutedEventArgs e)
-        {
-            DayTasks.Visibility = Visibility.Collapsed;
         }
 
         private void Notes_GotFocus(object sender, RoutedEventArgs e)

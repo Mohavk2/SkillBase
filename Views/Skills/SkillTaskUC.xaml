@@ -5,85 +5,102 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:skillsViews="clr-namespace:SkillBase.Views.Skills" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:SkillBase.Converters"
              mc:Ignorable="d" Margin="0 0 0 5">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converters:StringToVisibility x:Key="StringToVis" />
+    </UserControl.Resources>
     <Border BorderBrush="Gray" BorderThickness="1">
-        <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="22"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Button Grid.Column="0" Height="20" Width="20" Padding="0"
-                    HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Foreground="red" Command="{Binding Delete}"
-                    Style="{StaticResource MaterialDesignIconButton}"
-                    ToolTip="Delete task">
-                    <materialDesign:PackIcon Padding="0" Height="15" Width="15" Kind="Close"/>
-                </Button>
-                <TextBox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
-                         BorderThickness="0" TextWrapping="Wrap"
-                         materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
-                     Text="{Binding Name}"/>
-                <CheckBox Grid.Column="2" IsChecked="{Binding IsCompleted}"
-                      HorizontalAlignment="Right" VerticalAlignment="Center"
-                      materialDesign:CheckBoxAssist.CheckBoxSize="25"
-                  Style="{StaticResource MaterialDesignAccentCheckBox}" />
-                <DatePicker Grid.ColumnSpan="3" Grid.Row="1" Height="25"
+        <Expander x:Name="TaskExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                  materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
+            <Expander.Header>
+                <Grid Margin="0 0 -20 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="30"></ColumnDefinition>
+                        <ColumnDefinition Width="30"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Height="20" Width="20" Padding="0"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Foreground="red" Command="{Binding Delete}"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="Delete task">
+                        <materialDesign:PackIcon Padding="0" Height="15" Width="15" Kind="Close"/>
+                    </Button>
+                    <TextBox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                             BorderThickness="0" TextWrapping="Wrap"
+                             materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
+                             Text="{Binding Name}"/>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Visibility="{Binding IsTimeSet, Converter={StaticResource BoolToVis}}">
+                        <TextBlock FontSize="10" VerticalAlignment="Center" >&#x1F558;</TextBlock>
+                        <TextBlock FontSize="14" VerticalAlignment="Center" >?</TextBlock>
+                    </StackPanel>
+                    <CheckBox Grid.Column="3" IsChecked="{Binding IsCompleted}"
+                              HorizontalAlignment="Right"
+                              materialDesign:CheckBoxAssist.CheckBoxSize="25"
+                              Style="{StaticResource MaterialDesignAccentCheckBox}" />
+                </Grid>
+            </Expander.Header>
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DatePicker Grid.Row="0" Height="25"
                             SelectedDate="{Binding Date, Mode=TwoWay}"
                             Padding="3 0" Margin="5 3"
                             materialDesign:HintAssist.Hint="Start date"
                             Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
-                <materialDesign:TimePicker Grid.ColumnSpan="3" Grid.Row="2" Width="90" Height="25"
+                    <materialDesign:TimePicker Grid.Row="1" Width="90" Height="25"
                                            Padding="3 0" Margin="5 3"
                                            SelectedTime="{Binding StartTime, Mode=TwoWay}" Is24Hours="True"
                                            HorizontalAlignment="Left"
                                            materialDesign:HintAssist.Hint="Start time"
                                            Style="{StaticResource MaterialDesignOutlinedTimePicker}" />
-                <materialDesign:TimePicker Grid.ColumnSpan="3" Grid.Row="2" Width="90" Height="25"
+                    <materialDesign:TimePicker Grid.Row="1" Width="90" Height="25"
                                            Padding="3 0" Margin="5 3"
                                            SelectedTime="{Binding EndTime, Mode=TwoWay}" Is24Hours="True"
                                            HorizontalAlignment="Right"
                                            materialDesign:HintAssist.Hint="End time"
                                            Style="{StaticResource MaterialDesignOutlinedTimePicker}" />
-                <TextBlock Grid.Row="3" Grid.ColumnSpan="3" 
-                           Padding="5 0"
+                    <TextBlock Grid.Row="2"
+                           Padding="5 0" Visibility="{Binding DateError, Converter={StaticResource StringToVis}}"
                            TextWrapping="Wrap" Text="{Binding DateError}" Foreground="red"/>
-            </Grid>
-            <!--Links-->
-            <Expander x:Name="LinksExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                </Grid>
+                <!--Links-->
+                <Expander x:Name="LinksExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
-                <Expander.Header>
-                    <Grid>
-                        <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
+                    <Expander.Header>
+                        <Grid>
+                            <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
                                 Links
-                        </TextBlock>
-                        <Button x:Name="AddLink" Width="25" Height="25" Margin="0 0 -15 0"
+                            </TextBlock>
+                            <Button x:Name="AddLink" Width="25" Height="25" Margin="0 0 -15 0"
                                 HorizontalAlignment="Right"
                                 Command="{Binding CreateLink}"
                                 Style="{StaticResource MaterialDesignIconButton}"
                                 Click="AddLink_Click" ToolTip="Add link" >
-                            <materialDesign:PackIcon Kind="Plus" Width="20" Height="20"/>
-                        </Button>
-                    </Grid>
-                </Expander.Header>
-                <ItemsControl x:Name="SkillLinks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
+                                <materialDesign:PackIcon Kind="Plus" Width="20" Height="20"/>
+                            </Button>
+                        </Grid>
+                    </Expander.Header>
+                    <ItemsControl x:Name="SkillLinks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
                                       ItemsSource="{Binding Links}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <skillsViews:LinkUC DataContext="{Binding}"></skillsViews:LinkUC>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Expander>
-            <!--Links-->
-        </StackPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <skillsViews:LinkUC DataContext="{Binding}"></skillsViews:LinkUC>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+                <!--Links-->
+            </StackPanel>
+        </Expander>
     </Border>
 </UserControl>
