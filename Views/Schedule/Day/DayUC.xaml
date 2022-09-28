@@ -57,7 +57,7 @@
                 <dayViews:Scale></dayViews:Scale>
 
                 <ItemsControl  Grid.Column="1" x:Name="DayTasks" Height="1442"
-                          Padding="5 0 5 0" 
+                          Padding="10 0 10 0" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Center"
                           ItemsSource="{Binding TasksVMs}">
                     <ItemsControl.ItemsPanel>
