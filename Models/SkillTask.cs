@@ -20,5 +20,6 @@ namespace SkillBase.Models
         [Required]
         public int SkillId { get; set; }
         public Skill? Skill { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

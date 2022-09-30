@@ -35,13 +35,12 @@ namespace SkillBase.ViewModels
             if (task != null)
             {
                 Id = task.Id;
-
                 _name = task.Name;
                 SkillName = task.Skill?.Name ?? "";
                 _description = task.Description;
-                _date = (task.StartDate as DateTime?)?.Date;
-                _startTime = (task.StartDate as DateTime?)?.GetTime();
-                _endTime = (task.EndDate as DateTime?)?.GetTime();
+                _date = task.StartDate;
+                _startTime = task.StartDate;
+                _endTime = task.EndDate;
                 _isCompleted = task.IsCompleted;
                 SkillId = task.SkillId;
 
@@ -123,12 +122,16 @@ namespace SkillBase.ViewModels
         DateTime? _date;
         public DateTime? Date
         {
-            get => _date;
+            get {
+                var b = _date?.ToLocalTime();
+                return b;
+            }
             set
             {
-                if (value is DateTime v && v.Date != _date)
+                if (value is DateTime v)
                 {
-                    _date = v.Date;
+                    DateTime time = v.ToUniversalTime();
+                    _date = time;
                     RaisePropertyChanged(nameof(Date));
                     SaveTime();
                 }
@@ -137,13 +140,13 @@ namespace SkillBase.ViewModels
         DateTime? _startTime;
         public DateTime? StartTime
         {
-            get => _startTime;
+            get => _startTime?.ToLocalTime();
             set
             {
                 if (value is DateTime v)
                 {
-                    DateTime time = v.GetTime();
-                    if(time != _startTime && (EndTime == null || time < EndTime))
+                    DateTime time = v.ToUniversalTime();
+                    if(time != _startTime && (_endTime == null || time < _endTime))
                     {
                         _startTime = time;
                         RaisePropertyChanged(nameof(StartTime));
@@ -155,13 +158,13 @@ namespace SkillBase.ViewModels
         DateTime? _endTime;
         public DateTime? EndTime
         {
-            get => _endTime;
+            get => _endTime?.ToLocalTime();
             set
             {
                 if (value is DateTime v)
                 {
-                    DateTime time = v.GetTime();
-                    if (time != _endTime && (StartTime == null || time > StartTime))
+                    DateTime time = v.ToUniversalTime();
+                    if (time != _endTime && (_startTime == null || time > _startTime))
                     {
                         _endTime = time;
                         RaisePropertyChanged(nameof(EndTime));
@@ -172,7 +175,7 @@ namespace SkillBase.ViewModels
         }
         void SaveTime()
         {
-            if (Date is DateTime d && StartTime is DateTime st && EndTime is DateTime et)
+            if (Date is DateTime d && _startTime is DateTime st && _endTime is DateTime et)
             {
                 DateTime start = d.SetTime(st);
                 DateTime end = d.SetTime(et);
@@ -204,24 +207,24 @@ namespace SkillBase.ViewModels
                 return true;
             }
 
-            PrintBusyHours(tasksExceptCurrent);
+            PrintBusyHours(tasksExceptCurrent.OrderBy(x=> x.StartDate));
             return false;
         }
         void PrintBusyHours(IEnumerable<SkillTask> tasks)
         {
             if (tasks.Count() == 0) return;
-            var day = tasks.First().StartDate?.ToString("dd MMM yyyy");
+            var day = tasks.First().StartDate?.ToLocalTime().ToString("dd MMM yyyy");
             string error = "Busy hours " + day + "\r";
             foreach (var task in tasks)
             {
                 error += "\u231A";
                 if (task.StartDate is DateTime sdt)
                 {
-                    error += sdt.ToString("HH:mm") + " - ";
+                    error += sdt.ToLocalTime().ToString("HH:mm") + " - ";
                 }
                 if (task.EndDate is DateTime edt)
                 {
-                    error += edt.ToString("HH:mm") + "\r";
+                    error += edt.ToLocalTime().ToString("HH:mm") + "\r";
                 }
             }
             DateError = error;

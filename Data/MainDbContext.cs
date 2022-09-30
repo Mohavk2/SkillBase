@@ -7,6 +7,8 @@ namespace SkillBase.Data
     {
         public DbSet<Skill> Skills => Set<Skill>();
         public DbSet<SkillTask> Tasks => Set<SkillTask>();
+        public DbSet<Link> Links => Set<Link>();
+
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
             Database.EnsureCreated();

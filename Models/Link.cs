@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkillBase.Models
 {
@@ -10,5 +11,6 @@ namespace SkillBase.Models
         public string? Url { get; set; } = "https://google.com";
         [Required]
         public int SkillTaskId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

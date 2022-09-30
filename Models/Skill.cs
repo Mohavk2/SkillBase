@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkillBase.Models
@@ -16,5 +17,6 @@ namespace SkillBase.Models
         public int? ParentId { get; set; }
         public Skill? Parent { get; set; }
         public virtual List<Skill>? Children { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

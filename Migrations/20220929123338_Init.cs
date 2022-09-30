@@ -20,7 +20,8 @@ namespace SkillBase.Migrations
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
                     Color = table.Column<string>(type: "TEXT", nullable: false),
                     IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ParentId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ParentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,7 +44,8 @@ namespace SkillBase.Migrations
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     EndDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    SkillId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SkillId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,20 +59,21 @@ namespace SkillBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Link",
+                name: "Links",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Url = table.Column<string>(type: "TEXT", nullable: false),
-                    SkillTaskId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SkillTaskId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Link", x => x.Id);
+                    table.PrimaryKey("PK_Links", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Link_Tasks_SkillTaskId",
+                        name: "FK_Links_Tasks_SkillTaskId",
                         column: x => x.SkillTaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
@@ -78,8 +81,8 @@ namespace SkillBase.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Link_SkillTaskId",
-                table: "Link",
+                name: "IX_Links_SkillTaskId",
+                table: "Links",
                 column: "SkillTaskId");
 
             migrationBuilder.CreateIndex(
@@ -96,7 +99,7 @@ namespace SkillBase.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Link");
+                name: "Links");
 
             migrationBuilder.DropTable(
                 name: "Tasks");
