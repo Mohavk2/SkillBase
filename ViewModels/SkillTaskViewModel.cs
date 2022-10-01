@@ -46,7 +46,7 @@ namespace SkillBase.ViewModels
 
                 if (task.Links != null)
                 {
-                    foreach (var link in task.Links)
+                    foreach (var link in task.Links.OrderByDescending(x => x.CreatedAt))
                     {
                         var linkVMFactory = _serviceProvider.GetRequiredService<LinkViewModelFactory>();
                         LinkViewModel linkVM = linkVMFactory.Create(link);
@@ -85,7 +85,7 @@ namespace SkillBase.ViewModels
                 var linkVMFactory = _serviceProvider.GetRequiredService<LinkViewModelFactory>();
                 LinkViewModel linkVM = linkVMFactory.Create(link);
                 linkVM.OnDelete += DeleteLink;
-                Links.Add(linkVM);
+                Links.Insert(0, linkVM);
             });
         }
         void DeleteLink(LinkViewModel linkVM)

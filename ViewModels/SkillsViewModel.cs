@@ -34,7 +34,7 @@ namespace SkillBase.ViewModels
             SetLoadingView(true);
 
             ObservableCollection<SkillViewModel> _skillVMs = new();
-            foreach (Skill skill in skills)
+            foreach (Skill skill in skills.OrderByDescending(x => x.CreatedAt))
             {
                 var skillFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
                 var skillVM = skillFactory?.Create(skill, null);
@@ -140,7 +140,7 @@ namespace SkillBase.ViewModels
             var skillVMFactory = _serviceProvider.GetRequiredService<SkillViewModelFactory>();
             var skillVM = skillVMFactory.Create(skill, null);
             skillVM.OnDelete += Delete;
-            SkillVMs.Add(skillVM);
+            SkillVMs.Insert(0, skillVM);
         });
 
         internal void RemoveChild(SkillViewModel childVM)

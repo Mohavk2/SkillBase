@@ -43,7 +43,7 @@ namespace SkillBase.ViewModels
 
                 if (skill.Children != null)
                 {
-                    foreach (var child in skill.Children)
+                    foreach (var child in skill.Children.OrderByDescending(x => x.CreatedAt))
                     {
                         var skillVMFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
                         if (skillVMFactory != null)
@@ -131,7 +131,7 @@ namespace SkillBase.ViewModels
                 var taskVMFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
                 SkillTaskViewModel taskVM = taskVMFactory.Create(task);
                 taskVM.OnDelete += DeleteTask;
-                Tasks.Add(taskVM);
+                Tasks.Insert(0, taskVM);
             });
         }
 
@@ -149,7 +149,7 @@ namespace SkillBase.ViewModels
                 var skillVMFactory = _serviceProvider.GetRequiredService<SkillViewModelFactory>();
                 var skillVM = skillVMFactory.Create(skill, this);
                 skillVM.OnDelete += Delete;
-                SkillVMs.Add(skillVM);
+                SkillVMs.Insert(0, skillVM);
                 RaisePropertyChanged(nameof(HasChildren));
             });
         }
@@ -246,7 +246,7 @@ namespace SkillBase.ViewModels
             childVM.SetParent(this);
             if (SkillVMs.Any(vm => vm.Id == childVM.Id) == false)
             {
-                SkillVMs.Add(childVM);
+                SkillVMs.Insert(0, childVM);
             }
             RaisePropertyChanged(nameof(HasChildren));
         }
