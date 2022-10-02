@@ -18,7 +18,7 @@ namespace SkillBase.ViewModels
 {
     delegate void DeleteSkillHandler(SkillViewModel skillVM);
 
-    internal class SkillViewModel : BaseViewModel
+    internal class SkillViewModel : BaseViewModel, IDisposable
     {
         public event DeleteSkillHandler? OnDelete;
 
@@ -71,6 +71,12 @@ namespace SkillBase.ViewModels
         {
             foreach (var vm in SkillVMs)
             {
+                vm.OnDelete -= Delete;
+                vm.Dispose();
+            }
+            foreach(var vm in Tasks)
+            {
+                vm.OnDelete -= DeleteTask;
                 vm.Dispose();
             }
             using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
@@ -84,6 +90,7 @@ namespace SkillBase.ViewModels
 
         void Delete(SkillViewModel skillVM)
         {
+            skillVM.OnDelete -= Delete;
             skillVM.Dispose();
             SkillVMs.Remove(skillVM);
             RaisePropertyChanged(nameof(HasChildren));
@@ -212,6 +219,7 @@ namespace SkillBase.ViewModels
         public ObservableCollection<SkillTaskViewModel> Tasks { get; set; } = new();
         private void DeleteTask(SkillTaskViewModel taskVM)
         {
+            taskVM.OnDelete -= DeleteTask;
             Tasks.Remove(taskVM);
         }
 
@@ -244,6 +252,7 @@ namespace SkillBase.ViewModels
         public void AddChild(SkillViewModel childVM)
         {
             childVM.SetParent(this);
+            childVM.OnDelete += Delete;
             if (SkillVMs.Any(vm => vm.Id == childVM.Id) == false)
             {
                 SkillVMs.Insert(0, childVM);
@@ -253,6 +262,7 @@ namespace SkillBase.ViewModels
 
         public void RemoveChild(SkillViewModel childVM)
         {
+            childVM.OnDelete -= Delete;
             SkillVMs.Remove(childVM);
             RaisePropertyChanged(nameof(HasChildren));
         }

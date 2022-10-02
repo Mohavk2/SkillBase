@@ -20,7 +20,7 @@ namespace SkillBase.ViewModels
 {
     delegate void DeleteSkillTaskHandler(SkillTaskViewModel task);
 
-    internal class SkillTaskViewModel : BaseViewModel
+    internal class SkillTaskViewModel : BaseViewModel, IDisposable
     {
         public event DeleteSkillTaskHandler? OnDelete;
 
@@ -54,6 +54,13 @@ namespace SkillBase.ViewModels
                         Links.Add(linkVM);
                     }
                 }
+            }
+        }
+        public void Dispose()
+        {
+            foreach(var vm in Links)
+            {
+                vm.OnDelete -= DeleteLink;
             }
         }
 
@@ -90,6 +97,7 @@ namespace SkillBase.ViewModels
         }
         void DeleteLink(LinkViewModel linkVM)
         {
+            linkVM.OnDelete -=DeleteLink;
             Links.Remove(linkVM);
         }
 
