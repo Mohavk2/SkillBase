@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillBase.ViewModels
+namespace SkillBase.ViewModels.Schedule
 {
     internal class ScheduleViewModel : BaseViewModel
     {

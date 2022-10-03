@@ -16,6 +16,8 @@ using SkillBase.ViewModels.Factories;
 using System.Windows.Threading;
 using SkillBase.Views.Schedule;
 using SkillBase.Views.Skills;
+using SkillBase.ViewModels.Schedule;
+using SkillBase.ViewModels.Skills;
 
 namespace SkillBase.ViewModels
 {

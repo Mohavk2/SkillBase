@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SkillBase.ViewModels
+namespace SkillBase.ViewModels.Skills
 {
     internal class SkillsViewModel : BaseViewModel, IDisposable
     {
@@ -50,7 +50,7 @@ namespace SkillBase.ViewModels
         }
         public void Dispose()
         {
-            foreach(var vm in _skillVMs)
+            foreach (var vm in _skillVMs)
             {
                 vm.OnDelete -= Delete;
                 vm.Dispose();

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using SkillBase.Data;
 using SkillBase.ViewModels;
 using SkillBase.ViewModels.Factories;
+using SkillBase.ViewModels.Schedule;
+using SkillBase.ViewModels.Skills;
 using SkillBase.Views;
 using System.IO;
 using System.Windows;

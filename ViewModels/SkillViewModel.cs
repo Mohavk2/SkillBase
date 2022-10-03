@@ -4,6 +4,7 @@ using SkillBase.Data;
 using SkillBase.Models;
 using SkillBase.ViewModels.Common;
 using SkillBase.ViewModels.Factories;
+using SkillBase.ViewModels.Skills;
 using SkillBase.Views;
 using System;
 using System.Collections.Generic;

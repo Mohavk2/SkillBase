@@ -1,4 +1,4 @@
-﻿using SkillBase.ViewModels;
+﻿using SkillBase.ViewModels.Skills;
 using System;
 using System.Threading.Tasks;
 using System.Windows;

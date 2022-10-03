@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SkillBase.ViewModels
+namespace SkillBase.ViewModels.Schedule
 {
     internal class DayViewModel : BaseViewModel
     {
@@ -32,7 +32,7 @@ namespace SkillBase.ViewModels
 
             var taskFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
             var taskVMs = new ObservableCollection<SkillTaskViewModel>();
-            foreach(var task in tasks)
+            foreach (var task in tasks)
             {
                 var tvm = taskFactory.Create(task);
                 taskVMs.Add(tvm);
@@ -45,7 +45,7 @@ namespace SkillBase.ViewModels
             get => new UICommand((parameter) =>
             {
                 CurrentDayTime = CurrentDayTime.AddDays(1);
-                Task.Run(()=>Init());
+                Task.Run(() => Init());
             });
         }
 
