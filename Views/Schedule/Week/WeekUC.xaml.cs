@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkillBase.ViewModels.Schedule;
+using SkillBase.Views.Schedule.Day;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,17 @@ namespace SkillBase.Views.Schedule.Week
         public WeekUC()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is WeekUC wuc && wuc.IsVisible)
+            {
+                if (wuc.DataContext is WeekViewModel wvm)
+                {
+                    Task.Run(() => wvm.Init());
+                }
+            }
         }
     }
 }

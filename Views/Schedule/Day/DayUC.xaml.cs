@@ -28,7 +28,7 @@ namespace SkillBase.Views.Schedule.Day
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is DayUC duc)
+            if (sender is DayUC duc && duc.IsVisible)
             {
                 if (duc.DataContext is DayViewModel dvm)
                 {

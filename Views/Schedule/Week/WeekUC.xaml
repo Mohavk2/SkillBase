@@ -3,10 +3,86 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SkillBase.Views"
+             xmlns:week="clr-namespace:SkillBase.Views.Schedule.Week" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="450" d:DesignWidth="800" IsVisibleChanged="UserControl_IsVisibleChanged" >
+    <Grid Margin="10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="0 0 10 0" Command="{Binding Back}"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="ArrowBack" />
+            </Button>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="MonthFrom"
+                       Text="{Binding MonthFrom}" FontSize="18"
+                       Margin="0 0 10 0" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="YearFrom" Text="{Binding YearFrom}" Grid.Column="1" 
+                       FontSize="18"
+                       HorizontalAlignment="Right"/>
+                <TextBlock x:Name="DayOfWeekFrom" Text="{Binding DayOfWeekFrom}" Grid.Row="1"
+                       FontSize="18" FontWeight="Bold"
+                       Margin="0 0 10 0" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="DayFrom" Text="{Binding DayFrom}" Grid.Row="1" Grid.Column="1" 
+                       FontSize="18" FontWeight="Bold"
+                       Margin="0 0 0 0" HorizontalAlignment="Left"/>
+            </Grid>
+            <TextBlock Margin="10" VerticalAlignment="Center" FontSize="42">-</TextBlock>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="MonthTo"
+                       Text="{Binding MonthTo}" FontSize="18"
+                       Margin="0 0 10 0" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="YearTo" Text="{Binding YearTo}" Grid.Column="1" 
+                       FontSize="18"
+                       HorizontalAlignment="Right"/>
+                <TextBlock x:Name="DayOfWeekTo" Text="{Binding DayOfWeekTo}" Grid.Row="1"
+                       FontSize="18" FontWeight="Bold"
+                       Margin="0 0 10 0" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="DayTo" Text="{Binding DayTo}" Grid.Row="1" Grid.Column="1" 
+                       FontSize="18" FontWeight="Bold"
+                       Margin="0 0 0 0" HorizontalAlignment="Left"/>
+            </Grid>
+            <Button Command="{Binding Forward}"
+                    Margin="10 0 0 0" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="ArrowRight" />
+            </Button>
+        </StackPanel>
+        <Viewbox Grid.Row="1" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding DayOfWeekVMs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <week:DayOfWeekUC DataContext="{Binding}"></week:DayOfWeekUC>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Viewbox>
     </Grid>
 </UserControl>

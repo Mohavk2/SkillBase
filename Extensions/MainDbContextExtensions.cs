@@ -38,6 +38,13 @@ namespace SkillBase.Extensions
             (x.StartDate < nextDayStart && x.EndDate >= currentDayStart)).Include(x => x.Skill).ToList();
             return tasks;
         }
+        public static async Task<List<SkillTask>> GetWeekTasksAsync(this MainDbContext context, DateTime weekStart)
+        {
+            var weekEnd = weekStart.AddDays(7);
+            var tasks = await context.Tasks.Where(x =>
+            (x.StartDate < weekEnd && x.EndDate >= weekStart)).Include(x => x.Skill).ToListAsync();
+            return tasks;
+        }
         public static List<SkillTask> GetTaskCollisions(this MainDbContext context, DateTime start, DateTime end)
         {
             return context.Tasks.Where(x => !(x.StartDate >= end || x.EndDate <= start)).ToList();

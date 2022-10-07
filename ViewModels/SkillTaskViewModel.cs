@@ -131,15 +131,13 @@ namespace SkillBase.ViewModels
         public DateTime? Date
         {
             get {
-                var b = _date?.ToLocalTime();
-                return b;
+                return _date;
             }
             set
             {
                 if (value is DateTime v)
                 {
-                    DateTime time = v.ToUniversalTime();
-                    _date = time;
+                    _date = v;
                     RaisePropertyChanged(nameof(Date));
                     SaveTime();
                 }
@@ -148,15 +146,14 @@ namespace SkillBase.ViewModels
         DateTime? _startTime;
         public DateTime? StartTime
         {
-            get => _startTime?.ToLocalTime();
+            get => _startTime;
             set
             {
                 if (value is DateTime v)
                 {
-                    DateTime time = v.ToUniversalTime();
-                    if(time != _startTime && (_endTime == null || time < _endTime))
+                    if(v != _startTime && (_endTime == null || v < _endTime))
                     {
-                        _startTime = time;
+                        _startTime = v;
                         RaisePropertyChanged(nameof(StartTime));
                         SaveTime();
                     }
@@ -166,15 +163,14 @@ namespace SkillBase.ViewModels
         DateTime? _endTime;
         public DateTime? EndTime
         {
-            get => _endTime?.ToLocalTime();
+            get => _endTime;
             set
             {
                 if (value is DateTime v)
                 {
-                    DateTime time = v.ToUniversalTime();
-                    if (time != _endTime && (_startTime == null || time > _startTime))
+                    if (v != _endTime && (_startTime == null || v > _startTime))
                     {
-                        _endTime = time;
+                        _endTime = v;
                         RaisePropertyChanged(nameof(EndTime));
                         SaveTime();
                     }
@@ -183,7 +179,7 @@ namespace SkillBase.ViewModels
         }
         void SaveTime()
         {
-            if (Date is DateTime d && _startTime is DateTime st && _endTime is DateTime et)
+            if (_date is DateTime d && _startTime is DateTime st && _endTime is DateTime et)
             {
                 DateTime start = d.SetTime(st);
                 DateTime end = d.SetTime(et);
@@ -221,18 +217,18 @@ namespace SkillBase.ViewModels
         void PrintBusyHours(IEnumerable<SkillTask> tasks)
         {
             if (tasks.Count() == 0) return;
-            var day = tasks.First().StartDate?.ToLocalTime().ToString("dd MMM yyyy");
+            var day = tasks.First().StartDate?.ToString("dd MMM yyyy");
             string error = "Busy hours " + day + "\r";
             foreach (var task in tasks)
             {
                 error += "\u231A";
                 if (task.StartDate is DateTime sdt)
                 {
-                    error += sdt.ToLocalTime().ToString("HH:mm") + " - ";
+                    error += sdt.ToString("HH:mm") + " - ";
                 }
                 if (task.EndDate is DateTime edt)
                 {
-                    error += edt.ToLocalTime().ToString("HH:mm") + "\r";
+                    error += edt.ToString("HH:mm") + "\r";
                 }
             }
             DateError = error;
