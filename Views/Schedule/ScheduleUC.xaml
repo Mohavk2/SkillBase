@@ -10,7 +10,7 @@
         <TabControl>
             <TabItem Header="Day" Content="{Binding DayUC}" />
             <TabItem Header="Week" Content="{Binding WeekUC}"/>
-            <TabItem Header="Month"/>
+            <TabItem Header="Month" Content="{Binding MonthUC}"/>
             <TabItem Header="Year"/>
         </TabControl>
     </Grid>

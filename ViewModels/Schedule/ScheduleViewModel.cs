@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SkillBase.ViewModels.Common;
 using SkillBase.Views.Schedule.Day;
+using SkillBase.Views.Schedule.Month;
 using SkillBase.Views.Schedule.Week;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,10 @@ namespace SkillBase.ViewModels.Schedule
             _serviceProvider = serviceProvider;
             DayUC.DataContext = _serviceProvider.GetRequiredService<DayViewModel>();
             WeekUC.DataContext = _serviceProvider.GetRequiredService<WeekViewModel>();
+            MonthUC.DataContext = _serviceProvider.GetRequiredService<MonthViewModel>();
         }
         public DayUC DayUC { get; set; } = new();
         public WeekUC WeekUC { get; set; } = new();
+        public MonthUC MonthUC { get; set; } = new();
     }
 }

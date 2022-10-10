@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkillBase.ViewModels.Schedule;
+using SkillBase.Views.Schedule.Week;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,17 @@ namespace SkillBase.Views.Schedule.Month
         public MonthUC()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is MonthUC muc && muc.IsVisible)
+            {
+                if (muc.DataContext is MonthViewModel mwm)
+                {
+                    Task.Run(() => mwm.Init());
+                }
+            }
         }
     }
 }

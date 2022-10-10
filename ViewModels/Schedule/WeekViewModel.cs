@@ -20,17 +20,7 @@ namespace SkillBase.ViewModels.Schedule
         public WeekViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _currentWeekStart = GetCurrentWeekStart();
-        }
-
-        private DateTime GetCurrentWeekStart()
-        {
-            var now = DateTime.Today;
-            while(now.DayOfWeek != DayOfWeek.Monday)
-            {
-                now = now.AddDays(-1);
-            }
-            return now;
+            _currentWeekStart = DateTime.Today.GetFirstDayOfWeek();
         }
 
         public async Task Init()

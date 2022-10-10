@@ -4,6 +4,7 @@ using SkillBase.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace SkillBase.Extensions
@@ -43,6 +44,12 @@ namespace SkillBase.Extensions
             var weekEnd = weekStart.AddDays(7);
             var tasks = await context.Tasks.Where(x =>
             (x.StartDate < weekEnd && x.EndDate >= weekStart)).Include(x => x.Skill).ToListAsync();
+            return tasks;
+        }
+        public static async Task<List<SkillTask>> GetMonthTasksAsync(this MainDbContext context, DateTime date)
+        {
+            var tasks = await context.Tasks.Where(x => x.StartDate != null && ((DateTime)x.StartDate).Month == date.Month)
+                .Include(x => x.Skill).ToListAsync();
             return tasks;
         }
         public static List<SkillTask> GetTaskCollisions(this MainDbContext context, DateTime start, DateTime end)

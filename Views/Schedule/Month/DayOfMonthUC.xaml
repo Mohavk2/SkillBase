@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="SkillBase.Views.Schedule.Month.DayOfMonthUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkillBase.Views.Schedule.Month"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Border MinHeight="40">
+            <Border.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush" Value="Gray"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsToday}" Value="true">
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="4"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Resources>
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Grid">
+                        <Setter Property="Background" Value="LightGray"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsActive}" Value="true">
+                                <Setter Property="Background" Value="White"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Viewbox>
+                        <TextBlock Width="34" Height="30" Text="{Binding Path=Date.Day}" FontSize="24"></TextBlock>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Width="80">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Padding="0 0 5 0" VerticalAlignment="Center" FontSize="8">Tasks:</TextBlock>
+                                <TextBlock VerticalAlignment="Center" FontSize="10" Text="{Binding TaskCount}"/>
+                            </StackPanel>
+                            <ProgressBar ToolTip="Busy hours" Value="{Binding BusyHoursPercentage}" Height="5" />
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

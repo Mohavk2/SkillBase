@@ -3,10 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SkillBase.Views"
+             xmlns:month="clr-namespace:SkillBase.Views.Schedule.Month" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" IsVisibleChanged="UserControl_IsVisibleChanged">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="0 0 10 0" Command="{Binding Back}"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="ArrowBack" />
+            </Button>
+            <TextBlock VerticalAlignment="Center" FontSize="32"
+                       Text="{Binding CurrentMonthName}"/>
+            <TextBlock VerticalAlignment="Top" FontSize="20" Padding="8 16 0 0"
+                       Text="{Binding CurrentYear}"/>
+            <Button Command="{Binding Forward}"
+                    Margin="10 0 0 0" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="ArrowRight" />
+            </Button>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="10 0 10 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <UniformGrid Columns="7">
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">MO</TextBlock>
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">TU</TextBlock>
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">WE</TextBlock>
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">TH</TextBlock>
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">FR</TextBlock>
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">SA</TextBlock>
+                <TextBlock VerticalAlignment="Center" TextAlignment="Center">SU</TextBlock>
+            </UniformGrid>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding DayOfMonthVMs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="7" Rows="6">
+                        </UniformGrid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <month:DayOfMonthUC DataContext="{Binding}"></month:DayOfMonthUC>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
     </Grid>
 </UserControl>

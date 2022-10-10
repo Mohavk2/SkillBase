@@ -39,16 +39,18 @@ namespace SkillBase
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<SkillsViewModel>();
+
                     services.AddSingleton<ScheduleViewModel>();
+                    services.AddSingleton<DayViewModel>();
                     services.AddSingleton<WeekViewModel>();
+                    services.AddSingleton<MonthViewModel>();
 
                     services.AddTransient<SkillViewModelFactory>();
                     services.AddTransient<LinkViewModelFactory>();
                     services.AddTransient<SkillTaskViewModelFactory>();
 
-                    services.AddTransient<DayViewModel>();
-
                     services.AddTransient<DayOfWeekViewModelFactory>();
+                    services.AddTransient<DayOfMonthViewModelFactory>();
                 })
                 .Build();
         }
