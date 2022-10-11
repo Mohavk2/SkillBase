@@ -1,4 +1,4 @@
-﻿using SkillBase.ViewModels.Schedule;
+﻿using SkillBase.ViewModels.Schedule.Month;
 using SkillBase.Views.Schedule.Week;
 using System;
 using System.Collections.Generic;

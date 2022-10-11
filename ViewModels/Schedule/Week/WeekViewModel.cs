@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SkillBase.ViewModels.Schedule
+namespace SkillBase.ViewModels.Schedule.Week
 {
     internal class WeekViewModel : BaseViewModel
     {
@@ -30,7 +30,7 @@ namespace SkillBase.ViewModels.Schedule
 
             var dayOfWeekFactory = _serviceProvider.GetRequiredService<DayOfWeekViewModelFactory>();
             ObservableCollection<DayOfWeekViewModel> dayOfWeekVMs = new();
-            for(DateTime i = CurrentWeekStart; i < CurrentWeekStart.AddDays(7); i = i.AddDays(1))
+            for (DateTime i = CurrentWeekStart; i < CurrentWeekStart.AddDays(7); i = i.AddDays(1))
             {
                 var dayTasks = tasks.Where(x => x.StartDate >= i && x.EndDate < i.AddDays(1)).ToList();
                 var dayOfWeekVM = dayOfWeekFactory.Create(i, dayTasks ?? new());
@@ -90,7 +90,7 @@ namespace SkillBase.ViewModels.Schedule
         public int YearTo => _currentWeekStart.AddDays(6).Year;
 
         ObservableCollection<DayOfWeekViewModel> _dayOfWeekVMs = new();
-        public ObservableCollection<DayOfWeekViewModel> DayOfWeekVMs 
+        public ObservableCollection<DayOfWeekViewModel> DayOfWeekVMs
         {
             get => _dayOfWeekVMs;
             set

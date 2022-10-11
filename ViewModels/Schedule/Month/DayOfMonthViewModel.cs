@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillBase.ViewModels.Schedule
+namespace SkillBase.ViewModels.Schedule.Month
 {
     internal class DayOfMonthViewModel : BaseViewModel
     {
@@ -22,7 +22,7 @@ namespace SkillBase.ViewModels.Schedule
             IsActive = isActive;
             TaskCount = tasks.Count();
 
-            var tasksTicks = tasks.Sum(x => (x.EndDate != null && x.StartDate != null) ?
+            var tasksTicks = tasks.Sum(x => x.EndDate != null && x.StartDate != null ?
             ((DateTime)x.EndDate).Ticks - ((DateTime)x.StartDate).Ticks : 0);
 
             int recommendedBusyHours = 4; //TODO: add to settings

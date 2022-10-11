@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SkillBase.ViewModels.Common;
+using SkillBase.ViewModels.Schedule.Day;
+using SkillBase.ViewModels.Schedule.Month;
+using SkillBase.ViewModels.Schedule.Week;
 using SkillBase.Views.Schedule.Day;
 using SkillBase.Views.Schedule.Month;
 using SkillBase.Views.Schedule.Week;

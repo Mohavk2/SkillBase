@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SkillBase.ViewModels.Schedule
+namespace SkillBase.ViewModels.Schedule.Day
 {
     internal class DayViewModel : BaseViewModel
     {

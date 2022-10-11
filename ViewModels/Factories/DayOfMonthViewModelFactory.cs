@@ -1,5 +1,5 @@
 ﻿using SkillBase.Models;
-using SkillBase.ViewModels.Schedule;
+using SkillBase.ViewModels.Schedule.Month;
 using System;
 using System.Collections.Generic;
 using System.Linq;

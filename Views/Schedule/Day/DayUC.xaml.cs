@@ -1,4 +1,4 @@
-﻿using SkillBase.ViewModels.Schedule;
+﻿using SkillBase.ViewModels.Schedule.Day;
 using System;
 using System.Collections.Generic;
 using System.Linq;

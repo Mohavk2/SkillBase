@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillBase.ViewModels.Schedule
+namespace SkillBase.ViewModels.Schedule.Week
 {
     internal class DayOfWeekViewModel : BaseViewModel
     {
@@ -23,7 +23,7 @@ namespace SkillBase.ViewModels.Schedule
 
             var taskFactory = _serviceProvider.GetRequiredService<SkillTaskViewModelFactory>();
 
-            foreach(var task in tasks.OrderBy(x => x.StartDate))
+            foreach (var task in tasks.OrderBy(x => x.StartDate))
             {
                 var taskVM = taskFactory.Create(task);
                 TasksVMs.Add(taskVM);
