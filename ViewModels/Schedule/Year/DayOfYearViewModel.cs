@@ -1,26 +1,25 @@
 ﻿using SkillBase.Models;
-using SkillBase.ViewModels.Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillBase.ViewModels.Schedule.Month
+namespace SkillBase.ViewModels.Schedule.Year
 {
-    internal class DayOfMonthViewModel : BaseViewModel
+    internal class DayOfYearViewModel
     {
         IServiceProvider _serviceProvider;
-        public DayOfMonthViewModel(
-            IServiceProvider serviceProvider,
-            DateTime date, IEnumerable<SkillTask> tasks,
+        public DayOfYearViewModel(
+            IServiceProvider serviceProvider, 
+            DateTime date, 
+            IEnumerable<SkillTask> tasks, 
             bool isActive)
         {
             _serviceProvider = serviceProvider;
             Date = date;
+
             IsActive = isActive;
-            TaskCount = tasks.Count();
 
             var tasksTicks = tasks.Sum(x => x.EndDate != null && x.StartDate != null ?
             ((DateTime)x.EndDate).Ticks - ((DateTime)x.StartDate).Ticks : 0);
@@ -31,9 +30,8 @@ namespace SkillBase.ViewModels.Schedule.Month
             IsToday = DateTime.Today == Date.Date;
         }
 
-        public DateTime Date { get; private set; }
-        public bool IsActive { get; private set; }
-        public int TaskCount { get; private set; }
+        public DateTime Date { get; set; }
+        public bool IsActive { get; set; }
         public double BusyHoursPercentage { get; set; }
         public bool IsToday { get; private set; }
     }

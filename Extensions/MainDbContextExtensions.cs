@@ -52,6 +52,12 @@ namespace SkillBase.Extensions
                 .Include(x => x.Skill).ToListAsync();
             return tasks;
         }
+        public static async Task<List<SkillTask>> GetYearTasksAsync(this MainDbContext context, DateTime date)
+        {
+            var tasks = await context.Tasks.Where(x => x.StartDate != null && ((DateTime)x.StartDate).Year == date.Year)
+                .Include(x => x.Skill).ToListAsync();
+            return tasks;
+        }
         public static List<SkillTask> GetTaskCollisions(this MainDbContext context, DateTime start, DateTime end)
         {
             return context.Tasks.Where(x => !(x.StartDate >= end || x.EndDate <= start)).ToList();

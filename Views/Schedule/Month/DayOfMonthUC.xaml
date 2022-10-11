@@ -23,7 +23,7 @@
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="Grid">
-                        <Setter Property="Background" Value="LightGray"/>
+                        <Setter Property="Background" Value="#E6F2EF"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsActive}" Value="true">
                                 <Setter Property="Background" Value="White"/>

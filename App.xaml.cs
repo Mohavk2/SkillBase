@@ -9,6 +9,7 @@ using SkillBase.ViewModels.Schedule;
 using SkillBase.ViewModels.Schedule.Day;
 using SkillBase.ViewModels.Schedule.Month;
 using SkillBase.ViewModels.Schedule.Week;
+using SkillBase.ViewModels.Schedule.Year;
 using SkillBase.ViewModels.Skills;
 using SkillBase.Views;
 using System.IO;
@@ -47,6 +48,7 @@ namespace SkillBase
                     services.AddSingleton<DayViewModel>();
                     services.AddSingleton<WeekViewModel>();
                     services.AddSingleton<MonthViewModel>();
+                    services.AddSingleton<YearViewModel>();
 
                     services.AddTransient<SkillViewModelFactory>();
                     services.AddTransient<LinkViewModelFactory>();
@@ -54,6 +56,8 @@ namespace SkillBase
 
                     services.AddTransient<DayOfWeekViewModelFactory>();
                     services.AddTransient<DayOfMonthViewModelFactory>();
+                    services.AddTransient<MonthOfYearViewModelFactory>();
+                    services.AddTransient<DayOfYearViewModelFactory>();
                 })
                 .Build();
         }

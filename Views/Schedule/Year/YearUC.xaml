@@ -4,9 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillBase.Views"
+             xmlns:year="clr-namespace:SkillBase.Views.Schedule.Year" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" IsVisibleChanged="UserControl_IsVisibleChanged">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="0 0 10 0" Command="{Binding Back}"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="ArrowBack" />
+            </Button>
+            <TextBlock Margin="10 0" VerticalAlignment="Center" FontSize="42"
+                       Text="{Binding Path=CurrentYearStart.Year}"/>
+            <Button Command="{Binding Forward}"
+                    Margin="10 0 0 0" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="ArrowRight" />
+            </Button>
+        </StackPanel>
+        <ScrollViewer x:Name="Scroll" Grid.Row="1" Margin="10 0 10 10" 
+                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                      MouseMove="ScrollViewer_MouseMove" 
+                      MouseRightButtonDown="ScrollViewer_MouseRightButtonDown" 
+                      MouseRightButtonUp="Scroll_MouseRightButtonUp">
+            <Viewbox>
+                <ItemsControl ItemsSource="{Binding MonthOfYearVMs}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4" Rows="3">
+                            </UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <year:MonthOfYearUC Height="170" Width="180" DataContext="{Binding}"></year:MonthOfYearUC>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Viewbox>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -36,6 +36,10 @@ namespace SkillBase.Extensions
             }
             return date;
         }
+        public static DateTime GetFirstDayOfYear(this DateTime date)
+        {
+            return new(date.Year, 1, 1);
+        }
         public static string ToMonthName(this DateTime dateTime)
         {
             return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dateTime.Month);
