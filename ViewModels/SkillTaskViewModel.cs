@@ -62,6 +62,7 @@ namespace SkillBase.ViewModels
             {
                 vm.OnDelete -= DeleteLink;
             }
+            Links.Clear();
         }
 
         public ICommand Delete

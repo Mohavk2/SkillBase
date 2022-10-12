@@ -32,7 +32,14 @@ namespace SkillBase.Views.Skills
             {
                 if (suc.DataContext is SkillsViewModel svm)
                 {
-                    Task.Run(() => svm.Init());
+                    if (suc.IsVisible)
+                    {
+                        Task.Run(() => svm.Init());
+                    }
+                    else
+                    {
+                        svm.DisposeResources();
+                    }
                 }
             }
         }

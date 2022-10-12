@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace SkillBase.ViewModels.Skills
 {
-    internal class SkillsViewModel : BaseViewModel, IDisposable
+    internal class SkillsViewModel : BaseViewModel
     {
         IServiceProvider _serviceProvider;
 
@@ -48,13 +48,14 @@ namespace SkillBase.ViewModels.Skills
 
             SetLoadingView(false);
         }
-        public void Dispose()
+        public void DisposeResources()
         {
             foreach (var vm in _skillVMs)
             {
                 vm.OnDelete -= Delete;
                 vm.Dispose();
             }
+            _skillVMs.Clear();
         }
 
         bool ContainsChildRecursive(Skill skill, int childId)

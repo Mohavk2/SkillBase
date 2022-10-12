@@ -75,18 +75,13 @@ namespace SkillBase.ViewModels
                 vm.OnDelete -= Delete;
                 vm.Dispose();
             }
-            foreach(var vm in Tasks)
+            SkillVMs.Clear();
+            foreach (var vm in Tasks)
             {
                 vm.OnDelete -= DeleteTask;
                 vm.Dispose();
             }
-            using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-            var skill = dbContext.Skills.Find(Id);
-            if (skill != null)
-            {
-                dbContext.Skills.Remove(skill);
-                dbContext.SaveChanges();
-            }
+            Tasks.Clear();
         }
 
         void Delete(SkillViewModel skillVM)
