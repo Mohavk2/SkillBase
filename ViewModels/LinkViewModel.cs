@@ -29,8 +29,8 @@ namespace SkillBase.ViewModels
             if (link != null)
             {
                 Id = link.Id;
-                Name = link.Name ?? "";
-                Url = link.Url ?? "";
+                _name = link.Name ?? "";
+                _url = link.Url ?? "";
             }
         }
 

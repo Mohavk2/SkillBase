@@ -35,12 +35,12 @@ namespace SkillBase.ViewModels
             if (skill != null)
             {
                 Id = skill.Id;
-                ParentId = skill.ParentId;
+                _parentId = skill.ParentId;
                 ParentVM = parentVM;
-                Name = skill.Name;
-                Description = skill.Description ?? "Description...";
-                Notes = skill.Notes ?? "Write your notes here...";
-                IsCompleted = skill.IsCompleted;
+                _name = skill.Name;
+                _description = skill.Description ?? "Description...";
+                _notes = skill.Notes ?? "Write your notes here...";
+                _isCompleted = skill.IsCompleted;
 
                 if (skill.Children != null)
                 {
