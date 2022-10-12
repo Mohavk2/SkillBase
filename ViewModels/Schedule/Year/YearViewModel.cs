@@ -42,6 +42,15 @@ namespace SkillBase.ViewModels.Schedule.Year
             MonthOfYearVMs = monthOfYearVMs;
         }
 
+        internal void DisposeResources()
+        {
+            foreach(var vm in MonthOfYearVMs)
+            {
+                vm.Dispose();
+            }
+            MonthOfYearVMs.Clear();
+        }
+
         public ICommand Forward => new UICommand((parameter)=>{
             CurrentYearStart = CurrentYearStart.AddYears(1);
             Task.Run(() => Init());

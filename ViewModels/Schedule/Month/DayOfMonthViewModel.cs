@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SkillBase.ViewModels.Schedule.Month
 {
-    internal class DayOfMonthViewModel : BaseViewModel
+    internal class DayOfMonthViewModel : BaseViewModel, IDisposable
     {
         IServiceProvider _serviceProvider;
         public DayOfMonthViewModel(
@@ -29,6 +29,11 @@ namespace SkillBase.ViewModels.Schedule.Month
             BusyHoursPercentage = 100 / (recommendedBusyHours / new TimeSpan(tasksTicks).TotalHours);
 
             IsToday = DateTime.Today == Date.Date;
+        }
+
+        public void Dispose()
+        {
+           
         }
 
         public DateTime Date { get; private set; }

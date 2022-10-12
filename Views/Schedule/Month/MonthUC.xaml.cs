@@ -29,11 +29,18 @@ namespace SkillBase.Views.Schedule.Month
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is MonthUC muc && muc.IsVisible)
+            if (sender is MonthUC muc)
             {
                 if (muc.DataContext is MonthViewModel mwm)
                 {
-                    Task.Run(() => mwm.Init());
+                    if (muc.IsVisible)
+                    {
+                        Task.Run(() => mwm.Init());
+                    }
+                    else
+                    {
+                        mwm.DisposeResources();
+                    }
                 }
             }
         }

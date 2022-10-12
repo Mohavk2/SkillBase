@@ -30,11 +30,18 @@ namespace SkillBase.Views.Schedule.Year
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is YearUC yuc && yuc.IsVisible)
+            if (sender is YearUC yuc)
             {
                 if (yuc.DataContext is YearViewModel yvm)
                 {
-                    Task.Run(() => yvm.Init());
+                    if (yuc.IsVisible)
+                    {
+                        Task.Run(() => yvm.Init());
+                    }
+                    else
+                    {
+                        yvm.DisposeResources();
+                    }
                 }
             }
         }

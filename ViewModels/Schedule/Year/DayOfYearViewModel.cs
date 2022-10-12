@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SkillBase.ViewModels.Schedule.Year
 {
-    internal class DayOfYearViewModel
+    internal class DayOfYearViewModel : IDisposable
     {
         IServiceProvider _serviceProvider;
         public DayOfYearViewModel(
@@ -28,6 +28,11 @@ namespace SkillBase.ViewModels.Schedule.Year
             BusyHoursPercentage = 100 / (recommendedBusyHours / new TimeSpan(tasksTicks).TotalHours);
 
             IsToday = DateTime.Today == Date.Date;
+        }
+
+        public void Dispose()
+        {
+
         }
 
         public DateTime Date { get; set; }

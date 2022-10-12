@@ -39,6 +39,15 @@ namespace SkillBase.ViewModels.Schedule.Month
             DayOfMonthVMs = dayOfMonthVMs;
         }
 
+        public void DisposeResources()
+        {
+            foreach(var vm in DayOfMonthVMs)
+            {
+                vm.Dispose();
+            }
+            DayOfMonthVMs.Clear();
+        }
+
         public ICommand Forward
         {
             get => new UICommand((parameter) =>
