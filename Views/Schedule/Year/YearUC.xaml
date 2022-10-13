@@ -25,12 +25,13 @@
                 <materialDesign:PackIcon Kind="ArrowRight" />
             </Button>
         </StackPanel>
-        <ScrollViewer x:Name="Scroll" Grid.Row="1" Margin="10 0 10 10" 
+        <ScrollViewer x:Name="Scroll" Grid.Row="1" Margin="10 0 10 10"
+                      MaxWidth="1040"
                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                       MouseMove="ScrollViewer_MouseMove" 
                       MouseRightButtonDown="ScrollViewer_MouseRightButtonDown" 
                       MouseRightButtonUp="Scroll_MouseRightButtonUp">
-            <Viewbox>
+
                 <ItemsControl ItemsSource="{Binding MonthOfYearVMs}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -40,11 +41,11 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <year:MonthOfYearUC Height="170" Width="180" DataContext="{Binding}"></year:MonthOfYearUC>
+                        <year:MonthOfYearUC Width="240" Height="240" Margin="5 0 5 5" DataContext="{Binding}"></year:MonthOfYearUC>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Viewbox>
+
         </ScrollViewer>
     </Grid>
 </UserControl>

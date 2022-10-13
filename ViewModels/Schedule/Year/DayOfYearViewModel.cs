@@ -20,13 +20,8 @@ namespace SkillBase.ViewModels.Schedule.Year
             Date = date;
 
             IsActive = isActive;
-
-            var tasksTicks = tasks.Sum(x => x.EndDate != null && x.StartDate != null ?
-            ((DateTime)x.EndDate).Ticks - ((DateTime)x.StartDate).Ticks : 0);
-
-            int recommendedBusyHours = 4; //TODO: add to settings
-            BusyHoursPercentage = 100 / (recommendedBusyHours / new TimeSpan(tasksTicks).TotalHours);
-
+            TaskCount = tasks.Count();
+            CompletedTaskCount = tasks.Where(x => x.IsCompleted).ToList().Count;
             IsToday = DateTime.Today == Date.Date;
         }
 
@@ -37,7 +32,8 @@ namespace SkillBase.ViewModels.Schedule.Year
 
         public DateTime Date { get; set; }
         public bool IsActive { get; set; }
-        public double BusyHoursPercentage { get; set; }
+        public int TaskCount { get; set; }
+        public int CompletedTaskCount { get; set; }
         public bool IsToday { get; private set; }
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SkillBase.Views.Schedule.Month"
+             xmlns:local="clr-namespace:SkillBase.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -43,14 +43,14 @@
                     <Viewbox>
                         <TextBlock Width="34" Height="30" Text="{Binding Path=Date.Day}" FontSize="24"></TextBlock>
                     </Viewbox>
-                    <Viewbox Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Width="80">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Padding="0 0 5 0" VerticalAlignment="Center" FontSize="8">Tasks:</TextBlock>
-                                <TextBlock VerticalAlignment="Center" FontSize="10" Text="{Binding TaskCount}"/>
-                            </StackPanel>
-                            <ProgressBar ToolTip="Busy hours" Value="{Binding BusyHoursPercentage}" Height="5" />
-                        </StackPanel>
+                    <Viewbox Grid.Row="1" Grid.ColumnSpan="2">
+                        <local:ProgressCellBar 
+                                           Width="100" Height="15"
+                                           CellsOrientation="Horizontal"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Bottom"
+                                           TotalCellsCount="{Binding TaskCount}" 
+                                           FilledCellsCount="{Binding CompletedTaskCount}"/>
                     </Viewbox>
                 </Grid>
             </Grid>

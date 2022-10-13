@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SkillBase.Views.Schedule.Year"
+             xmlns:local="clr-namespace:SkillBase.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border>
@@ -13,12 +13,12 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsToday}" Value="true">
                         <Setter Property="BorderBrush" Value="Black"/>
-                        <Setter Property="BorderThickness" Value="4"/>
+                        <Setter Property="BorderThickness" Value="1"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
         </Border.Resources>
-        <Grid Width="40" Height="36">
+        <Grid>
             <Grid.Resources>
                 <Style TargetType="Grid">
                     <Setter Property="Background" Value="#E6F2EF"/>
@@ -29,11 +29,17 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
-            <ProgressBar Orientation="Vertical" Value="{Binding BusyHoursPercentage}" Width="30" Height="4"
-                         Opacity="0.5" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                         ToolTip="Busy hours"/>
-            <TextBlock FontSize="24" Text="{Binding Path=Date.Day}"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock FontSize="18" Text="{Binding Path=Date.Day}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <local:ProgressCellBar CellsOrientation="Vertical"
+                                   Width="4" Height="30"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Stretch"
+                                   TotalCellsCount="{Binding TaskCount}" 
+                                   FilledCellsCount="{Binding CompletedTaskCount}"/>
         </Grid>
     </Border>
 </UserControl>
