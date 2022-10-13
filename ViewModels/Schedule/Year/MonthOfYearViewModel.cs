@@ -20,22 +20,31 @@ namespace SkillBase.ViewModels.Schedule.Year
             _serviceProvider = serviceProvider;
             _date = date;
 
-            var dayOfYearFactory = _serviceProvider.GetRequiredService<DayOfYearViewModelFactory>();
             var dayOfYearVMs = new ObservableCollection<DayOfYearViewModel>();
 
+
+            var dayOfYearFactory = _serviceProvider.GetRequiredService<DayOfYearViewModelFactory>();
             var currentMonthWeekStart = date.GetFirstDayOfMonth().GetFirstDayOfWeek();
             for (DateTime i = currentMonthWeekStart; i < currentMonthWeekStart.AddDays(42); i = i.AddDays(1))
             {
-                var dayTasks = tasks.Where(x => x.StartDate >= i && x.EndDate < i.AddDays(1)).ToList();
-                var dayOfYearVM = dayOfYearFactory.Create(i, dayTasks, i.Month == Date.Month);
-                dayOfYearVMs.Add(dayOfYearVM);
+                if (tasks.Count() != 0)
+                {
+                    var dayTasks = tasks.Where(x => x.StartDate >= i && x.EndDate < i.AddDays(1)).ToList();
+                    var dayOfYearVM = dayOfYearFactory.Create(i, dayTasks, i.Month == Date.Month);
+                    dayOfYearVMs.Add(dayOfYearVM);
+                }
+                else
+                {
+                    var dayOfYearVM = dayOfYearFactory.Create(i, new List<SkillTask>(), i.Month == Date.Month);
+                    dayOfYearVMs.Add(dayOfYearVM);
+                }
             }
             DayOfYearVMs = dayOfYearVMs;
         }
 
         public void Dispose()
         {
-            foreach(var vm in DayOfYearVMs)
+            foreach (var vm in DayOfYearVMs)
             {
                 vm.Dispose();
             }
