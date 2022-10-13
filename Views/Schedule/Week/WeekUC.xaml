@@ -70,19 +70,26 @@
                 <materialDesign:PackIcon Kind="ArrowRight" />
             </Button>
         </StackPanel>
-        <Viewbox Grid.Row="1" VerticalAlignment="Top">
-            <ItemsControl ItemsSource="{Binding DayOfWeekVMs}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <week:DayOfWeekUC DataContext="{Binding}"></week:DayOfWeekUC>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Viewbox>
+        <ScrollViewer x:Name="Scroll" Grid.Row="1" Margin="10"
+                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                      MouseMove="ScrollViewer_MouseMove" 
+                      MouseRightButtonDown="ScrollViewer_MouseRightButtonDown" 
+                      MouseRightButtonUp="Scroll_MouseRightButtonUp">
+            <Grid MinWidth="600" MaxWidth="1100">
+                <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                          ItemsSource="{Binding DayOfWeekVMs}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <week:DayOfWeekUC DataContext="{Binding}"></week:DayOfWeekUC>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

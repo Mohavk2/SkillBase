@@ -161,7 +161,8 @@ namespace SkillBase.ViewModels
                 }
             }
         }
-        DateTime? _endTime;
+        public string StartTimeShort => StartTime != null ? ((DateTime)StartTime).ToShortTimeString() : "";
+        DateTime ? _endTime;
         public DateTime? EndTime
         {
             get => _endTime;
@@ -178,6 +179,7 @@ namespace SkillBase.ViewModels
                 }
             }
         }
+        public string EndTimeShort => EndTime != null ? ((DateTime)EndTime).ToShortTimeString() : "";
         void SaveTime()
         {
             if (_date is DateTime d && _startTime is DateTime st && _endTime is DateTime et)

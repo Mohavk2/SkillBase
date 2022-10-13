@@ -43,7 +43,7 @@ namespace SkillBase.Extensions
         {
             var weekEnd = weekStart.AddDays(7);
             var tasks = await context.Tasks.Where(x =>
-            (x.StartDate < weekEnd && x.EndDate >= weekStart)).Include(x => x.Skill).ToListAsync();
+            (x.StartDate < weekEnd && x.EndDate >= weekStart)).Include(x => x.Skill).Include(x => x.Links).ToListAsync();
             return tasks;
         }
         public static async Task<List<SkillTask>> GetMonthTasksAsync(this MainDbContext context, DateTime date)
