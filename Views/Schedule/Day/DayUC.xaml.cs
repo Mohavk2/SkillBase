@@ -28,13 +28,29 @@ namespace SkillBase.Views.Schedule.Day
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is DayUC duc && duc.IsVisible)
+            if (sender is DayUC duc)
             {
                 if (duc.DataContext is DayViewModel dvm)
                 {
-                    Task.Run(() => dvm.Init());
+                    if (duc.IsVisible)
+                    {
+                        Task.Run(() => dvm.Init());
+                        UpdateTimeOffset();
+                    }
+                    else
+                    {
+                        dvm.DisposeResources();
+                    }
                 }
             }
+        }
+
+        void UpdateTimeOffset()
+        {
+            var minutes = (DateTime.Now - DateTime.Today).TotalMinutes;
+            double timeOffset = (1000d / 1440d) * minutes;
+            Scroll.ScrollToVerticalOffset((int)timeOffset - 20);
+            Canvas.SetTop(ClockArrow, minutes);
         }
     }
 }

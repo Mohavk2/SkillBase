@@ -22,7 +22,7 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding TasksVMs}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:DayOfWeekTaskUC Margin="1 0" DataContext="{Binding}"></local:DayOfWeekTaskUC>
+                    <local:WeekTaskUC Margin="1 0" DataContext="{Binding}"></local:WeekTaskUC>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

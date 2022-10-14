@@ -19,10 +19,12 @@ using System.Windows.Shapes;
 namespace SkillBase.ViewModels
 {
     delegate void DeleteSkillTaskHandler(SkillTaskViewModel task);
+    delegate void SkillCompletedChangedHandler(bool isCompleted);
 
     internal class SkillTaskViewModel : BaseViewModel, IDisposable
     {
         public event DeleteSkillTaskHandler? OnDelete;
+        public event SkillCompletedChangedHandler? OnCompletedChanged;
 
         IServiceProvider _serviceProvider;
 
@@ -267,6 +269,7 @@ namespace SkillBase.ViewModels
                 _isCompleted = value;
                 Update(task => task.IsCompleted = _isCompleted);
                 RaisePropertyChanged(nameof(IsCompleted));
+                OnCompletedChanged?.Invoke(_isCompleted);
             }
         }
 

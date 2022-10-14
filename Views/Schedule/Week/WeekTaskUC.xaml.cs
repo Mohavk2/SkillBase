@@ -18,9 +18,9 @@ namespace SkillBase.Views.Schedule.Week
     /// <summary>
     /// Interaction logic for DayOfWeekTaskUC.xaml
     /// </summary>
-    public partial class DayOfWeekTaskUC : UserControl
+    public partial class WeekTaskUC : UserControl
     {
-        public DayOfWeekTaskUC()
+        public WeekTaskUC()
         {
             InitializeComponent();
         }

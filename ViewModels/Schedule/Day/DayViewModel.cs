@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace SkillBase.ViewModels.Schedule.Day
@@ -35,9 +36,30 @@ namespace SkillBase.ViewModels.Schedule.Day
             foreach (var task in tasks)
             {
                 var tvm = taskFactory.Create(task);
+                tvm.OnCompletedChanged += UpdateIncompletedTasks;
                 taskVMs.Add(tvm);
             }
             TasksVMs = taskVMs;
+
+            RaisePropertyChanged(nameof(IncompletedTaskVMs));
+            RaisePropertyChanged(nameof(TaskCount));
+            RaisePropertyChanged(nameof(CompletedTaskCount));
+        }
+
+        public void DisposeResources()
+        {
+            foreach(var task in TasksVMs)
+            {
+                task.OnCompletedChanged -= UpdateIncompletedTasks;
+                task.Dispose();
+            }
+            TasksVMs.Clear();
+        }
+
+        void UpdateIncompletedTasks(bool parameter)
+        {
+            RaisePropertyChanged(nameof(IncompletedTaskVMs));
+            RaisePropertyChanged(nameof(CompletedTaskCount));
         }
 
         public ICommand Forward
@@ -45,6 +67,8 @@ namespace SkillBase.ViewModels.Schedule.Day
             get => new UICommand((parameter) =>
             {
                 CurrentDayTime = CurrentDayTime.AddDays(1);
+                DisposeResources();
+
                 Task.Run(() => Init());
             });
         }
@@ -54,6 +78,8 @@ namespace SkillBase.ViewModels.Schedule.Day
             get => new UICommand((parameter) =>
             {
                 CurrentDayTime = CurrentDayTime.AddDays(-1);
+                DisposeResources();
+
                 Task.Run(() => Init());
             });
         }
@@ -86,5 +112,10 @@ namespace SkillBase.ViewModels.Schedule.Day
                 RaisePropertyChanged(nameof(TasksVMs));
             }
         }
+        public List<SkillTaskViewModel> IncompletedTaskVMs => 
+            TasksVMs.Where(x => x.IsCompleted == false).OrderBy(x => x.StartTime).ToList();
+        public int TaskCount => TasksVMs.Count();
+        public int CompletedTaskCount => 
+            TasksVMs.Where(x => x.IsCompleted == true).ToList().Count;
     }
 }
