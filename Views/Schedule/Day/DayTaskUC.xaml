@@ -19,19 +19,21 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="4"
-                    VerticalAlignment="Center">
-            <Border BorderBrush="White" BorderThickness="1" Width="22" Height="22"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="White" BorderThickness="1" Width="22" Height="22" Margin="5 0 0 0"
                     Background="White" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <CheckBox IsChecked="{Binding IsCompleted}"
+            <CheckBox IsChecked="{Binding IsCompleted}"
                       materialDesign:CheckBoxAssist.CheckBoxSize="20"
                       Style="{StaticResource MaterialDesignAccentCheckBox}"/>
-            </Border>
-            <TextBlock VerticalAlignment="Center" Padding="10 0 0 0"
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                       Text="{Binding Name}"/>
-        </StackPanel>
-        <materialDesign:PopupBox StaysOpen="True" VerticalAlignment="Center" HorizontalAlignment="Right">
+        </Border>
+        <TextBlock Grid.Column="1" Padding="5 5 0 0" FontSize="16" FontWeight="Bold"
+                     Text="{Binding Name}" ToolTip="{Binding Name}"/>
+        <materialDesign:PopupBox Grid.Column="2" StaysOpen="True" 
+                                 VerticalAlignment="Center" HorizontalAlignment="Right">
             <ItemsControl x:Name="SkillLinks" HorizontalAlignment="Stretch" Padding="10 0 5 0"
                                       ItemsSource="{Binding Links}">
                 <ItemsControl.ItemTemplate>
@@ -42,7 +44,7 @@
             </ItemsControl>
         </materialDesign:PopupBox>
 
-        <Separator Grid.Row="1" Margin="0" VerticalAlignment="Bottom"/>
+        <Separator Grid.Row="1" Grid.ColumnSpan="3" Margin="0" VerticalAlignment="Bottom"/>
 
     </Grid>
 </UserControl>

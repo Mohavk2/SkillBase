@@ -96,9 +96,9 @@
                             </Canvas>
                             <dayViews:Scale  Grid.Column="1"></dayViews:Scale>
                             <ItemsControl Grid.Column="2" x:Name="DayTasks" Height="1442"
-                          Padding="10 0 10 0" 
-                          HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                          ItemsSource="{Binding TasksVMs}">
+                                          Padding="10 0 10 0" 
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                          ItemsSource="{Binding TasksVMs}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <Canvas />

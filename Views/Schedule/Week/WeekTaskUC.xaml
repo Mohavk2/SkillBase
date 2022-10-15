@@ -20,8 +20,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"></ColumnDefinition>
-            <ColumnDefinition Width="75"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="52"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Margin="0 5 0 0" Width="16" Height="16" Background="White" 
                     HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -30,7 +30,8 @@
                       Style="{StaticResource MaterialDesignAccentCheckBox}"/>
         </Border>
         <StackPanel Margin="0 5 0 0" Grid.Column="1">
-            <TextBlock Text="{Binding Name}" FontSize="14" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Name}" MinWidth="80"
+                       FontSize="14" TextWrapping="WrapWithOverflow"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Margin="5 5 5 0">
             <TextBlock Text="{Binding StartTimeShort}" FontSize="10" Background="Yellow"
@@ -44,7 +45,7 @@
                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
                 <Expander.Header>
                     <Grid>
-                        <TextBlock Width="140" Margin="0 5" FontWeight="Light">
+                        <TextBlock Margin="0 5" FontWeight="Light">
                             Links
                         </TextBlock>
                     </Grid>
