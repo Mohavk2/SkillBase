@@ -160,7 +160,14 @@ namespace SkillBase.ViewModels
         {
             get => new UICommand((parameter) =>
             {
-                OnDelete?.Invoke(this);
+                using var db = _serviceProvider.GetRequiredService<MainDbContext>();
+                var skill = db.Skills.Find(Id);
+                if(skill != null)
+                {
+                    db.Remove(skill);
+                    db.SaveChanges();
+                    OnDelete?.Invoke(this);
+                }
             });
         }
 
