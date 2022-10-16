@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="SkillBase.Views.Skills.SkillCardUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkillBase.Views.Skills" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" >
+    <Grid Height="150" Width="200">
+        <materialDesign:Flipper>
+            <materialDesign:Flipper.FrontContent>
+                <local:SkillCardFaceUC DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"></local:SkillCardFaceUC>
+            </materialDesign:Flipper.FrontContent>
+            <materialDesign:Flipper.BackContent>
+                <local:SkillCardBackUC DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"></local:SkillCardBackUC>
+            </materialDesign:Flipper.BackContent>
+        </materialDesign:Flipper>
+    </Grid>
+</UserControl>
