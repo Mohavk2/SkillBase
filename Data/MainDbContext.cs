@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using SkillBase.Models;
 
 namespace SkillBase.Data
@@ -15,7 +16,11 @@ namespace SkillBase.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Skill>()
+                .HasOne(c => c.Parent)
+                .WithMany(p => p.Children)
+                .HasForeignKey(c => c.ParentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
