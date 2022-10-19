@@ -45,6 +45,7 @@ namespace SkillBase.ViewModels.Skills
                 }
             }
             SkillVMs = _skillVMs;
+            IsExpanded = false;
 
             SetLoadingView(false);
         }
@@ -94,6 +95,21 @@ namespace SkillBase.ViewModels.Skills
             {
                 _isLoaded = value;
                 RaisePropertyChanged(nameof(IsLoaded));
+            }
+        }
+
+        bool _isExpanded = false;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                _isExpanded = value;
+                RaisePropertyChanged(nameof(IsExpanded));
+                foreach(var vm in SkillVMs)
+                {
+                    vm.IsExpanded = value;
+                }
             }
         }
 

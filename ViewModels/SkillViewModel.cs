@@ -224,6 +224,21 @@ namespace SkillBase.ViewModels
             }
         }
 
+        public bool _isExpanded = false;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                _isExpanded = value;
+                RaisePropertyChanged(nameof(IsExpanded));
+                foreach(var vm in SkillVMs)
+                {
+                    vm.IsExpanded = _isExpanded;
+                }
+            }
+        }
+
         public string TaskCount => Tasks.Count != 0 ? Tasks.Count.ToString() : "-";
 
         public ObservableCollection<SkillTaskViewModel> Tasks { get; set; } = new();

@@ -115,9 +115,10 @@
         </StackPanel>
         <!--CHILDREN-->
         <Viewbox x:Name="SkillBox">
-            <Expander IsExpanded="False" ExpandDirection="Right"
-                              materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
-                              materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
+            <Expander ExpandDirection="Right"
+                      x:Name="SkillExpander" IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+                      materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                      materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
             <Expander.Header>
                 <Grid>
                         <TextBlock Width="140" Margin="-2 0 0 90" FontWeight="ExtraBold"
@@ -135,7 +136,7 @@
                     </TextBlock>
                 </Grid>
             </Expander.Header>
-                <ItemsControl x:Name="SkillsControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
+                <ItemsControl x:Name="SkillControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <skillsViews:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}"/>

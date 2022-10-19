@@ -1,4 +1,5 @@
-﻿using SkillBase.ViewModels.Skills;
+﻿using SkillBase.ViewModels;
+using SkillBase.ViewModels.Skills;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,7 +35,9 @@ namespace SkillBase.Views.Skills
                 {
                     if (suc.IsVisible)
                     {
-                        Task.Run(() => svm.Init());
+                        Task.Run(async () => {
+                            await svm.Init();
+                        });
                     }
                     else
                     {
