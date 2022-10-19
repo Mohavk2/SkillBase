@@ -12,7 +12,10 @@
         <converters:StringToVisibility x:Key="StringToVis" />
     </UserControl.Resources>
     <Border BorderBrush="Gray" BorderThickness="1">
-        <Expander x:Name="TaskExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+        <Expander x:Name="TaskExpander" 
+                  Background="{DynamicResource PrimaryHueDarkBrush}"
+                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                  materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
                   materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
             <Expander.Header>
                 <Grid Margin="0 0 -20 0">
@@ -42,7 +45,7 @@
                     <CheckBox Grid.Column="3" IsChecked="{Binding IsCompleted}"
                               HorizontalAlignment="Right"
                               materialDesign:CheckBoxAssist.CheckBoxSize="25"
-                              Style="{StaticResource MaterialDesignAccentCheckBox}" />
+                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"/>
                 </Grid>
             </Expander.Header>
             <StackPanel>
@@ -52,30 +55,60 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DatePicker Grid.Row="0" Height="25"
+                    <DatePicker Grid.Row="0" Height="30"
                             SelectedDate="{Binding Date, Mode=TwoWay}"
                             Padding="3 0" Margin="5 3"
                             materialDesign:HintAssist.Hint="Start date"
-                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
-                    <materialDesign:TimePicker Grid.Row="1" Width="90" Height="25"
+                            Style="{StaticResource MaterialDesignFilledDatePicker}">
+                        <DatePicker.CalendarStyle>
+                            <Style TargetType="Calendar" BasedOn="{StaticResource MaterialDesignCalendarPortrait}">
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="OrangeRed" />
+                                </Style.Resources>
+                                <Setter Property="Background" Value="Black"></Setter>
+                            </Style>
+                        </DatePicker.CalendarStyle>
+                    </DatePicker>
+                    <materialDesign:TimePicker Grid.Row="1" Width="90" Height="30"
                                            Padding="3 0" Margin="5 3"
                                            SelectedTime="{Binding StartTime, Mode=TwoWay}" Is24Hours="True"
                                            HorizontalAlignment="Left"
                                            materialDesign:HintAssist.Hint="Start time"
-                                           Style="{StaticResource MaterialDesignOutlinedTimePicker}" />
-                    <materialDesign:TimePicker Grid.Row="1" Width="90" Height="25"
+                                           Style="{StaticResource MaterialDesignFilledTimePicker}">
+                        <materialDesign:TimePicker.ClockStyle>
+                            <Style TargetType="materialDesign:Clock" BasedOn="{StaticResource MaterialDesignClockVertical}">
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Black" />
+                                </Style.Resources>
+                                <Setter Property="Background" Value="OrangeRed"></Setter>
+                            </Style>
+                        </materialDesign:TimePicker.ClockStyle>
+                    </materialDesign:TimePicker>
+                    <materialDesign:TimePicker Grid.Row="1" Width="90" Height="30"
                                            Padding="3 0" Margin="5 3"
                                            SelectedTime="{Binding EndTime, Mode=TwoWay}" Is24Hours="True"
                                            HorizontalAlignment="Right"
                                            materialDesign:HintAssist.Hint="End time"
-                                           Style="{StaticResource MaterialDesignOutlinedTimePicker}" />
+                                           Style="{StaticResource MaterialDesignFilledTimePicker}">
+                        <materialDesign:TimePicker.ClockStyle>
+                            <Style TargetType="materialDesign:Clock" BasedOn="{StaticResource MaterialDesignClockVertical}">
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Black" />
+                                </Style.Resources>
+                                <Setter Property="Background" Value="OrangeRed"></Setter>
+                            </Style>
+                        </materialDesign:TimePicker.ClockStyle>
+                    </materialDesign:TimePicker>
                     <TextBlock Grid.Row="2"
                            Padding="5 0" Visibility="{Binding DateError, Converter={StaticResource StringToVis}}"
                            TextWrapping="Wrap" Text="{Binding DateError}" Foreground="red"/>
                 </Grid>
                 <!--Links-->
-                <Expander x:Name="LinksExpander" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
-                      materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
+                <Expander x:Name="LinksExpander" 
+                          Background="{DynamicResource PrimaryHueDarkBrush}"
+                          Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                          materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                          materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
                     <Expander.Header>
                         <Grid>
                             <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
@@ -83,6 +116,8 @@
                             </TextBlock>
                             <Button x:Name="AddLink" Width="25" Height="25" Margin="0 0 -15 0"
                                 HorizontalAlignment="Right"
+                                    Background="{DynamicResource PrimaryHueDarkBrush}"
+                          Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                 Command="{Binding CreateLink}"
                                 Style="{StaticResource MaterialDesignIconButton}"
                                 Click="AddLink_Click" ToolTip="Add link" >

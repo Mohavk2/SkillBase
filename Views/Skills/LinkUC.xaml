@@ -25,13 +25,15 @@
         <Button x:Name="FollowLink" Grid.Row="0" Grid.Column="1"
                 Padding="0" Width="30" Height="30"
                 Style="{StaticResource MaterialDesignIconButton}"
-                ToolTip="Follow the link in the browser" Click="FollowLink_Click">
+                ToolTip="Follow the link in the browser" Click="FollowLink_Click"
+                Background="{DynamicResource PrimaryHueDarkBrush}"
+                          Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
             <materialDesign:PackIcon Kind="ArrowTopRight"/>
         </Button>
         <Button x:Name="DeleteLink" Grid.Row="1" Grid.Column="1" Command="{Binding Delete}"
                 Padding="0" Width="20" Height="20" VerticalAlignment="Bottom"
-                Style="{StaticResource MaterialDesignIconButton}"
-                ToolTip="Add skill">
+                Style="{StaticResource MaterialDesignIconButton}" Foreground="red"
+                ToolTip="Delete link">
             <materialDesign:PackIcon Kind="Close" Width="15" Height="15"/>
         </Button>
     </Grid>

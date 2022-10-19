@@ -90,6 +90,7 @@ namespace SkillBase.ViewModels
             skillVM.Dispose();
             SkillVMs.Remove(skillVM);
             RaisePropertyChanged(nameof(HasChildren));
+            RaisePropertyChanged(nameof(SkillCount));
         }
 
         public ICommand MoveHere
@@ -135,6 +136,7 @@ namespace SkillBase.ViewModels
                 SkillTaskViewModel taskVM = taskVMFactory.Create(task);
                 taskVM.OnDelete += DeleteTask;
                 Tasks.Insert(0, taskVM);
+                RaisePropertyChanged(nameof(TaskCount));
             });
         }
 
@@ -154,6 +156,7 @@ namespace SkillBase.ViewModels
                 skillVM.OnDelete += Delete;
                 SkillVMs.Insert(0, skillVM);
                 RaisePropertyChanged(nameof(HasChildren));
+                RaisePropertyChanged(nameof(SkillCount));
             });
         }
         public ICommand DeleteSkill
@@ -167,6 +170,8 @@ namespace SkillBase.ViewModels
                     db.Remove(skill);
                     db.SaveChanges();
                     OnDelete?.Invoke(this);
+                    RaisePropertyChanged(nameof(HasChildren));
+                    RaisePropertyChanged(nameof(SkillCount));
                 }
             });
         }
@@ -219,11 +224,14 @@ namespace SkillBase.ViewModels
             }
         }
 
+        public string TaskCount => Tasks.Count != 0 ? Tasks.Count.ToString() : "-";
+
         public ObservableCollection<SkillTaskViewModel> Tasks { get; set; } = new();
         private void DeleteTask(SkillTaskViewModel taskVM)
         {
             taskVM.OnDelete -= DeleteTask;
             Tasks.Remove(taskVM);
+            RaisePropertyChanged(nameof(TaskCount));
         }
 
         bool _isCompleted = false;
@@ -261,6 +269,7 @@ namespace SkillBase.ViewModels
                 SkillVMs.Insert(0, childVM);
             }
             RaisePropertyChanged(nameof(HasChildren));
+            RaisePropertyChanged(nameof(SkillCount));
         }
 
         public void RemoveChild(SkillViewModel childVM)
@@ -268,6 +277,7 @@ namespace SkillBase.ViewModels
             childVM.OnDelete -= Delete;
             SkillVMs.Remove(childVM);
             RaisePropertyChanged(nameof(HasChildren));
+            RaisePropertyChanged(nameof(SkillCount));
         }
 
         void Update(Action<Skill> setter)
@@ -288,6 +298,8 @@ namespace SkillBase.ViewModels
         }
 
         public SkillViewModel? ParentVM { get; set; }
+
+        public string SkillCount => SkillVMs.Count != 0 ? SkillVMs.Count.ToString() : "-";
 
         public ObservableCollection<SkillViewModel> SkillVMs { get; set; } = new();
     }

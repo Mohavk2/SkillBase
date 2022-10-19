@@ -8,84 +8,93 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d"  
              d:DesignHeight="450" d:DesignWidth="800" 
-             PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp" 
              AllowDrop="True" Drop="UserControl_Drop"
-             BorderBrush="Gray" BorderThickness="3,1,0,1" Margin="5">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
-    </UserControl.Resources>
+             BorderBrush="Gray" BorderThickness="0,1,1,1" Margin="5">
     <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
         <StackPanel VerticalAlignment="Center">
             <!--HEADER-->
-            <materialDesign:Chip x:Name="CardHeader" Panel.ZIndex="4" Width="220"
-                                 HorizontalAlignment="Stretch"
-                                 Background="#FFBACFD9" ToolTip="Expand">
-                <materialDesign:Chip.Content>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <materialDesign:Chip Width="100" Height="25" Margin="0 0 6 0"
-                                             HorizontalContentAlignment="Center"
-                                             PreviewMouseMove="Button_PreviewMouseMove">
-                            <materialDesign:PackIcon Kind="HandBackRight"  HorizontalAlignment="Center"/>
-                        </materialDesign:Chip>
-                        <Button x:Name="AddSkill" Command="{Binding CreateSkill}"
+            <StackPanel>
+                <materialDesign:Flipper>
+                    <materialDesign:Flipper.FrontContent>
+                        <Grid Height="150" Width="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <materialDesign:ColorZone PreviewMouseMove="Button_PreviewMouseMove" Mode="PrimaryLight" VerticalAlignment="Stretch">
+                            </materialDesign:ColorZone>
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}"/>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:Flipper.FlipCommand}" Margin="0 4 0 0" Content="EDIT" />
+                                <Button x:Name="AddSkill" Command="{Binding CreateSkill}"
                                 Padding="0" Width="25" Height="25"
                                 Style="{StaticResource MaterialDesignIconButton}"
                                 ToolTip="Add skill" Click="AddSkill_Click">
-                            <materialDesign:PackIcon Kind="PlusCircle"/>
-                        </Button>
-                        <ToggleButton x:Name="ShowSubskillsToggle" ToolTip="Show subskills" Width="25" Height="25" Margin="0 0 -5 0"
-                                      IsEnabled="{Binding HasChildren}" IsChecked="True"
-                                      Style="{StaticResource MaterialDesignActionToggleButton}"
-                                      Content="{materialDesign:PackIcon Kind=ArrowRightDropCircleOutline}"
-                                      materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowLeftDropCircleOutline}"/>
-                    </StackPanel>
-                </materialDesign:Chip.Content>
-                <materialDesign:Chip.Icon>
-                    <materialDesign:PackIcon Kind="AcademicCap" />
-                </materialDesign:Chip.Icon>
-            </materialDesign:Chip>
-            <!--HEADER-->
-            <!--Name-->
-            <Border Width="210" Margin="0 -15 0 0" Padding="10 10 5 3" 
-                    Background="White" BorderBrush="Gray" BorderThickness="1">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="SkillName" Width="170" BorderThickness="0" TextWrapping="Wrap"
-                             materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
-                             IsReadOnlyCaretVisible="False" IsReadOnly="True"
-                             FontSize="14" FontWeight="DemiBold"
-                             Text="{Binding Name, Mode=TwoWay}" LostFocus="SkillName_LostFocus" KeyDown="SkillName_KeyDown">
-                    </TextBox>
-                    <ToggleButton x:Name="EditNameToggle" Width="20" Height="20" HorizontalAlignment="Right"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}"
-                            Click="EditNameToggle_Click"
-                            ToolTip="Edit title">
-                        <materialDesign:PackIcon Kind="CircleEditOutline" />
-                    </ToggleButton>
-                </StackPanel>
-            </Border>
-            <!--Name-->
-            <Border Width="210" Background="White" BorderBrush="Gray" BorderThickness="1">
-                <StackPanel>
-                    <!--BODY-->
-                    <StackPanel x:Name="SkillCard" Visibility="Visible">
-                        <!--Description-->
-                        <TextBox x:Name="SkillDescription" Text="{Binding Description, Mode=TwoWay}" Padding="10 0 10 0"
-                                 TextWrapping="Wrap"
-                                 materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" 
-                                 LostFocus="SkillDescription_LostFocus" GotFocus="SkillDescription_GotFocus"/>
-                        <!--Description-->
-                        <!--Tasks-->
-                        <Expander x:Name="TasksExpander" IsExpanded="True"
-                                  materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
-                                  materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
+                                    <materialDesign:PackIcon Kind="PlusCircle"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Flipper.FrontContent>
+                    <materialDesign:Flipper.BackContent>
+                        <Grid Height="150" Width="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <materialDesign:ColorZone Mode="SecondaryMid" Padding="6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                            Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left">
+                                        <materialDesign:PackIcon Kind="ArrowLeft" HorizontalAlignment="Right" />
+                                    </Button>
+                                    <TextBlock Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center" Text="EDIT USER" />
+                                    <Button x:Name="DeleteSkill" Grid.Column="2"
+                                            Command="{Binding DeleteSkill}"
+                                            HorizontalAlignment="Right"
+                                            Padding="0" Width="25" Height="25"
+                                            Style="{StaticResource MaterialDesignIconButton}"
+                                            ToolTip="Delete skill">
+                                        <materialDesign:PackIcon Kind="DeleteCircle"/>
+                                    </Button>
+                                </Grid>
+                            </materialDesign:ColorZone>
+                            <Grid Grid.Row="1" Margin="0 6 0 0" Width="172"
+                                  HorizontalAlignment="Center" VerticalAlignment="Top">
+                                <TextBox x:Name="SkillName" Text="{Binding Name, Mode=TwoWay}" />
+                            </Grid>
+                        </Grid>
+                    </materialDesign:Flipper.BackContent>
+                </materialDesign:Flipper>
+                <materialDesign:Card x:Name="SkillCard" Visibility="Visible"
+                                 Background="{DynamicResource PrimaryHueDarkBrush}"
+                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                 Width="210" Padding="3">
+                    <StackPanel>
+                        <Expander x:Name="TasksExpander" IsExpanded="false"
+                              Background="{DynamicResource PrimaryHueDarkBrush}"
+                              Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                              materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                              materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
                             <Expander.Header>
                                 <Grid>
                                     <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
                                 Tasks
-                                    </TextBlock>
-                                    <Button x:Name="AddDayTask" Width="25" Height="25" Margin="0 0 -10 0" HorizontalAlignment="Right"
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding TaskCount}" HorizontalAlignment="Center"
+                                               FontSize="14" FontWeight="Bold" Margin="-40 0 0 0"
+                                               VerticalAlignment="Center"></TextBlock>
+                                        <Button x:Name="AddDayTask" Width="25" Height="25" Margin="0 0 -10 0" HorizontalAlignment="Right"
                                             Command="{Binding CreateDayTask}"
                                             Style="{StaticResource MaterialDesignIconButton}"
+                                            Background="{DynamicResource PrimaryHueDarkBrush}"
+                                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                             ToolTip="Add link" Click="AddDayTask_Click" >
                                         <materialDesign:PackIcon Kind="Plus" Width="22" Height="22"/>
                                     </Button>
@@ -100,58 +109,40 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Expander>
-                        <!--Tasks-->
-                        <!--Notes-->
-                        <Separator/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0">
-                            <TextBlock Width="164" Margin="10 5 0 0" FontWeight="DemiBold">
-                                Notes
-                            </TextBlock>
-                            <ToggleButton x:Name="ShowNotes" Width="25" Height="25" Margin="0 0 10 0"
-                                    Style="{StaticResource MaterialDesignFlatToggleButton}"
-                                    ToolTip="Show notes">
-                                <materialDesign:PackIcon Kind="TextBoxEditOutline" />
-                            </ToggleButton>
-                        </StackPanel>
-                        <TextBox x:Name="Notes" MinHeight="60" Padding="12 0 12 0"
-                                 TextWrapping="Wrap"
-                                 Visibility="{Binding ElementName=ShowNotes, Path=IsChecked, Converter={StaticResource BoolToVis}}" 
-                                 GotFocus="Notes_GotFocus" LostFocus="Notes_LostFocus"
-                                 Text="{Binding Notes}"/>
-                        <!--Notes-->
                     </StackPanel>
-                    <!--BODY-->
-                    <!--FOOTER-->
-                    <materialDesign:ColorZone x:Name="CardFooter"
-                                         Margin="-1 0 -1 -5" CornerRadius="2"
-                                         HorizontalAlignment="Stretch"
-                                         Background="#FFBACFD9" Cursor="Hand"
-                                         MouseLeftButtonUp="CardFooter_MouseLeftButtonUp">
-                        <Grid Margin="0 0 2 0">
-                            <materialDesign:PackIcon x:Name="CollapsIcon" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="ArrowCollapseUp"/>
-                            <Button x:Name="DeleteSkill" Command="{Binding DeleteSkill}"
-                                    HorizontalAlignment="Right"
-                                    Padding="0" Width="25" Height="25"
-                                    Style="{StaticResource MaterialDesignIconButton}"
-                                    ToolTip="Delete skill">
-                                <materialDesign:PackIcon Kind="DeleteCircle"/>
-                            </Button>
-                        </Grid>
-                    </materialDesign:ColorZone>
-                    <!--FOOTER-->
-                </StackPanel>
-            </Border>
+                </materialDesign:Card>
+            </StackPanel>
         </StackPanel>
         <!--CHILDREN-->
-        <Viewbox x:Name="SkillBox" 
-                 Visibility="{Binding ElementName=ShowSubskillsToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}">
-            <ItemsControl x:Name="SkillsControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <skillsViews:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+        <Viewbox x:Name="SkillBox">
+            <Expander IsExpanded="False" ExpandDirection="Right"
+                              materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                              materialDesign:ExpanderAssist.VerticalHeaderPadding="0">
+            <Expander.Header>
+                <Grid>
+                        <TextBlock Width="140" Margin="-2 0 0 90" FontWeight="ExtraBold"
+                                   FontSize="16" VerticalAlignment="Center"
+                                   Text="{Binding SkillCount}">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                        <TextBlock Width="140" Margin="0 5" FontWeight="DemiBold">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </TextBlock.LayoutTransform>
+                                Skills
+                    </TextBlock>
+                </Grid>
+            </Expander.Header>
+                <ItemsControl x:Name="SkillsControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <skillsViews:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Expander>
         </Viewbox>
         <!--CHILDREN-->
     </StackPanel>
