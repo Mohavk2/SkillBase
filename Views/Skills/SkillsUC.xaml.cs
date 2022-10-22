@@ -61,12 +61,12 @@ namespace SkillBase.Views.Skills
                 var shiftX = currentPoint.X - _placementPoint.X;
                 var shiftY = currentPoint.Y - _placementPoint.Y;
 
-                double step = 1.5;
+                double step = 1.5 / ScaleSlyder.Value;
 
-                if (currentPoint.X < _placementPoint.X) Scroll.ScrollToHorizontalOffset(Scroll.HorizontalOffset + step);
-                if (currentPoint.X > _placementPoint.X) Scroll.ScrollToHorizontalOffset(Scroll.HorizontalOffset - step);
-                if (currentPoint.Y < _placementPoint.Y) Scroll.ScrollToVerticalOffset(Scroll.VerticalOffset + step);
-                if (currentPoint.Y > _placementPoint.Y) Scroll.ScrollToVerticalOffset(Scroll.VerticalOffset - step);
+                if (currentPoint.X < _placementPoint.X) ScrollView.ScrollToHorizontalOffset(ScrollView.HorizontalOffset + step);
+                if (currentPoint.X > _placementPoint.X) ScrollView.ScrollToHorizontalOffset(ScrollView.HorizontalOffset - step);
+                if (currentPoint.Y < _placementPoint.Y) ScrollView.ScrollToVerticalOffset(ScrollView.VerticalOffset + step);
+                if (currentPoint.Y > _placementPoint.Y) ScrollView.ScrollToVerticalOffset(ScrollView.VerticalOffset - step);
 
                 _placementPoint = GetMousePos();
             }
@@ -86,6 +86,22 @@ namespace SkillBase.Views.Skills
             this.Cursor = Cursors.Arrow;
             if(_isMouseScrolling) e.Handled = true;
             _isMouseScrolling = false;
+        }
+
+        private void Scroll_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                e.Handled = true;
+                if(e.Delta > 0)
+                {
+                    ScaleSlyder.Value += 0.1;
+                }
+                else
+                {
+                    ScaleSlyder.Value -= 0.1;
+                }
+            }
         }
     }
 }

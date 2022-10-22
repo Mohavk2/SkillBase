@@ -22,16 +22,33 @@
                           Margin="20 0 0 0" ToolTip="Unfold skills">
                 <materialDesign:PackIcon Kind="CubeUnfolded" Height="21" Width="21" />
             </ToggleButton>
+            <StackPanel Margin="15 0 0 0" VerticalAlignment="Center">
+                <TextBlock>Scale</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="18" FontWeight="Bold" VerticalAlignment="Center">-</TextBlock>
+                    <Slider x:Name="ScaleSlyder" Width="100" Margin="10 0"
+                    Minimum="0.2" Maximum="2" Value="1"/>
+                    <TextBlock FontSize="18" FontWeight="Bold" VerticalAlignment="Center">+</TextBlock>
+                </StackPanel>
+            </StackPanel>
+
         </StackPanel>
         <Viewbox Grid.Row="1" Width="100" Height="100" Visibility="{Binding LoadingVisibility}">
             <ContentControl Content="{Binding Loading}"/>
         </Viewbox>
-        <ScrollViewer x:Name="Scroll" Visibility="{Binding SkillsVisibility}"
+        <ScrollViewer x:Name="ScrollView" Visibility="{Binding SkillsVisibility}"
                       Grid.Row="1" Margin="0 5 0 0"
                       CanContentScroll="False"
                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
                       MouseMove="ScrollViewer_MouseMove" 
-                      MouseRightButtonDown="ScrollViewer_MouseRightButtonDown" MouseRightButtonUp="Scroll_MouseRightButtonUp">
+                      MouseRightButtonDown="ScrollViewer_MouseRightButtonDown" 
+                      MouseRightButtonUp="Scroll_MouseRightButtonUp"  
+                      PreviewMouseWheel="Scroll_MouseWheel">
+            <ScrollViewer.LayoutTransform>
+                <ScaleTransform ScaleX="{Binding ElementName=ScaleSlyder, Path=Value}" 
+                                ScaleY="{Binding ElementName=ScaleSlyder, Path=Value}" 
+                                CenterX=".5" CenterY=".5" />
+            </ScrollViewer.LayoutTransform>
             <ItemsControl x:Name="SkillControl"  Margin="0 10 0 0" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
                 <ItemsControl.ItemTemplate >
                     <DataTemplate>
