@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:skillsViews="clr-namespace:SkillBase.Views.Skills"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             mc:Ignorable="d"  
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:views="clr-namespace:SkillBase.Views"
+    mc:Ignorable="d"  
              d:DesignHeight="450" d:DesignWidth="800" 
              AllowDrop="True" Drop="UserControl_Drop"
              BorderBrush="Gray" BorderThickness="0,1,1,1" Margin="5">
@@ -22,11 +22,16 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <materialDesign:ColorZone PreviewMouseMove="Button_PreviewMouseMove" Mode="PrimaryLight" VerticalAlignment="Stretch">
+                                <Grid>
+                                    <views:ProgressCellBar Height="20" Width="150" CellsOrientation="Horizontal" 
+                                                           TotalCellsCount="{Binding ChildCount}" 
+                                                           FilledCellsCount="{Binding CompletedChildCount}"/>
+                                </Grid>
                             </materialDesign:ColorZone>
                             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
                                 <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:Flipper.FlipCommand}" Margin="0 4 0 0" Content="EDIT" />
-                                <Button x:Name="AddSkill" Command="{Binding CreateSkill}"
+                                <Button x:Name="AddSkill" Command="{Binding CreateChild}"
                                 Padding="0" Width="25" Height="25"
                                 Style="{StaticResource MaterialDesignIconButton}"
                                 ToolTip="Add skill" Click="AddSkill_Click">
@@ -56,7 +61,7 @@
                                     </Button>
                                     <TextBlock Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center" Text="EDIT USER" />
                                     <Button x:Name="DeleteSkill" Grid.Column="2"
-                                            Command="{Binding DeleteSkill}"
+                                            Command="{Binding Delete}"
                                             HorizontalAlignment="Right"
                                             Padding="0" Width="25" Height="25"
                                             Style="{StaticResource MaterialDesignIconButton}"
@@ -101,7 +106,7 @@
                                 </Grid>
                             </Expander.Header>
                             <ItemsControl x:Name="DayTasks" HorizontalAlignment="Stretch" Padding="5 0 5 0"
-                                      ItemsSource="{Binding Tasks}">
+                                      ItemsSource="{Binding TaskVMs}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <skillsViews:SkillTaskUC DataContext="{Binding}"></skillsViews:SkillTaskUC>
@@ -123,7 +128,7 @@
                 <Grid>
                         <TextBlock Width="140" Margin="-2 0 0 90" FontWeight="ExtraBold"
                                    FontSize="16" VerticalAlignment="Center"
-                                   Text="{Binding SkillCount}">
+                                   Text="{Binding ChildCount}">
                             <TextBlock.LayoutTransform>
                                 <RotateTransform Angle="-90"/>
                             </TextBlock.LayoutTransform>
@@ -136,7 +141,7 @@
                     </TextBlock>
                 </Grid>
             </Expander.Header>
-                <ItemsControl x:Name="SkillControl" HorizontalAlignment="Left" ItemsSource="{Binding SkillVMs}">
+                <ItemsControl x:Name="SkillControl" HorizontalAlignment="Left" ItemsSource="{Binding ChildrenVMs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <skillsViews:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}"/>

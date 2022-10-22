@@ -37,10 +37,10 @@ namespace SkillBase.ViewModels.Skills
             foreach (Skill skill in skills.OrderByDescending(x => x.CreatedAt))
             {
                 var skillFactory = _serviceProvider?.GetRequiredService<SkillViewModelFactory>();
-                var skillVM = skillFactory?.Create(skill, null);
+                var skillVM = skillFactory?.Create(skill);
                 if (skillVM != null)
                 {
-                    skillVM.OnDelete += Delete;
+                    skillVM.Deleted += Delete;
                     _skillVMs.Add(skillVM);
                 }
             }
@@ -53,7 +53,7 @@ namespace SkillBase.ViewModels.Skills
         {
             foreach (var vm in _skillVMs)
             {
-                vm.OnDelete -= Delete;
+                vm.Deleted -= Delete;
                 vm.Dispose();
             }
             _skillVMs.Clear();
@@ -151,7 +151,7 @@ namespace SkillBase.ViewModels.Skills
         void Delete(SkillViewModel skillVM)
         {
             SkillVMs.Remove(skillVM);
-            skillVM.OnDelete -= Delete;
+            skillVM.Deleted -= Delete;
             skillVM.Dispose();
         }
 
@@ -163,16 +163,16 @@ namespace SkillBase.ViewModels.Skills
             dbContext.SaveChanges();
 
             var skillVMFactory = _serviceProvider.GetRequiredService<SkillViewModelFactory>();
-            var skillVM = skillVMFactory.Create(skill, null);
-            skillVM.OnDelete += Delete;
+            var skillVM = skillVMFactory.Create(skill);
+            skillVM.Deleted += Delete;
             SkillVMs.Insert(0, skillVM);
         });
 
-        internal void RemoveChild(SkillViewModel childVM)
+        internal void RemoveChildVM(SkillViewModel childVM)
         {
-            childVM.OnDelete -= Delete;
+            childVM.Deleted -= Delete;
             SkillVMs.Remove(childVM);
-            childVM.SetParent(null);
+            childVM.ParentVM = null;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace SkillBase.ViewModels.Factories
         {
             _serviceProvider = serviceProvider;
         }
-        public SkillViewModel Create(Skill skill, SkillViewModel? parentVM)
+        public SkillViewModel Create(Skill skill)
         {
-            return new SkillViewModel(skill, parentVM, _serviceProvider);
+            return new SkillViewModel(skill, _serviceProvider);
         }
     }
 }

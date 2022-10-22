@@ -36,7 +36,7 @@ namespace SkillBase.ViewModels.Schedule.Day
             foreach (var task in tasks)
             {
                 var tvm = taskFactory.Create(task);
-                tvm.OnCompletedChanged += UpdateIncompletedTasks;
+                tvm.CompletedChanged += UpdateIncompletedTasks;
                 taskVMs.Add(tvm);
             }
             TasksVMs = taskVMs;
@@ -50,7 +50,7 @@ namespace SkillBase.ViewModels.Schedule.Day
         {
             foreach(var task in TasksVMs)
             {
-                task.OnCompletedChanged -= UpdateIncompletedTasks;
+                task.CompletedChanged -= UpdateIncompletedTasks;
                 task.Dispose();
             }
             TasksVMs.Clear();
