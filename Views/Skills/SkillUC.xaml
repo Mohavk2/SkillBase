@@ -23,7 +23,9 @@
                             </Grid.RowDefinitions>
                             <materialDesign:ColorZone PreviewMouseMove="Button_PreviewMouseMove" Mode="PrimaryLight" VerticalAlignment="Stretch">
                                 <Grid>
-                                    <views:ProgressCellBar Height="20" Width="150" CellsOrientation="Horizontal" 
+                                    <views:ProgressCellBar Height="20" Width="150" CellsOrientation="Horizontal"
+                                                           TotalCellsColor="White"
+                                                           FilledCellsColor="BlueViolet"
                                                            TotalCellsCount="{Binding ChildCount}" 
                                                            FilledCellsCount="{Binding CompletedChildCount}"/>
                                 </Grid>

@@ -35,7 +35,9 @@ namespace SkillBase.Views
 
         const Orientation ORIENTATION = Orientation.Vertical;
         const int TOTAL_CELLS = 5;
+        static readonly Brush TOTAL_CELLS_COLOR = Brushes.Yellow;
         const int FILLED_CELLS = 0;
+        static readonly Brush FILLED_CELLS_COLOR = Brushes.LightGreen;
 
         public static readonly DependencyProperty CellsOrientationProperty =
             DependencyProperty.Register(
@@ -126,6 +128,54 @@ namespace SkillBase.Views
             }
         }
 
+        public static readonly DependencyProperty TotalCellsColorProperty =
+        DependencyProperty.Register(
+        name: "TotalCellsColor",
+        propertyType: typeof(Brush),
+        ownerType: typeof(ProgressCellBar),
+        typeMetadata: new FrameworkPropertyMetadata(
+            defaultValue: TOTAL_CELLS_COLOR,
+            flags: FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            propertyChangedCallback: new PropertyChangedCallback(OnTotalCellsColorChanged)));
+
+        private static void OnTotalCellsColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ProgressCellBar bar)
+            {
+                bar.FillCells();
+            }
+        }
+
+        public Brush TotalCellsColor
+        {
+            get => (Brush)GetValue(TotalCellsColorProperty);
+            set => SetValue(TotalCellsColorProperty, value);
+        }
+
+        public static readonly DependencyProperty FilledCellsColorProperty =
+        DependencyProperty.Register(
+        name: "FilledCellsColor",
+        propertyType: typeof(Brush),
+        ownerType: typeof(ProgressCellBar),
+        typeMetadata: new FrameworkPropertyMetadata(
+            defaultValue: FILLED_CELLS_COLOR,
+            flags: FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            propertyChangedCallback: new PropertyChangedCallback(OnFilledCellsColorChanged)));
+
+        private static void OnFilledCellsColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ProgressCellBar bar)
+            {
+                bar.FillCells();
+            }
+        }
+
+        public Brush FilledCellsColor
+        {
+            get => (Brush)GetValue(FilledCellsColorProperty);
+            set => SetValue(FilledCellsColorProperty, value);
+        }
+
         public ProgressCellBar()
         {
             InitializeComponent();
@@ -141,13 +191,13 @@ namespace SkillBase.Views
                 {
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(1),
-                    Background = new SolidColorBrush(Colors.Yellow),
+                    Background = TotalCellsColor,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                 };
                 if (i < FilledCellsCount)
                 {
-                    border.Background = Brushes.LightGreen;
+                    border.Background = FilledCellsColor;
                 }
                 if(CellsOrientation == Orientation.Horizontal)
                 {
