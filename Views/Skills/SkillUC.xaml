@@ -9,7 +9,7 @@
     mc:Ignorable="d"  
              d:DesignHeight="450" d:DesignWidth="800" 
              AllowDrop="True" Drop="UserControl_Drop"
-             BorderBrush="Gray" BorderThickness="0,1,1,1" Margin="5">
+             BorderBrush="Gray" Margin="5">
     <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
         <StackPanel VerticalAlignment="Center">
             <!--HEADER-->
@@ -141,13 +141,20 @@
                     </TextBlock>
                 </Grid>
             </Expander.Header>
-                <ItemsControl x:Name="SkillControl" HorizontalAlignment="Left" ItemsSource="{Binding ChildrenVMs}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <skillsViews:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <skillsViews:Connector DataContext="{Binding}" Children="{Binding ChildrenVMs}"></skillsViews:Connector>
+                    <ItemsControl Grid.Column="1" x:Name="SkillControl" HorizontalAlignment="Left" ItemsSource="{Binding ChildrenVMs}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <skillsViews:SkillUC SkillDropCommand="{Binding MoveHere}" DataContext="{Binding}" SizeChanged="SkillUC_SizeChanged"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
             </Expander>
         </Viewbox>
         <!--CHILDREN-->

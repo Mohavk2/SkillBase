@@ -59,5 +59,13 @@ namespace SkillBase.Views.Skills
                 SkillDropCommand?.Execute(vm);
             }
         }
+
+        private void SkillUC_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(sender is SkillUC uc && uc.DataContext is SkillViewModel vm)
+            {
+                vm.Height = uc.ActualHeight;
+            }
+        }
     }
 }

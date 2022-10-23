@@ -379,6 +379,28 @@ namespace SkillBase.ViewModels
             }
         }
 
+        int _number = 0;
+        public int Number
+        {
+            get => _number;
+            set
+            {
+                _number = value;
+                RaisePropertyChanged(nameof(Number));
+            }
+        }
+
+        double _height = 0;
+        public double Height
+        {
+            get => _height;
+            set
+            {
+                _height = value;
+                RaisePropertyChanged(nameof(Height));
+            }
+        }
+
         void UpdateEntity(Action<Skill> setter)
         {
             using var db = _serviceProvider.GetRequiredService<MainDbContext>();
