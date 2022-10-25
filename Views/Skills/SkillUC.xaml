@@ -22,12 +22,21 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <materialDesign:ColorZone PreviewMouseMove="Button_PreviewMouseMove" Mode="PrimaryLight" VerticalAlignment="Stretch">
-                                <Grid>
-                                    <views:ProgressCellBar Height="20" Width="150" CellsOrientation="Horizontal"
+                                <Grid VerticalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <views:ProgressCellBar Height="15" Width="150" CellsOrientation="Horizontal"
+                                                           VerticalAlignment="Bottom"
                                                            TotalCellsColor="White"
                                                            FilledCellsColor="BlueViolet"
                                                            TotalCellsCount="{Binding ChildCount}" 
                                                            FilledCellsCount="{Binding CompletedChildCount}"/>
+                                    <views:ProgressCellBar Grid.Row="1" Height="10" Width="150" CellsOrientation="Horizontal"
+                                                           VerticalAlignment="Top"
+                                                           TotalCellsCount="{Binding TaskCount}" 
+                                                           FilledCellsCount="{Binding CompletedTaskCount}"/>
                                 </Grid>
                             </materialDesign:ColorZone>
                             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">

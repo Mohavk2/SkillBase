@@ -61,7 +61,7 @@ namespace SkillBase.Views.Skills
                 var shiftX = currentPoint.X - _placementPoint.X;
                 var shiftY = currentPoint.Y - _placementPoint.Y;
 
-                double step = 1.5 / ScaleSlyder.Value;
+                double step = 3 / ScaleSlyder.Value;
 
                 if (currentPoint.X < _placementPoint.X) ScrollView.ScrollToHorizontalOffset(ScrollView.HorizontalOffset + step);
                 if (currentPoint.X > _placementPoint.X) ScrollView.ScrollToHorizontalOffset(ScrollView.HorizontalOffset - step);
