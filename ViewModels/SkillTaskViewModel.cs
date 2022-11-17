@@ -60,7 +60,7 @@ namespace SkillBase.ViewModels
         }
         public void Dispose()
         {
-            foreach(var vm in Links)
+            foreach (var vm in Links)
             {
                 vm.OnDelete -= DeleteLink;
             }
@@ -71,13 +71,18 @@ namespace SkillBase.ViewModels
         {
             get => new UICommand((parameter) =>
             {
-                using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-                var task = dbContext.Find<SkillTask>(Id);
-                if (task != null)
+                var dialog = new Dialog();
+                dialog.ShowDialog();
+                if (dialog.DialogResult == true)
                 {
-                    dbContext.Remove(task);
-                    dbContext.SaveChanges();
-                    Deleted?.Invoke(this);
+                    using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
+                    var task = dbContext.Find<SkillTask>(Id);
+                    if (task != null)
+                    {
+                        dbContext.Remove(task);
+                        dbContext.SaveChanges();
+                        Deleted?.Invoke(this);
+                    }
                 }
             });
         }
@@ -100,7 +105,7 @@ namespace SkillBase.ViewModels
         }
         void DeleteLink(LinkViewModel linkVM)
         {
-            linkVM.OnDelete -=DeleteLink;
+            linkVM.OnDelete -= DeleteLink;
             Links.Remove(linkVM);
         }
 
@@ -133,7 +138,8 @@ namespace SkillBase.ViewModels
         DateTime? _date;
         public DateTime? Date
         {
-            get {
+            get
+            {
                 return _date;
             }
             set
@@ -154,7 +160,7 @@ namespace SkillBase.ViewModels
             {
                 if (value is DateTime v)
                 {
-                    if(v != _startTime && (_endTime == null || v < _endTime))
+                    if (v != _startTime && (_endTime == null || v < _endTime))
                     {
                         _startTime = v;
                         RaisePropertyChanged(nameof(StartTime));
@@ -164,7 +170,7 @@ namespace SkillBase.ViewModels
             }
         }
         public string StartTimeShort => StartTime != null ? ((DateTime)StartTime).ToShortTimeString() : "";
-        DateTime ? _endTime;
+        DateTime? _endTime;
         public DateTime? EndTime
         {
             get => _endTime;
@@ -189,7 +195,7 @@ namespace SkillBase.ViewModels
                 DateTime start = d.SetTime(st);
                 DateTime end = d.SetTime(et);
 
-                if(CheckIfTimeFree(start, end))
+                if (CheckIfTimeFree(start, end))
                 {
                     using var db = _serviceProvider.GetRequiredService<MainDbContext>();
                     var task = db.Find<SkillTask>(Id);
@@ -210,13 +216,13 @@ namespace SkillBase.ViewModels
             var tasksExceptCurrent = dayTasks.Where(x => x.Id != Id).ToList();
             var collisions = tasksExceptCurrent.Where(x => !(x.StartDate >= end || x.EndDate <= start)).ToList();
 
-            if (collisions.Count == 0) 
+            if (collisions.Count == 0)
             {
                 DateError = null;
                 return true;
             }
 
-            PrintBusyHours(tasksExceptCurrent.OrderBy(x=> x.StartDate));
+            PrintBusyHours(tasksExceptCurrent.OrderBy(x => x.StartDate));
             return false;
         }
         void PrintBusyHours(IEnumerable<SkillTask> tasks)

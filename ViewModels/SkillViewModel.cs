@@ -248,16 +248,22 @@ namespace SkillBase.ViewModels
         {
             get => new UICommand((parameter) =>
             {
-                using var db = _serviceProvider.GetRequiredService<MainDbContext>();
-                var skill = db.Skills.Find(Id);
-                if (skill != null)
+                var dialog = new Dialog();
+                dialog.ShowDialog();
+                if (dialog.DialogResult == true)
                 {
-                    db.Remove(skill);
-                    db.SaveChanges();
-                    Deleted?.Invoke(this);
+                    using var db = _serviceProvider.GetRequiredService<MainDbContext>();
+                    var skill = db.Skills.Find(Id);
+                    if (skill != null)
+                    {
+                        db.Remove(skill);
+                        db.SaveChanges();
+                        Deleted?.Invoke(this);
+                    }
                 }
             });
         }
+
         public void AddChildVM(SkillViewModel childVM)
         {
             childVM.ParentVM = this;

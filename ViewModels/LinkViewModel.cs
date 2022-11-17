@@ -2,6 +2,7 @@
 using SkillBase.Data;
 using SkillBase.Models;
 using SkillBase.ViewModels.Common;
+using SkillBase.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,13 +39,18 @@ namespace SkillBase.ViewModels
         {
             get => new UICommand((parameter) =>
             {
-                using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
-                var link = dbContext.Find<Link>(Id);
-                if(link != null)
+                var dialog = new Dialog();
+                dialog.ShowDialog();
+                if (dialog.DialogResult == true)
                 {
-                    dbContext.Remove(link);
-                    dbContext.SaveChanges();
-                    OnDelete?.Invoke(this);
+                    using var dbContext = _serviceProvider.GetRequiredService<MainDbContext>();
+                    var link = dbContext.Find<Link>(Id);
+                    if (link != null)
+                    {
+                        dbContext.Remove(link);
+                        dbContext.SaveChanges();
+                        OnDelete?.Invoke(this);
+                    }
                 }
             });
         }
